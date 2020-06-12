@@ -14,7 +14,6 @@ public class Product {
     private String image2;
     private String image3;
     private String image4;
-    private String shopID;//商店ID
     private double score;//商品评分
     private int scoreNumber;//评分人数
     private int saleNumber;//售出数量
@@ -28,7 +27,7 @@ public class Product {
     }
 
     public Product(String name, String saleID, String mainImgFilePath, String image1,
-                   String image2, String image3, String image4, String shopID,
+                   String image2, String image3, String image4,
                    double score, int scoreNumber, int saleNumber, int leftNumber,
                    double price, double discount, double salePrice, String description) {
         this.name = name;
@@ -38,7 +37,6 @@ public class Product {
         this.image2 = image2;
         this.image3 = image3;
         this.image4 = image4;
-        this.shopID = shopID;
         this.score = score;
         this.scoreNumber = scoreNumber;
         this.saleNumber = saleNumber;
@@ -55,14 +53,6 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getShopID() {
-        return shopID;
-    }
-
-    public void setShopID(String shopID) {
-        this.shopID = shopID;
     }
 
     public int getLeftNumber() {
