@@ -14,6 +14,7 @@
                     <div class="user-menu">
                         <ul>
                             <li><a href="#"><i class="fa fa-user"></i> 登录</a></li><!--tip登陆后为账户叶面-->
+                            <li><a href="#"><i class="fa fa-user"></i> 注册</a></li><!--tip登陆后为账户叶面-->
                             <li><a href="#"><i class="fa fa-list-ul"></i> 订单历史</a></li><!--tip登陆后为账户叶面-->
                             <li><a href="#"><i class="fa fa-shopping-cart"></i> 购物车</a></li><!--tip登陆后为账户叶面-->
                             <li><a href="#"><i class="fa fa-credit-card"></i> 结算</a></li><!--tip登陆后为账户叶面-->
@@ -28,12 +29,12 @@
     <div class="site-branding-area">
         <div class="container">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="logo">
                         <h1>NB<span>商城</span></h1>
                     </div>
                 </div>
-                <div class=" search col-sm-4">
+                <div class=" search col-sm-6">
                         <form class="navbar-form navbar-left" role="search"><!--提交搜索表单-->
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="搜索商品名称">
@@ -41,7 +42,7 @@
                             <button type="submit" class="btn btn-default">搜索</button>
                         </form>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="shopping-item">
                         <a href="#">购物车 - <span class="cart-amunt">￥0<!--tip session中的金额--></span> <i
                                 class="fa fa-shopping-cart"></i> <span class="product-count">0

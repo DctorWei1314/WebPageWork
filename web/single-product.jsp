@@ -19,10 +19,10 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/etalage.css">
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/jquery.etalage.min.js"></script>
     <script src="js/main.js"></script>
@@ -106,11 +106,10 @@
                                     </div>
                                     <label>(库存xxx件)</label><!--tipmax为数量-->
                                     <button class="add_to_cart_button" type="submit">加入购物车</button>
-                                    <label>89<span class="s1">评论</span></label><!--tip获取品论-->
-                                    <label>27<span class="s1">交易成功</span></label><!--tip获取交易数量-->
                                 </form>
-
-
+                                <span class="allstar30" id="rate"><!--tip动态改变类型--></span>
+                                <span class="s1">89人评价</span>
+                                <span class="s1">27&nbsp交易成功</span><!--tip获取交易数量-->
                                 <div class="product-inner-category">
                                     <!--tip标签动态更新-->
                                     标签: <a href="">帅</a>, <a
@@ -122,10 +121,12 @@
                                         <li role="presentation" class="active"><a href="#home" aria-controls="home"
                                                                                   role="tab" data-toggle="tab">描述</a>
                                         </li>
+                                        <li role="presentation" class=""><a href="#profile" aria-controls="profile"
+                                                                            role="tab" data-toggle="tab">投诉</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="home">
-
+                                            <h2>商品描述</h2>
                                             <p id="s2">aaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA aaaaaaaaaaaaa
                                                 aaaaaaaaa
                                                 aaaaaaaaa
@@ -138,8 +139,20 @@
                                                 aaaaaaaaa
                                             </p>
                                         </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                                            <h2>投诉信息</h2>
+                                            <div class="submit-review">
+                                                <textarea name="review" id=""
+                                                          cols="30"
+                                                          rows="10"></textarea>
+                                                </p>
+                                                <p><input type="submit" value="提交"></p>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
+
 
                             </div>
                             <div class=" single_top">
@@ -209,9 +222,18 @@
                                 <img src="imgs/product-2.jpg" alt="avatar">
                             </span>
                             </div>
-                            <div class="col-sm-8">
+                            <div class="col-sm-6">
                             <textarea class="comment-send-input" name="comment" form="commentForm" cols="80" rows="5"
                                       placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <span id="stars" data-default-index="0">
+                                <img src="imgs/stard.png" id="star1" width="16" height="16">
+                                <img src="imgs/stard.png" id="star2" width="16" height="16">
+                                <img src="imgs/stard.png" id="star3" width="16" height="16">
+                                <img src="imgs/stard.png" id="star4" width="16" height="16">
+                                <img src="imgs/stard.png" id="star5" width="16" height="16">
+                                </span>
                             </div>
                             <div class="col-sm-2">
                                 <input class="comment-send-button" type="submit" value="发表评论">
