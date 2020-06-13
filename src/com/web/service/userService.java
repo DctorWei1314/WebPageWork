@@ -49,18 +49,18 @@ public class userService {
     }
 
     /**
-     * 通过用户名和密码查询用户信息
-     * @param name 用户ID
-     * @param pwd 密码
-     * @return 用户基本信息 如果为null则不存在此用户
+     * 根据用户名和密码判断是否登陆成功
+     * @param name 用户姓名
+     * @param pwd 用户密码
+     * @return 是否登陆成功
      */
-    public static User selectBasicInfoByNamePwd(String name, String pwd) {
-        User u = null;
+    public static Constant.MessageType judgeLoginSuccessByNamePwd(String name, String pwd) {
         ResultSet rs = null;//声明结果集
-        Connection conn = Basedao.getconn();//获取连接对象
+        Connection conn = Basedao.getconn();//获取连接对象\
+        int count = 0;
         PreparedStatement ps = null;
         try {
-            String sql = "select balance, imgFilePath, email, defaultAddress, type " +
+            String sql = "select count(*) " +
                     "from user " +
                     "where name = ? and password = ?";
             ps = conn.prepareStatement(sql);
@@ -68,9 +68,42 @@ public class userService {
             ps.setString(2, pwd);
             rs = ps.executeQuery();
             if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Basedao.closeall(rs, ps, conn);
+        }
+        if (count > 0) {
+            return Constant.MessageType.LOGIN_SUCCESS;
+        } else {
+            return Constant.MessageType.LOGIN_FAIL;
+        }
+    }
+
+    /**
+     * 通过用户名查询用户信息
+     * @param name 用户ID
+     * @return 用户基本信息 如果为null则不存在此用户
+     */
+    //todo test
+    public static User selectBasicInfoByNamePwd(String name) {
+        User u = null;
+        ResultSet rs = null;//声明结果集
+        Connection conn = Basedao.getconn();//获取连接对象
+        PreparedStatement ps = null;
+        try {
+            String sql = "select password, balance, imgFilePath, email, defaultAddress, type " +
+                    "from user " +
+                    "where name = ? and password = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            if (rs.next()) {
                 u = new User(
                         name,
-                        pwd,
+                        rs.getString("password"),
                         rs.getDouble("balance"),
                         rs.getString("imgFilePath"),
                         rs.getString("email"),
@@ -91,6 +124,7 @@ public class userService {
      * @param name 用户名
      * @return 地址列表
      */
+    //todo test
     public static List<Address> selectAddressInfoByName(String name) {
         List<Address> addresses = new ArrayList<>();
         ResultSet rs = null;//声明结果集
@@ -118,20 +152,26 @@ public class userService {
     }
 
     /**
-     *更新用户的余额
+     *更新用户信息
      * @param name 用户名
-     * @param balance 更新后的账户余额
-     * @return 是否更新余额成功
+     * @param user 更新后用户实体类
+     * @return 是否更新用户信息成功
      */
-    public static Constant.MessageType updateUserBalance(String name, double balance) {
+    //todo test
+    public static Constant.MessageType updateUserInfo(String name, User user) {
         Connection conn = Basedao.getconn();
         PreparedStatement ps = null;
         int result = 0;
         try {
-            String sql = "update user set balance = ? where name = ?";
+            String sql = "update user set password = ?, imgFilePath = ?, balance = ?," +
+                    "email = ?, defaultAddress = ? where name = ?";
             ps = conn.prepareStatement(sql);
-            ps.setDouble(1, balance);
-            ps.setString(2, name);
+            ps.setString(1, user.getUserPassword());
+            ps.setString(2, user.getImgFilePath());
+            ps.setDouble(3, user.getBalance());
+            ps.setString(4, user.getEmail());
+            ps.setString(5, user.getDeFaultAddress());
+            ps.setString(6, name);
             result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -139,9 +179,9 @@ public class userService {
             Basedao.closeall(null, ps, conn);
         }
         if (result > 0) {
-            return Constant.MessageType.UPDATE_BALANCE_SUCCESS;
+            return Constant.MessageType.UPDATE_USER_INFO_SUCCESS;
         } else {
-            return Constant.MessageType.UPDATE_BALANCE_FAIL;
+            return Constant.MessageType.UPDATE_USER_INFO_FAIL;
         }
     }
 
@@ -201,7 +241,6 @@ public class userService {
             ps.setString(5, user.getEmail());
             ps.setString(6, user.getDeFaultAddress());
             ps.setInt(7, user.getType());
-            ps.execute();
             result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
