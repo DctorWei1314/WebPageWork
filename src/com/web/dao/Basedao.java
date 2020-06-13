@@ -8,7 +8,7 @@ public class Basedao {
     private static final String USER = "root";
     private static final String PASS = "1234";
 
-    private static Connection getconn() {
+    public static Connection getconn() {
         try {
             Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException e) {
@@ -41,7 +41,7 @@ public class Basedao {
         return count;
     }
 
-    private static void closeall(ResultSet rs, PreparedStatement ps, Connection conn) {
+    public static void closeall(ResultSet rs, PreparedStatement ps, Connection conn) {
         try {
             if(rs != null)
                 rs.close();
