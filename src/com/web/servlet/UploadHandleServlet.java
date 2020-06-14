@@ -47,22 +47,19 @@ public class UploadHandleServlet extends HttpServlet {
             List<FileItem> list = fileUpload.parseRequest(request);
             for (FileItem item : list) {
                 //如果fileitem中封装的是普通输入项的数据
-                    if(item.isFormField()){
+               if(item.isFormField()){
+               String name = item.getFieldName();
+               //解决普通输入项的数据的中文乱码问题
+               String value = item.getString("UTF-8");
+//               String value1 = new String(name.getBytes("iso8859-1"),"UTF-8");
+               System.out.println(name+"  "+value);
+//               System.out.println(name+"  "+value1);
+               }else{
                     String name = item.getFieldName();
-                    //解决普通输入项的数据的中文乱码问题
-                    String value = item.getString("UTF-8");
-                    String value1 = new String(name.getBytes("iso8859-1"),"UTF-8");
-                    System.out.println(name+"  "+value);
-                    System.out.println(name+"  "+value1);
-                }else{
+                   System.out.println("ssss"+name);
                     //如果fileitem中封装的是上传文件，得到上传的文件名称，
                     String fileName = item.getName();
                     String ext = fileName.substring(fileName.indexOf(".")+1);
-                    if(!(ext.equals("png")||ext.equals("jpg")||ext.equals("jpeg")||ext.equals("gif"))){
-                        printWriter.write("请上传图片格式文件！");
-                        printWriter.close();
-                        continue;
-                    }
                     System.out.println(fileName);
                     if(fileName==null||fileName.trim().equals("")){
                         continue;
@@ -95,8 +92,6 @@ public class UploadHandleServlet extends HttpServlet {
                     fos.close();
                     //删除处理文件上传时生成的临时文件
                     item.delete();
-                    printWriter.write("图片上传成功");
-                    printWriter.close();
                     //路径载入数据库的操作没写!!!!!!!!!!!!!!!!!!!可以调用处理数据库的人的函数把路径相关信息载入数据库！！！！！！
                 }
             }
