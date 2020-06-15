@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.web.entity.Product" %>
+<%@ page import="com.web.entity.Tag" %>
+<%@ page import="java.util.List" %>
 <html>
 <head>
     <title>Title</title>
@@ -23,15 +25,17 @@
                     if (files[i].state == "true"){
                         $("#"+files[i].name).attr("src","imgs/wait.gif");
                         formData.append("image"+i, files[i].files[0]);
-                        alert("image"+i);
                     }
                 }
                 var info = document.getElementsByClassName("info");
                 for(var i=0;i<info.length;i++){
                     if (info[i].state == "true"){
-                        formData.append(info.id, info.value);
-                        alert(info.id);
+                        formData.append(info[i].id, info[i].value);
                     }
+                }
+                var tag = document.getElementsByClassName("mytag");
+                for(var i=0;i<tag.length;i++){
+                    formData.append(tag[i].class,tag[i].innerHTML)
                 }
                 $.ajax({
                     url: "UploadHandleServlet",
@@ -111,6 +115,13 @@
             //...........
         });
     </script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
     <style>
         img{
             width: 150px;
@@ -121,36 +132,50 @@
     </style>
 </head>
 <body>
+<%@include file="common/header_saler.jsp"%>
 <%
     String product_name = request.getParameter("product_name");
+    String product_saleID = request.getParameter("product_saleID");
     if(product_name != null){
-        String product_saleID = request.getParameter("product_saleID");
+        Product product = new Product();
+    }else {
+
     }
-    Product product = new Product();
 %>
 <div>
-    <input class="upload" type="file" id="mainImgFilePath"  state="false" style="display:none" name="mainImgFilePath0"/><br/>
+    <input class="upload" type="file" id="mainImgFilePath"  state="false" style="display:none" name="mainImgFilePath0" accept="image/*"/><br/>
     <img id="mainImgFilePath0" src="imgs/upload.png" />
-    <input class="upload" type="file" id="image1" state="false" style="display:none" name="image10"/><br/>
+    <input class="upload" type="file" id="image1" state="false" style="display:none" name="image10" accept="image/*"/><br/>
     <img id="image10" src="imgs/upload.png"/>
-    <input class="upload" type="file" id="image2" state="false" style="display:none" name="image20"/><br/>
+    <input class="upload" type="file" id="image2" state="false" style="display:none" name="image20" accept="image/*"/><br/>
     <img id="image20" src="imgs/upload.png"/>
-    <input class="upload" type="file" id="image3" state="false" style="display:none" name="image30"/><br/>
+    <input class="upload" type="file" id="image3" state="false" style="display:none" name="image30" accept="image/*"/><br/>
     <img id="image30" src="imgs/upload.png"/>
-    <input class="upload" type="file" id="image4" state="false" style="display:none" name="image40"/><br/>
+    <input class="upload" type="file" id="image4" state="false" style="display:none" name="image40" accept="image/*"/><br/>
     <img id="image40" src="imgs/upload.png"/>
     <input class="info" type="number" id="price" state="false"/><br/>
     <input class="info" type="number" id="discount" state="false"/><br/>
     <input class="info" type="number" id="number" state="false"/><br/>
     <input class="info" type="text" id="description" state="false"/><br/>
-    <input id="submit" type="button">提价</input>
-    <input id="quit" type="button">放回</input>
+    <input type="text" id="name" /><br/>
+    <input type="button" id="sumbit" value="提交" name="false" state="<%=product_saleID%>">
+</div>
+<%
+    List<Tag> allTag ;
+    List<Tag> ownTag;
+%>
+<div>
+    <ul id="ownTag" >
+        <li><strong class="mytag">我的账户</strong></li>
+        <li><strong class="mytag">女装</strong></li>
+    </ul>
 </div>
 <div>
-    biaoqian
+    <ul id="allTag" >
+        <li><strong class="alltag">女装</strong></li>
+        <li><strong class="alltag">女装</strong></li>
+    </ul>
 </div>
-<div>
-    biaoqian
-</div>
+<%@include file="common/footer_saler.jsp" %>
 </body>
 </html>
