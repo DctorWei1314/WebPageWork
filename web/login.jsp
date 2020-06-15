@@ -22,7 +22,9 @@
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
+    <script src="js/md5.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/buyer.js"></script>
 </head>
 <body>
 <%@include file="common/header.jsp"%>
@@ -30,16 +32,18 @@
     <div class=" login-right">
         <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">已注册客户</font></font></h3>
         <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">如果您拥有我们的帐户，请登录。</font></font></p>
-        <form>
+        <form action="/sys/BuyerloginServlet" method="post" onsubmit="return MD5()">
             <div>
                 <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">账号</font></font><label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">*</font></font></label></span>
-                <input type="text">
+                <input type="text" name="username" required>
             </div>
             <div>
                 <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">密码</font></font><label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">*</font></font></label></span>
-                <input type="text">
+                <input type="password" id="password"  required>
+                <input type="hidden"  id='realpassword' name="password">
             </div>
             <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="登录"></font></font>
+            <div class="info">${error}</div>
         </form>
     </div>
     <div class=" login-left">

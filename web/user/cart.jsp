@@ -12,20 +12,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>购物车</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/jquery-1.8.3.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-1.8.3.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.sticky.js"></script>
+    <script src="../js/main.js"></script>
 </head>
 <body>
-<%@include file="common/header.jsp"%>
+<%@include file="../common/header.jsp"%>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -55,7 +55,7 @@
                                     </td>
 
                                     <td class="product-thumbnail">
-                                        <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="imgs/product-2.jpg"></a>
+                                        <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="../imgs/product-2.jpg"></a>
                                     </td>
 
                                     <td class="product-name">
@@ -95,6 +95,6 @@
         </div>
     </div>
 </div>
-<%@include file="common/footer.jsp"%>
+<%@include file="../common/footer.jsp"%>
 </body>
 </html>

@@ -12,20 +12,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>个人账户</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/jquery-1.8.3.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-1.8.3.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.sticky.js"></script>
+    <script src="../js/main.js"></script>
 </head>
 <body>
-<%@include file="common/header.jsp" %>
+<%@include file="../common/header.jsp" %>
 <div class="sns-nf">
     <form id="baseInfoForm" name="baseInfoForm" method="post" class="infoForm">
         <input name="_tb_token_" type="hidden" value="3bf0e5e737b13">
@@ -39,7 +39,7 @@
                 <label>当前头像：</label>
                 <span class="pf-avatar-box">
                                 <a class="pf-avatar">
-                                    <img src="imgs/product-2.jpg">
+                                    <img src="../imgs/product-2.jpg">
                                                                     </a>
                                 <a href="//i.taobao.com/user/headset.htm" class="pf-edit-avatar" style="display: none;">编辑头像</a>
                             </span>
@@ -57,6 +57,14 @@
         <div class="act skin-blue">
              <span class="btn n-btn">
                  <button type="submit" id="J_saveProfile">保存</button>
+                 <div style="width:1px; height:1px; overflow:hidden; ">
+                     <input type="submit">
+                 </div>
+             </span>
+            <span class="btn n-btn">
+                <a href="/user/Buyerlogout">
+                 <button type="submit" id="exit_load" >退出登录</button>
+                </a>
                  <div style="width:1px; height:1px; overflow:hidden; ">
                      <input type="submit">
                  </div>
@@ -161,6 +169,6 @@
         </div>
     </form>
 </div>
-<%@include file="common/footer.jsp" %>
+<%@include file="../common/footer.jsp" %>
 </body>
 </html>
