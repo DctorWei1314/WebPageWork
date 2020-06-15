@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+    <default-config>
+        <property name="user">root</property>
+        <property name="password">131415</property>
+<!--        做数据库的人要改这里-->
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/test</property>
+<!--        我用的是test库，你的不是就要改-->
+    </default-config>
+    <named-config name="c3p0">
+        <property name="checkoutTimeout">20000</property>
+        <property name="initialPoolSize">5</property>
+        <property name="minPoolSize">2</property>
+        <property name="acquireIncrement">3</property>
+        <property name="maxPoolSize">10</property>
+    </named-config>
+</c3p0-config>
