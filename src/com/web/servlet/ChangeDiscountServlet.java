@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
+import static com.web.util.Constant.T_LIST;
 
 @WebServlet("/ChangeDiscountServlet")
 public class ChangeDiscountServlet extends HttpServlet {
