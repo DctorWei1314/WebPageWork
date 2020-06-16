@@ -2,19 +2,16 @@ package com.web.service;
 
 import com.web.dao.Basedao;
 import com.web.entity.Comment;
-import com.web.entity.Common.Page;
 import com.web.entity.Product;
-import com.web.entity.ProductTag;
+import com.web.util.C3P0Demo;
 import com.web.util.Constant;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-//todo 测试
 public class productService {
 
     /**
@@ -84,7 +81,7 @@ public class productService {
             ps = conn.prepareStatement(sql);
             ps.setString(1, tag);
             rs = ps.executeQuery();
-            if(rs.next()) {
+            while (rs.next()) {
                 count =  rs.getInt(1);
             }
         } catch (SQLException e) {
@@ -213,7 +210,7 @@ public class productService {
         Connection conn = Basedao.getconn();
         PreparedStatement ps = null;
         try{
-            int productCount = selectProductCountByTag(saleID);
+            int productCount = selectProductCountBySaleID(saleID);
             if(productCount > 0){
                 String sql = "select * from product " +
                         " where saleID = ?"+
@@ -301,7 +298,7 @@ public class productService {
     }
 
     /**
-     * 根据商品名称返回分页商品列表
+     * 根据商品名称返回分页评论列表
      * @param productName 商品名称
      * @param number 当前页号
      * @param size 每页要显示最多的数量
@@ -328,7 +325,7 @@ public class productService {
                             rs.getString("product_name"),
                             rs.getString("userID"),
                             rs.getString("commentContent"),
-                            rs.getString("time")
+                            rs.getTimestamp("time")
                     );
                     comments.add(comment);
                 }
@@ -341,23 +338,22 @@ public class productService {
         return comments;
     }
 
-    //todo 更新数量 相关商品 订单
     /**
-     * 管理员添加标签
+     * 添加评论
      * @param comment 评论类
-     * @return 是否成功添加标签
+     * @return 是否成功添加评论
      */
     public static Constant.MessageType insertComment(Comment comment) {
         Connection conn = Basedao.getconn();
         PreparedStatement ps = null;
         int result = 0;
         try {
-            String sql = "insert into tag values(?, ?, ?, ?)";
+            String sql = "insert into comment values(?, ?, ?, ?)";
             ps = conn.prepareStatement(sql);
             ps.setString(1, comment.getProductName());
             ps.setString(2, comment.getUserID());
             ps.setString(3, comment.getCommentContent());
-            ps.setString(4, comment.getTime());
+            ps.setTimestamp(4, comment.getTime());
             result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -371,5 +367,90 @@ public class productService {
         }
     }
 
+    /**
+     *
+     * @param productName 产品名
+     * @param saleID 店铺名
+     * @param number 当前页号
+     * @param size 每页要显示最多的数量
+     * @return 相关产品列表
+     */
+    public List<Product> selectRelatedProduct(String productName, String saleID, int number, int size){
+        List<Product> products = new ArrayList<>();
+        List<String> strings = selectTagByProduct(productName, saleID);
+        if (strings.size() > 0) {
+            String tag = strings.get(0);
+            products = selectProductPageByTag(tag, number, size);
+        }
+        return products;
+    }
 
+    /**
+     * 根据商品名称和店铺名称获取商品详细信息
+     * @param productName 商品名称
+     * @param saleID 店铺名称
+     * @return 商品详细信息
+     */
+    public static Product selectProductByProductNameSaleID(String productName, String saleID) {
+        Product product = null;
+        ResultSet rs = null;//声明结果集
+        Connection conn = C3P0Demo.getconn();//获取连接对象
+        PreparedStatement ps = null;
+        try {
+            String sql = "select * " +
+                    "from product " +
+                    "where name = ? and saleID = ?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, productName);
+            ps.setString(2, saleID);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                product = new Product(
+                        productName,
+                        saleID,
+                        rs.getString("image"),
+                        rs.getString("image1"),
+                        rs.getString("image2"),
+                        rs.getString("image3"),
+                        rs.getString("image4"),
+                        rs.getDouble("score"),
+                        rs.getInt("scoreNumber"),
+                        rs.getInt("saleNumber"),
+                        rs.getInt("leftNumber"),
+                        rs.getDouble("price"),
+                        rs.getDouble("discount"),
+                        rs.getDouble("salePrice"),
+                        rs.getString("description")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return product;
+    }
+
+    public static void main(String[] args) {
+//        System.out.println(selectProductByProductNameSaleID("199", "1").getDescription());
+//        String date = "2019-07-16 19:20:00";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Timestamp timestamp = null;
+//        try {
+//            Date dt = sdf.parse(date);
+//            timestamp = new Timestamp(dt.getTime());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Comment comment = new Comment(
+//                "2",
+//                "2",
+//                "不好吃",
+//                timestamp
+//        );
+//        if (insertComment(comment) == Constant.MessageType.INSERT_COMMENT_SUCCESS) {
+//            System.out.println(Constant.MessageType.INSERT_COMMENT_SUCCESS);
+//        }
+    }
 }

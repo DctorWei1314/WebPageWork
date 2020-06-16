@@ -3,6 +3,7 @@ package com.web.service;
 import com.web.dao.Basedao;
 import com.web.entity.Address;
 import com.web.entity.User;
+import com.web.util.C3P0Demo;
 import com.web.util.Constant;
 
 import java.sql.Connection;
@@ -87,16 +88,15 @@ public class userService {
      * @param name 用户ID
      * @return 用户基本信息 如果为null则不存在此用户
      */
-    //todo test
-    public static User selectBasicInfoByNamePwd(String name) {
+    public static User selectBasicInfoByName(String name) {
         User u = null;
         ResultSet rs = null;//声明结果集
         Connection conn = Basedao.getconn();//获取连接对象
         PreparedStatement ps = null;
         try {
-            String sql = "select password, balance, imgFilePath, email, defaultAddress, type " +
+            String sql = "select password, imgFilePath, email, defaultAddress, type " +
                     "from user " +
-                    "where name = ? and password = ?";
+                    "where name = ?";
             ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -104,7 +104,6 @@ public class userService {
                 u = new User(
                         name,
                         rs.getString("password"),
-                        rs.getDouble("balance"),
                         rs.getString("imgFilePath"),
                         rs.getString("email"),
                         rs.getString("defaultAddress"),
@@ -124,7 +123,6 @@ public class userService {
      * @param name 用户名
      * @return 地址列表
      */
-    //todo test
     public static List<Address> selectAddressInfoByName(String name) {
         List<Address> addresses = new ArrayList<>();
         ResultSet rs = null;//声明结果集
@@ -157,21 +155,19 @@ public class userService {
      * @param user 更新后用户实体类
      * @return 是否更新用户信息成功
      */
-    //todo test
     public static Constant.MessageType updateUserInfo(String name, User user) {
         Connection conn = Basedao.getconn();
         PreparedStatement ps = null;
         int result = 0;
         try {
-            String sql = "update user set password = ?, imgFilePath = ?, balance = ?," +
+            String sql = "update user set password = ?, imgFilePath = ?," +
                     "email = ?, defaultAddress = ? where name = ?";
             ps = conn.prepareStatement(sql);
             ps.setString(1, user.getUserPassword());
             ps.setString(2, user.getImgFilePath());
-            ps.setDouble(3, user.getBalance());
-            ps.setString(4, user.getEmail());
-            ps.setString(5, user.getDeFaultAddress());
-            ps.setString(6, name);
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getDeFaultAddress());
+            ps.setString(5, name);
             result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -237,7 +233,6 @@ public class userService {
             ps.setString(1, user.getName());
             ps.setString(2, user.getUserPassword());
             ps.setString(3, user.getImgFilePath());
-            ps.setDouble(4, user.getBalance());
             ps.setString(5, user.getEmail());
             ps.setString(6, user.getDeFaultAddress());
             ps.setInt(7, user.getType());
@@ -261,12 +256,20 @@ public class userService {
 //        User user = selectBasicInfoByNamePwd("1","1");
 //        System.out.println(user.getEmail());
 //        System.out.println(selectTypeByName("1"));
+//        if (Constant.MessageType.LOGIN_SUCCESS == judgeLoginSuccessByNamePwd("1","1")) {
+//            System.out.println(Constant.MessageType.LOGIN_SUCCESS);
+//        }
 //        List<Address> addresses = selectAddressInfoByName("1");
 //        for (Address address :addresses) {
 //            System.out.println(address.getStreet() + "\n" + address.getMobile());
 //        }
 //        updateUserBalance("1", 100);
-//        User user = new User("2","1", 200.00,"img/default.jpg",  "1", "1", 2);
+        User user = new User("2","1","img/default.jpg",  "2", "1", 2);
 //        insertNewUser(user);
+        System.out.println(selectBasicInfoByName("2").getEmail());
+//        if (Constant.MessageType.UPDATE_USER_INFO_SUCCESS == updateUserInfo("1", user)) {
+//            System.out.println(Constant.MessageType.UPDATE_USER_INFO_SUCCESS);
+//        }
+
     }
 }

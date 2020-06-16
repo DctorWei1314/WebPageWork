@@ -7,7 +7,6 @@ package com.web.entity;
 public class User {
     private String name; //用户ID
     private String userPassword; //密码
-    private double balance; //余额
     private String imgFilePath; //头像地址
     private String email;//电子邮件
     private String deFaultAddress;//买家默认地址卖家为NULL
@@ -17,10 +16,9 @@ public class User {
 
     }
 
-    public User(String name, String userPassword, double balance, String imgFilePath, String email, String deFaultAddress, int type) {
+    public User(String name, String userPassword, String imgFilePath, String email, String deFaultAddress, int type) {
         this.name = name;
         this.userPassword = userPassword;
-        this.balance = balance;
         this.imgFilePath = imgFilePath;
         this.email = email;
         this.deFaultAddress = deFaultAddress;
@@ -41,14 +39,6 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
     }
 
     public String getImgFilePath() {
