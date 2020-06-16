@@ -19,7 +19,8 @@
     <script src="js/jquery.min.js"></script>
 </head>
 <body>
-<%@include file="common/footer_saler.jsp" %>
+<%@include file="common/header_saler.jsp" %>
+<% request.getParameter("saleID"); %>
 <div class="product-big-title-area">
     <div class="container">
         <div class="row">

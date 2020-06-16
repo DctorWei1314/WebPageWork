@@ -29,6 +29,7 @@
 <%
 %>
 <%@include file="common/header.jsp"%>
+<% request.getParameter("saleID") %>
 <div class="product-big-title-area">
     <div class="container">
         <div class="row">

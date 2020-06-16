@@ -27,17 +27,9 @@
 <body>
 
 <%
-    String product_saleID = request.getParameter("product_saleID");
-    String password = request.getParameter("password");
-    if(password != null){
-        //验证
-    }
-    else {
-
-    }
 %>
-<a href="Servlet">WWWWWWW</a>
-<%@include file="common/header_saler.jsp"%>
+<%@include file="common/header.jsp"%>
+<% request.getParameter("saleID") %>
 <div class="product-big-title-area">
     <div class="container">
         <div class="row">
@@ -103,6 +95,6 @@
         </div>
     </div>
 </div>
-<%@include file="common/footer_saler.jsp" %>
+<%@include file="common/footer.jsp" %>
 </body>
 </html>

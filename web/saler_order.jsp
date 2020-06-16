@@ -20,6 +20,30 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/main.js"></script>
+    <% request.getParameter("state");%>
+    <script>
+        $(function () {
+                $("button").click(
+                    function () {
+                        $("#"+$(this)[0].parentNode.parentNode.id).remove();
+                        $.ajax({
+                            url:"SalerOrderServlet",
+                            type:"POST",
+                            data:"orderID=" +$(this)[0].parentNode.parentNode.id,
+                            success: function (result) {
+                                if (result!=null){
+                                    alert(result);
+                                }
+                            },
+                            error: function () {
+                                alert("失败！");
+                            }
+                        });
+                    }
+                );
+            }
+        )
+    </script>
 </head>
 <body>
 <%@include file="common/header_saler.jsp"%>
@@ -42,37 +66,41 @@
                                 <th class="product-quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">数量</font></font></th>
                                 <th class="product-time"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订购时间</font></font></th>
                                 <th class="product-status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订单状态</font></font></th>
+                                <th class="product-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订购</font></font></th>
                             </tr>
                             </thead>
                             <tbody>
                             <!--tip自动添加订单-->
-                            <tr class="cart_item">
+                            <tr class="cart_item" id="2222">
                                 <td class="product-ID">
-                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JD-101</font></font></span>
+                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2222</font></font></span>
                                 </td>
                                 <td class="product-thumbnail">
-                                    <a href="single-product.html"><img width="145" height="145" alt="商品图片" class="shop_picture" src="imgs/product-2.jpg"></a>
+                                    <a href="single-product.html"><img width="145" height="145" alt="商品图片" class="shop_picture" src=""></a>
                                 </td>
 
                                 <td class="product-name">
-                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">商品名称</font></font></span>
+                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">22</font></font></span>
                                 </td>
 
                                 <td class="product-price">
-                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">￥700.00</font></font></span>
+                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">￥22</font></font></span>
                                 </td>
 
                                 <td class="product-quantity">
-                                    <span class="quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font></span>
+                                    <span class="quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">22</font></font></span>
                                 </td>
 
-
                                 <td class="product-time">
-                                    <span class="time"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2020-6-15</font></font></span>
+                                    <span class="time"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">22</font></font></span>
                                 </td>
 
                                 <td class="product-status">
-                                    <span class="status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">待发货</font></font></span>
+                                    <span class="status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">22</font></font></span>
+                                </td>
+
+                                <td class="product-status">
+                                    <button class="button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">同意订单</font></font></button>
                                 </td>
                             </tr>
                             </tbody>
