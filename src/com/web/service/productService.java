@@ -93,6 +93,56 @@ public class productService {
         return count;
     }
 
+    public static int selectSimilarNameProductCount(String name) {
+        ResultSet rs = null;
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        if(name != null){
+            name = name.replaceAll("%", "\\%");
+        }
+        int count = 0;
+        try {
+            String sql = "select count(*) from product where name like ?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                count =  rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return count;
+    }
+
+    /**
+     * 获取全部商品的数量
+     * @return 全部商品的数量
+     */
+    public static int selectAllProductCount() {
+        ResultSet rs = null;
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int count = 0;
+        try {
+            String sql = "select count(*) from product";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                count =  rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return count;
+    }
+
     /**
      * 根据商品名称返回此商品评论数量
      * @param productName 商品名称
@@ -228,11 +278,63 @@ public class productService {
     }
 
     /**
+     * 获取所有产品分页列表
+     * @param number 当前页号
+     * @param size 每页要显示最多的数量
+     * @return 分页商品列表
+     */
+    public static List<Product> selectAllProduct(int number, int size){
+        List<Product> products = new ArrayList<>();
+        ResultSet rs = null;
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        try{
+            int productCount = selectAllProductCount();
+            if(productCount > 0){
+                String sql = "select * from product " +
+                        " order by price DESC LIMIT ?,?";
+                assert conn != null;
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, (number - 1) * size);
+                ps.setInt(2, size);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Product product = new Product(
+                            rs.getString("name"),
+                            rs.getString("saleID"),
+                            rs.getString("image"),
+                            rs.getString("image1"),
+                            rs.getString("image2"),
+                            rs.getString("image3"),
+                            rs.getString("image4"),
+                            rs.getDouble("score"),
+                            rs.getInt("scoreNumber"),
+                            rs.getInt("saleNumber"),
+                            rs.getInt("leftNumber"),
+                            rs.getDouble("price"),
+                            rs.getDouble("discount"),
+                            rs.getDouble("salePrice"),
+                            rs.getString("description")
+                    );
+                    products.add(product);
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return products;
+    }
+
+    /**
      * 根据产品标题模糊查询，返回分页列表
+     * @param number 当前页号
+     * @param size 每页要显示最多的数量
      * @param name 查询内容
      * @return 分页对象
      */
-    public static List<Product> selectProductByLikeName(String name) {
+    public static List<Product> selectProductByLikeName(String name, int number, int size) {
         List<Product> products = new ArrayList<>();
         if(name != null){
             name = name.replaceAll("%", "\\%");
@@ -243,10 +345,12 @@ public class productService {
         try{
             String sql = "select * from product " +
                     " where name like ?"+
-                    " order by name DESC";
+                    " order by name DESC LIMIT ?,?";
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + name + "%");
+            ps.setInt(2, (number - 1) * size);
+            ps.setInt(3, size);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Product product = new Product(
@@ -390,7 +494,7 @@ public class productService {
     }
 
     public static void main(String[] args) {
-        for (Product product: selectRelatedProduct("1", "2", 1, 10)) {
+        for (Product product: selectProductByLikeName( "第",1, 10)) {
             System.out.println(product.getDescription());
         }
 //        System.out.println(selectProductByProductNameSaleID("199", "1").getDescription());
