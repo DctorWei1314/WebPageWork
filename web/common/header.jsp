@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.web.entity.User" %>
+<%@ page import="com.web.util.Constant" %><%--
   Created by IntelliJ IDEA.
   User: administrator-PC
   Date: 2020/6/11
@@ -13,12 +14,26 @@
                 <div class="col-md-8">
                     <div class="user-menu">
                         <ul>
-                            <li><a href="#"><i class="fa fa-user"></i> 登录</a></li><!--tip登陆后为账户叶面-->
-                            <li><a href="#"><i class="fa fa-user"></i> 注册</a></li><!--tip登陆后为账户叶面-->
-                            <li><a href="#"><i class="fa fa-list-ul"></i> 订单历史</a></li><!--tip登陆后为账户叶面-->
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i> 购物车</a></li><!--tip登陆后为账户叶面-->
-                            <li><a href="#"><i class="fa fa-credit-card"></i> 结算</a></li><!--tip登陆后为账户叶面-->
-                            <li><a href="#"><i class="fa fa-user"></i> 卖家中心</a></li><!--tip登陆后为账户叶面-->
+                            <%
+                                User user=(User) session.getAttribute(Constant.USER_SESSION);
+                                if(user==null){
+                            %>
+                            <li><a href=<%=application.getContextPath()%>/login.jsp><i class="fa fa-user"></i> 登录</a></li>
+                            <li><a href=<%=application.getContextPath()%>/register.jsp><i class="fa fa-user"></i> 注册</a></li>
+                            <%
+                                }
+                            else
+                                {
+
+                                %>
+                            <li><a href=<%=application.getContextPath()%>/user/account.jsp><img id="head" src=<%=application.getContextPath()+user.getImgFilePath()%> ></img> 我的账户</a></li>
+                            <li><a href=<%=application.getContextPath()%>/user/order.jsp><i class="fa fa-list-ul"></i> 订单历史</a></li>
+                            <li><a href=<%=application.getContextPath()%>/user/cart.jsp><i class="fa fa-shopping-cart"></i> 购物车</a></li>
+                            <li><a href=<%=application.getContextPath()%>/user/checkout.jsp><i class="fa fa-credit-card"></i> 结算</a></li>
+                            <%
+                                }
+                            %>
+                            <li><a href="#"><i class="fa fa-user"></i> 卖家中心</a></li><!--tip等待填充-->
                         </ul>
                     </div>
                 </div>
@@ -35,19 +50,28 @@
                     </div>
                 </div>
                 <div class=" search col-sm-6">
-                        <form class="navbar-form navbar-left" role="search"><!--提交搜索表单-->
+                        <form class="navbar-form navbar-left" role="search" action="<%=application.getContextPath()%>/BuyerQuery" method="post"><!--提交搜索表单-->
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="搜索商品名称">
+                                <input type="text" class="form-control"  name="condition" required>
+                                <input type="hidden"  id="type" name="type">
                             </div>
-                            <button type="submit" class="btn btn-default">搜索</button>
+                            <button type="submit" class="btn btn-default" id="product" onclick="queryl(this)">搜索产品</button>
+                            <button type="submit" class="btn btn-default" id="sellerid" onclick="queryl(this)">搜索商家</button>
                         </form>
                 </div>
+
                 <div class="col-sm-3">
+                    <%
+                        if(user!=null){
+                    %>
                     <div class="shopping-item">
-                        <a href="#">购物车 - <span class="cart-amunt">￥0<!--tip session中的金额--></span> <i
+                        <a href=<%=application.getContextPath()%>/user/account.jsp>购物车 - <span class="cart-amunt">￥0<!--tip session中的金额--></span> <i
                                 class="fa fa-shopping-cart"></i> <span class="product-count">0
                             <!--tip session中的数量--></span></a>
                     </div>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
         </div>
@@ -58,9 +82,15 @@
             <div class="row">
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">商品</a></li><!--tip登陆后为账户叶面-->
-                        <li><a href="#">购物车</a></li><!--tip登陆后为账户叶面-->
-                        <li><a href="#">结算</a></li><!--tip登陆后为账户叶面-->
+                        <li class="active"><a onclick="location='<%=application.getContextPath()%>/shop.jsp';return false" href="#" >商品</a></li><!--tip登陆后为账户叶面-->
+                        <%
+                            if(user!=null){
+                        %>
+                        <li><a onclick="location='<%=application.getContextPath()%>/user/account.jsp';return false" href="#" >购物车</a></li><!--tip登陆后为账户叶面-->
+                        <li><a onclick="location='<%=application.getContextPath()%>/user/checkout.jsp>';return false" href="#" >结算</a></li><!--tip登陆后为账户叶面-->
+                        <%
+                            }
+                        %>
                     </ul>
                 </div>
             </div>

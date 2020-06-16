@@ -58,7 +58,7 @@ jQuery(document).ready(function ($) {
         for (var i=0;i<index;i++){
             $("#stars").find("img").eq(i).attr("src","../imgs/stars.png");
         }
-    });
+    })
     //     loop:true,
     //     nav:true,
     //     margin:20,

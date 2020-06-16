@@ -29,12 +29,15 @@
 <body>
 <%@include file="common/header.jsp"%>
 <div class="register">
-    <form class="register-table" action="/BuyerRegister" method="post" onsubmit="return encryption()">
+    <form class="register-table" action="BuyerRegister" method="post" onsubmit="return encryption()">
+        <div class="info">${Registererror}</div>
         <div class="  register-top-grid">
             <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">个人信息</font></font></h3>
             <div class="mation">
                 <span>电子邮件地址</span>
-                <input type="text" name="email" required>
+                <input type="text" name="email" required onkeyup="value=this.value.replace(
+                    /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/,''
+                )">
             </div>
             <div class="clearfix"> </div>
         </div>

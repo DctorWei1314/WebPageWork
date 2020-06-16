@@ -1,5 +1,9 @@
 package com.web.entity;
 
+import com.web.util.Constant;
+
+import javax.jms.Message;
+
 /**
  * 用户类
  */
@@ -10,13 +14,13 @@ public class User {
     private String imgFilePath; //头像地址
     private String email;//电子邮件
     private String deFaultAddress;//买家默认地址卖家为NULL
-    private int type;//1为买家2为卖家3为管理员
+    private Constant.MessageType type;//1为买家2为卖家3为管理员
 
     public User() {
 
     }
 
-    public User(String name, String userPassword, String imgFilePath, String email, String deFaultAddress, int type) {
+    public User(String name, String userPassword, String imgFilePath, String email, String deFaultAddress, Constant.MessageType type) {
         this.name = name;
         this.userPassword = userPassword;
         this.imgFilePath = imgFilePath;
@@ -65,11 +69,11 @@ public class User {
         this.email = email;
     }
 
-    public int getType() {
+    public Constant.MessageType getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Constant.MessageType type) {
         this.type = type;
     }
 

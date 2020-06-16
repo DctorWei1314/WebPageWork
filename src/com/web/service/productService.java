@@ -3,39 +3,12 @@ package com.web.service;
 import com.web.entity.Comment;
 import com.web.entity.Product;
 import com.web.util.C3P0Demo;
-import com.web.util.Constant;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class productService {
-
-    /**
-     * 得到所有的商品标签
-     * @return 所有标签
-     */
-    public static List<String> selectAllTag() {
-        List<String> list = new ArrayList<>();
-        ResultSet rs = null;
-        Connection conn = C3P0Demo.getconn();
-        PreparedStatement ps = null;
-        try {
-            String sql = "select * from tag";
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next()) {
-                list.add(rs.getString("tag"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            C3P0Demo.closeall(rs, ps, conn);
-        }
-        return list;
-    }
 
     /**
      * 得到某一个商品的所有标签
@@ -50,6 +23,7 @@ public class productService {
         PreparedStatement ps = null;
         try {
             String sql = "select distinct tag from product_tag where saleID = ? and product_name = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, saleId);
             ps.setString(2, productName);
@@ -77,6 +51,7 @@ public class productService {
         int count = 0;
         try {
             String sql = "select count(*) from product_tag where tag = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, tag);
             rs = ps.executeQuery();
@@ -103,8 +78,59 @@ public class productService {
         int count = 0;
         try {
             String sql = "select count(*) from product where saleID = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, saleID);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                count =  rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return count;
+    }
+
+    public static int selectSimilarNameProductCount(String name) {
+        ResultSet rs = null;
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        if(name != null){
+            name = name.replaceAll("%", "\\%");
+        }
+        int count = 0;
+        try {
+            String sql = "select count(*) from product where name like ?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                count =  rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return count;
+    }
+
+    /**
+     * 获取全部商品的数量
+     * @return 全部商品的数量
+     */
+    public static int selectAllProductCount() {
+        ResultSet rs = null;
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int count = 0;
+        try {
+            String sql = "select count(*) from product";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             if(rs.next()) {
                 count =  rs.getInt(1);
@@ -129,6 +155,7 @@ public class productService {
         int count = 0;
         try {
             String sql = "select count(*) from comment where product_name = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, productName);
             rs = ps.executeQuery();
@@ -162,6 +189,7 @@ public class productService {
                         " where name in ("
                         +" select product_name from product_tag where tag =?)" +
                         " order by price DESC LIMIT ?,?";
+                assert conn != null;
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, tag);
                 ps.setInt(2, (number - 1) * size);
@@ -214,6 +242,7 @@ public class productService {
                 String sql = "select * from product " +
                         " where saleID = ?"+
                         " order by price DESC LIMIT ?,?";
+                assert conn != null;
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, saleID);
                 ps.setInt(2, (number - 1) * size);
@@ -249,11 +278,63 @@ public class productService {
     }
 
     /**
+     * 获取所有产品分页列表
+     * @param number 当前页号
+     * @param size 每页要显示最多的数量
+     * @return 分页商品列表
+     */
+    public static List<Product> selectAllProduct(int number, int size){
+        List<Product> products = new ArrayList<>();
+        ResultSet rs = null;
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        try{
+            int productCount = selectAllProductCount();
+            if(productCount > 0){
+                String sql = "select * from product " +
+                        " order by price DESC LIMIT ?,?";
+                assert conn != null;
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, (number - 1) * size);
+                ps.setInt(2, size);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Product product = new Product(
+                            rs.getString("name"),
+                            rs.getString("saleID"),
+                            rs.getString("image"),
+                            rs.getString("image1"),
+                            rs.getString("image2"),
+                            rs.getString("image3"),
+                            rs.getString("image4"),
+                            rs.getDouble("score"),
+                            rs.getInt("scoreNumber"),
+                            rs.getInt("saleNumber"),
+                            rs.getInt("leftNumber"),
+                            rs.getDouble("price"),
+                            rs.getDouble("discount"),
+                            rs.getDouble("salePrice"),
+                            rs.getString("description")
+                    );
+                    products.add(product);
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return products;
+    }
+
+    /**
      * 根据产品标题模糊查询，返回分页列表
+     * @param number 当前页号
+     * @param size 每页要显示最多的数量
      * @param name 查询内容
      * @return 分页对象
      */
-    public static List<Product> selectProductByLikeName(String name) {
+    public static List<Product> selectProductByLikeName(String name, int number, int size) {
         List<Product> products = new ArrayList<>();
         if(name != null){
             name = name.replaceAll("%", "\\%");
@@ -264,9 +345,12 @@ public class productService {
         try{
             String sql = "select * from product " +
                     " where name like ?"+
-                    " order by name DESC";
+                    " order by name DESC LIMIT ?,?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + name + "%");
+            ps.setInt(2, (number - 1) * size);
+            ps.setInt(3, size);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Product product = new Product(
@@ -314,6 +398,7 @@ public class productService {
                 String sql = "select * from comment " +
                         " where product_name = ?"+
                         " order by product_name DESC LIMIT ?,?";
+                assert conn != null;
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, productName);
                 ps.setInt(2, (number - 1) * size);
@@ -338,48 +423,25 @@ public class productService {
     }
 
     /**
-     * 添加评论
-     * @param comment 评论类
-     * @return 是否成功添加评论
-     */
-    public static Constant.MessageType insertComment(Comment comment) {
-        Connection conn = C3P0Demo.getconn();
-        PreparedStatement ps = null;
-        int result = 0;
-        try {
-            String sql = "insert into comment values(?, ?, ?, ?)";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, comment.getProductName());
-            ps.setString(2, comment.getUserID());
-            ps.setString(3, comment.getCommentContent());
-            ps.setTimestamp(4, comment.getTime());
-            result = ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            C3P0Demo.closeall(null, ps, conn);
-        }
-        if (result > 0) {
-            return Constant.MessageType.INSERT_COMMENT_SUCCESS;
-        } else {
-            return Constant.MessageType.INSERT_COMMENT_FAIL;
-        }
-    }
-
-    /**
-     *
+     *获得相关产品列表
      * @param productName 产品名
      * @param saleID 店铺名
      * @param number 当前页号
      * @param size 每页要显示最多的数量
      * @return 相关产品列表
      */
-    public List<Product> selectRelatedProduct(String productName, String saleID, int number, int size){
+    public static List<Product> selectRelatedProduct(String productName, String saleID, int number, int size){
         List<Product> products = new ArrayList<>();
         List<String> strings = selectTagByProduct(productName, saleID);
         if (strings.size() > 0) {
             String tag = strings.get(0);
             products = selectProductPageByTag(tag, number, size);
+        }
+        for (Product product : products) {
+            if (product.getName().equals(productName)) {
+                products.remove(product);
+                break;
+            }
         }
         return products;
     }
@@ -432,6 +494,9 @@ public class productService {
     }
 
     public static void main(String[] args) {
+        for (Product product: selectProductByLikeName( "第",1, 10)) {
+            System.out.println(product.getDescription());
+        }
 //        System.out.println(selectProductByProductNameSaleID("199", "1").getDescription());
 //        String date = "2019-07-16 19:20:00";
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

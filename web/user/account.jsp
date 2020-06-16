@@ -23,6 +23,7 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.sticky.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/buyer.js"></script>
 </head>
 <body>
 <%@include file="../common/header.jsp" %>
@@ -62,7 +63,7 @@
                  </div>
              </span>
             <span class="btn n-btn">
-                <a href="/user/Buyerlogout">
+                <a onclick="location='<%=application.getContextPath()%>/user/Buyerlogout';return false" href="#" >
                  <button type="submit" id="exit_load" >退出登录</button>
                 </a>
                  <div style="width:1px; height:1px; overflow:hidden; ">

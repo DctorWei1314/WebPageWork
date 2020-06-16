@@ -5,7 +5,7 @@
         <property name="password">1234</property>
 <!--        做数据库的人要改这里-->
         <property name="driverClass">com.mysql.jdbc.Driver</property>
-        <property name="jdbcUrl">jdbc:mysql://localhost:3306/shop</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/shop?useUnicode=true&amp;characterEncoding=UTF-8</property>
 <!--        我用的是test库，你的不是就要改-->
     </default-config>
     <named-config name="c3p0">
