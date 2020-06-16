@@ -1,7 +1,7 @@
 package com.web.util;
 
 public class Constant {
-
+    public static String USER_SESSION="USER_SESSION";
     //返回信息类型
     public enum MessageType {
         BUYER,                                  //买家
