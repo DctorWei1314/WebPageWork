@@ -3,39 +3,12 @@ package com.web.service;
 import com.web.entity.Comment;
 import com.web.entity.Product;
 import com.web.util.C3P0Demo;
-import com.web.util.Constant;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class productService {
-
-    /**
-     * 得到所有的商品标签
-     * @return 所有标签
-     */
-    public static List<String> selectAllTag() {
-        List<String> list = new ArrayList<>();
-        ResultSet rs = null;
-        Connection conn = C3P0Demo.getconn();
-        PreparedStatement ps = null;
-        try {
-            String sql = "select * from tag";
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next()) {
-                list.add(rs.getString("tag"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            C3P0Demo.closeall(rs, ps, conn);
-        }
-        return list;
-    }
 
     /**
      * 得到某一个商品的所有标签
@@ -50,6 +23,7 @@ public class productService {
         PreparedStatement ps = null;
         try {
             String sql = "select distinct tag from product_tag where saleID = ? and product_name = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, saleId);
             ps.setString(2, productName);
@@ -77,6 +51,7 @@ public class productService {
         int count = 0;
         try {
             String sql = "select count(*) from product_tag where tag = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, tag);
             rs = ps.executeQuery();
@@ -103,6 +78,7 @@ public class productService {
         int count = 0;
         try {
             String sql = "select count(*) from product where saleID = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, saleID);
             rs = ps.executeQuery();
@@ -129,6 +105,7 @@ public class productService {
         int count = 0;
         try {
             String sql = "select count(*) from comment where product_name = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, productName);
             rs = ps.executeQuery();
@@ -162,6 +139,7 @@ public class productService {
                         " where name in ("
                         +" select product_name from product_tag where tag =?)" +
                         " order by price DESC LIMIT ?,?";
+                assert conn != null;
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, tag);
                 ps.setInt(2, (number - 1) * size);
@@ -214,6 +192,7 @@ public class productService {
                 String sql = "select * from product " +
                         " where saleID = ?"+
                         " order by price DESC LIMIT ?,?";
+                assert conn != null;
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, saleID);
                 ps.setInt(2, (number - 1) * size);
@@ -265,6 +244,7 @@ public class productService {
             String sql = "select * from product " +
                     " where name like ?"+
                     " order by name DESC";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + name + "%");
             rs = ps.executeQuery();
@@ -314,6 +294,7 @@ public class productService {
                 String sql = "select * from comment " +
                         " where product_name = ?"+
                         " order by product_name DESC LIMIT ?,?";
+                assert conn != null;
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, productName);
                 ps.setInt(2, (number - 1) * size);
@@ -338,48 +319,25 @@ public class productService {
     }
 
     /**
-     * 添加评论
-     * @param comment 评论类
-     * @return 是否成功添加评论
-     */
-    public static Constant.MessageType insertComment(Comment comment) {
-        Connection conn = C3P0Demo.getconn();
-        PreparedStatement ps = null;
-        int result = 0;
-        try {
-            String sql = "insert into comment values(?, ?, ?, ?)";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, comment.getProductName());
-            ps.setString(2, comment.getUserID());
-            ps.setString(3, comment.getCommentContent());
-            ps.setTimestamp(4, comment.getTime());
-            result = ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            C3P0Demo.closeall(null, ps, conn);
-        }
-        if (result > 0) {
-            return Constant.MessageType.INSERT_COMMENT_SUCCESS;
-        } else {
-            return Constant.MessageType.INSERT_COMMENT_FAIL;
-        }
-    }
-
-    /**
-     *
+     *获得相关产品列表
      * @param productName 产品名
      * @param saleID 店铺名
      * @param number 当前页号
      * @param size 每页要显示最多的数量
      * @return 相关产品列表
      */
-    public List<Product> selectRelatedProduct(String productName, String saleID, int number, int size){
+    public static List<Product> selectRelatedProduct(String productName, String saleID, int number, int size){
         List<Product> products = new ArrayList<>();
         List<String> strings = selectTagByProduct(productName, saleID);
         if (strings.size() > 0) {
             String tag = strings.get(0);
             products = selectProductPageByTag(tag, number, size);
+        }
+        for (Product product : products) {
+            if (product.getName().equals(productName)) {
+                products.remove(product);
+                break;
+            }
         }
         return products;
     }
@@ -432,6 +390,9 @@ public class productService {
     }
 
     public static void main(String[] args) {
+        for (Product product: selectRelatedProduct("1", "2", 1, 10)) {
+            System.out.println(product.getDescription());
+        }
 //        System.out.println(selectProductByProductNameSaleID("199", "1").getDescription());
 //        String date = "2019-07-16 19:20:00";
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

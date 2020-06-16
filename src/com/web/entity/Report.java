@@ -1,5 +1,7 @@
 package com.web.entity;
 
+import java.sql.Timestamp;
+
 /**
  * 举报
  */
@@ -8,12 +10,12 @@ public class Report {
     private String reportUserID;//举报人用户ID
     private String reportedShopID;//被举报店ID
     private String description;//举报内容
-    private String reportTime;//举报时间
+    private Timestamp reportTime;//举报时间
 
     public Report() {
     }
 
-    public Report(String reportUserID, String reportedShopID, String description, String reportTime) {
+    public Report(String reportUserID, String reportedShopID, String description, Timestamp reportTime) {
         this.reportUserID = reportUserID;
         this.reportedShopID = reportedShopID;
         this.description = description;
@@ -44,11 +46,11 @@ public class Report {
         this.description = description;
     }
 
-    public String getReportTime() {
+    public Timestamp getReportTime() {
         return reportTime;
     }
 
-    public void setReportTime(String reportTime) {
+    public void setReportTime(Timestamp reportTime) {
         this.reportTime = reportTime;
     }
 }

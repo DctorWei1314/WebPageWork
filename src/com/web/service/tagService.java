@@ -5,7 +5,10 @@ import com.web.util.Constant;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class tagService {
 
@@ -14,7 +17,6 @@ public class tagService {
      * @param tag 标签
      * @return 是否成功添加标签
      */
-    //todo test
     public static Constant.MessageType insertTag(String tag) {
         Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
@@ -33,6 +35,36 @@ public class tagService {
             return Constant.MessageType.INSERT_TAG_SUCCESS;
         } else {
             return Constant.MessageType.INSERT_TAG_FAIL;
+        }
+    }
+
+    /**
+     * 得到所有的商品标签
+     * @return 所有标签
+     */
+    public static List<String> selectAllTag() {
+        List<String> list = new ArrayList<>();
+        ResultSet rs = null;
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        try {
+            String sql = "select * from tag";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getString("tag"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        for (String string : selectAllTag()) {
+            System.out.println(string);
         }
     }
 }

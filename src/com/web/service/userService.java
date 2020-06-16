@@ -1,6 +1,7 @@
 package com.web.service;
 
 import com.web.entity.Address;
+import com.web.entity.Comment;
 import com.web.entity.User;
 import com.web.util.C3P0Demo;
 import com.web.util.Constant;
@@ -30,6 +31,7 @@ public class userService {
         ResultSet rs = null;
         try {
             String sql = "select count(*) from User where name=?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, userName);
             rs = ps.executeQuery();
@@ -63,6 +65,7 @@ public class userService {
             String sql = "select count(*) " +
                     "from user " +
                     "where name = ? and password = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             ps.setString(2, pwd);
@@ -96,6 +99,7 @@ public class userService {
             String sql = "select password, imgFilePath, email, defaultAddress, type " +
                     "from user " +
                     "where name = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -131,6 +135,7 @@ public class userService {
             String sql = "select street, mobile " +
                     "from address " +
                     "where name = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -161,6 +166,7 @@ public class userService {
         try {
             String sql = "update user set password = ?, imgFilePath = ?," +
                     "email = ?, defaultAddress = ? where name = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, user.getUserPassword());
             ps.setString(2, user.getImgFilePath());
@@ -194,6 +200,7 @@ public class userService {
             String sql = "select type " +
                     "from user " +
                     "where name = ?";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -227,14 +234,15 @@ public class userService {
         int result = 0;
         try {
             String sql = "insert into user " +
-                    "values(?, ?, ?, ?, ?, ?, ?)";
+                    "values(?, ?, ?, ?, ?, ?)";
+            assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, user.getName());
             ps.setString(2, user.getUserPassword());
             ps.setString(3, user.getImgFilePath());
-            ps.setString(5, user.getEmail());
-            ps.setString(6, user.getDeFaultAddress());
-            ps.setInt(7, user.getType());
+            ps.setString(4, user.getEmail());
+            ps.setString(5, user.getDeFaultAddress());
+            ps.setInt(6, user.getType());
             result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -245,6 +253,36 @@ public class userService {
             return Constant.MessageType.REGISTER_SUCCESS;
         } else {
             return Constant.MessageType.REGISTER_FAIL;
+        }
+    }
+
+    /**
+     * 添加评论
+     * @param comment 评论类
+     * @return 是否成功添加评论
+     */
+    public static Constant.MessageType insertComment(Comment comment) {
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            String sql = "insert into comment values(?, ?, ?, ?)";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, comment.getProductName());
+            ps.setString(2, comment.getUserID());
+            ps.setString(3, comment.getCommentContent());
+            ps.setTimestamp(4, comment.getTime());
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
+        }
+        if (result > 0) {
+            return Constant.MessageType.INSERT_COMMENT_SUCCESS;
+        } else {
+            return Constant.MessageType.INSERT_COMMENT_FAIL;
         }
     }
 
@@ -263,12 +301,12 @@ public class userService {
 //            System.out.println(address.getStreet() + "\n" + address.getMobile());
 //        }
 //        updateUserBalance("1", 100);
-        User user = new User("2","1","img/default.jpg",  "2", "1", 2);
+        User user = new User("3","1","img/default.jpg",  "2", "1", 2);
 //        insertNewUser(user);
-        System.out.println(selectBasicInfoByName("2").getEmail());
-//        if (Constant.MessageType.UPDATE_USER_INFO_SUCCESS == updateUserInfo("1", user)) {
-//            System.out.println(Constant.MessageType.UPDATE_USER_INFO_SUCCESS);
-//        }
+//        System.out.println(selectBasicInfoByName("2").getEmail());
+        if (Constant.MessageType.REGISTER_SUCCESS == insertNewUser(user)) {
+            System.out.println(Constant.MessageType.REGISTER_SUCCESS);
+        }
 
     }
 }

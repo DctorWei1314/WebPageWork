@@ -14,10 +14,12 @@ public class Constant {
         UPDATE_USER_INFO_FAIL,                  //更新用户信息失败
         UPDATE_PRODUCT_STATE_SUCCESS,           //更新商品状态成功
         UPDATE_PRODUCT_STATE_FAIL,              //更新商品状态失败
-        LOGIN_SUCCESS,                          // 登录成功
-        LOGIN_FAIL,                             // 登录失败
-        REGISTER_SUCCESS,                       // 注册成功
-        REGISTER_FAIL,                          // 注册失败
+        UPDATE_SALE_INFO_SUCCESS,               //更新店铺信息成功
+        UPDATE_SALE_INFO_FAIL,                  //更新店铺信息失败
+        LOGIN_SUCCESS,                          //登录成功
+        LOGIN_FAIL,                             //登录失败
+        REGISTER_SUCCESS,                       //注册成功
+        REGISTER_FAIL,                          //注册失败
         INSERT_TAG_SUCCESS,                     //管理员添加商品标签成功
         INSERT_TAG_FAIL,                        //管理员添加商品标签失败
         UPDATE_GLOBAL_DISCOUNT_SUCCESS,         //管理员更新全局折扣成功
@@ -26,6 +28,8 @@ public class Constant {
         INSERT_COMMENT_FAIL,                    //买家用户添加商品评论失败
         INSERT_ORDER_SUCCESS,                   //添加订单成功
         INSERT_ORDER_FAIL,                      //添加订单失败
+        INSERT_SALE_SHOP_SUCCESS,               //添加店铺成功
+        INSERT_SALE_SHOP_FAIL,                  //添加店铺失败
     }
 
     private static MessageType testLogin() {
