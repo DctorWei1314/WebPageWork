@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: 无索魏
-  Date: 2020/6/14
-  Time: 12:36
+  Date: 2020/6/15
+  Time: 23:58
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,7 +11,7 @@
 <%@ page import="java.util.List" %>
 <html>
 <head>
-    <title>上传商品信息</title>
+    <title>修改商品信息</title>
     <script src="js/jquery.min.js">
         // 要用jquery用src="js/jquery.min.js"
     </script>
@@ -35,7 +35,9 @@
                 }
                 var tag = document.getElementsByClassName("mytag");
                 for(var i=0;i<tag.length;i++){
-                    formData.append(tag[i].class,tag[i].innerHTML)
+                    if (tag[i].state == "true"){
+                        formData.append(tag[i].class,tag[i].innerHTML)
+                    }
                 }
                 $.ajax({
                     url: "UploadHandleServlet",
@@ -151,44 +153,50 @@
 <body>
 <%@include file="common/header_saler.jsp"%>
 <%
+    String product_name = request.getParameter("product_name");
     String product_saleID = request.getParameter("product_saleID");
+    if(product_name != null){
+        Product product = new Product();
+    }else {
+
+    }
 %>
 <div id="mian" >
     <div>
         <strong>主图片：</strong>
         <input class="upload" type="file" id="mainImgFilePath"  state="false" style="display:none" name="mainImgFilePath0" accept="image/*"/><br/>
-        <img id="mainImgFilePath0" src="imgs/upload.png" />
+        <img id="mainImgFilePath0" src="<%=***%>" />
         <br/>
         <strong>副图片：</strong>
         <input class="upload" type="file" id="image1" state="false" style="display:none" name="image10" accept="image/*"/>
-        <img id="image10" src="imgs/upload.png"/>
+        <img id="image10" src="<%***?***:"imgs/upload.png"%>"/>
         <input class="upload" type="file" id="image2" state="false" style="display:none" name="image20" accept="image/*"/>
-        <img id="image20" src="imgs/upload.png"/>
+        <img id="image20" src="<%***?***:"imgs/upload.png"%>"/>
         <input class="upload" type="file" id="image3" state="false" style="display:none" name="image30" accept="image/*"/>
-        <img id="image30" src="imgs/upload.png"/>
+        <img id="image30" src="<%***?***:"imgs/upload.png"%>"/>
         <input class="upload" type="file" id="image4" state="false" style="display:none" name="image40" accept="image/*"/>
-        <img id="image40" src="imgs/upload.png"/>
+        <img id="image40" src="<%***?***:"imgs/upload.png"%>"/>
     </div>
     <br/>
     <div class="div">
         <strong>价格：</strong>
-        <input class="info" type="number" id="price" state="false"/><br/>
+        <input class="info" type="number" id="price" state="false" value="<%***%>"/><br/>
     </div>
     <div class="div">
         <strong>折扣(折)：</strong>
-        <input class="info" type="number" id="discount" state="false" max=1.0 min=0.0/><br/>
+        <input class="info" type="number" typ id="discount" state="false" value="<%***?***:10%>"/><br/>
     </div>
     <div class="div">
         <strong>数量：</strong>
-        <input class="info" type="number" id="number" state="false" /><br/>
+        <input class="info" type="number" id="number" state="false" value="<%***%>" /><br/>
     </div>
     <div class="div">
         <strong>商品描述：</strong>
         <input class="info" type="text" id="description" state="false"/><br/>
     </div>
     <div class="div">
-        <strong>商品描述：</strong>
-        <input type="text" id="name" /><br/>
+        <strong>商品名：</strong>
+        <input type="text" id="name" readonly="readonly"/><br/>
     </div>
     <%
         List<Tag> allTag ;
@@ -197,6 +205,8 @@
     <div>
         <strong>商品标签：</strong>
         <ul id="ownTag" >
+            <li><strong class="alltag">男装</strong></li>
+            <li><strong class="alltag">女装</strong></li>
         </ul>
     </div>
     <div>

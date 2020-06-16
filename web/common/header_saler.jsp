@@ -41,6 +41,10 @@
                         <button type="submit" class="btn btn-default">搜索</button>
                     </form>
                 </div>
+                <div class="col-sm-3">
+                    <div class="shopping-item">
+                    </div>
+                </div>
             </div>
         </div>
     </div> <!-- End site branding area -->

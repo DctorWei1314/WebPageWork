@@ -1,15 +1,14 @@
-<%@ page import="com.web.entity.Product" %>
 <%--
   Created by IntelliJ IDEA.
   User: 无索魏
-  Date: 2020/6/15
-  Time: 11:33
+  Date: 2020/6/16
+  Time: 0:54
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>商家</title>
+    <title>商店</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Font Awesome -->
@@ -18,17 +17,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery.min.js"></script>
-    <script>
-            $(function () {
-                $("")
-            })
-    </script>
 </head>
 <body>
-
-<%
-%>
-<%@include file="common/header.jsp"%>
+<%@include file="common/footer_saler.jsp" %>
 <div class="product-big-title-area">
     <div class="container">
         <div class="row">
@@ -61,39 +52,39 @@
                     </div>
 
                     <div class="product-option-shop">
-                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
+                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">修改页面信息</a>
                     </div>
                 </div>
             </div>
-        <!--底部翻页-->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="product-pagination text-center">
-                    <nav>
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <!--tip根据商品数量来计算-->
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+            <!--底部翻页-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-pagination text-center">
+                        <nav>
+                            <ul class="pagination">
+                                <li>
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <!--tip根据商品数量来计算-->
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li>
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<%@include file="common/footer.jsp" %>
+<%@include file="common/footer_saler.jsp" %>
 </body>
 </html>

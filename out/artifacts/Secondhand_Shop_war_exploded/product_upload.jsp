@@ -11,7 +11,7 @@
 <%@ page import="java.util.List" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>上传商品信息</title>
     <script src="js/jquery.min.js">
         // 要用jquery用src="js/jquery.min.js"
     </script>
@@ -20,7 +20,7 @@
             $("#submit").click(function () {
                 var formData = new FormData();
                 var files = document.getElementsByClassName("upload");
-                alert(files.length);
+                formData.append("modify","false");
                 for(var i=0;i<files.length;i++){
                     if (files[i].state == "true"){
                         $("#"+files[i].name).attr("src","imgs/wait.gif");
@@ -112,6 +112,10 @@
             $("#image40").click(function(){
                 $("#image4").trigger("click");
             });
+            $(".allTag").click(function () {
+                $("#ownTag").append("<li><strong class=\"mytag\" state=\"true\">"+$(this)[0].innerHTML+"</strong></li>");
+                $(this).remove();
+            })
             //...........
         });
     </script>
@@ -129,52 +133,80 @@
             border: 1px solid #ccc;
             background-color: transparent;
         }
+        #mian{
+            position: relative;
+            left: 600px;
+        }
+        #mainImgFilePath{
+            float: left;
+        }
+        .div{
+            margin-bottom: 20px;
+        }
+        li{
+            list-style: none;
+        }
     </style>
 </head>
 <body>
 <%@include file="common/header_saler.jsp"%>
 <%
-    String product_name = request.getParameter("product_name");
     String product_saleID = request.getParameter("product_saleID");
-    if(product_name != null){
-        Product product = new Product();
-    }else {
-
-    }
 %>
-<div>
-    <input class="upload" type="file" id="mainImgFilePath"  state="false" style="display:none" name="mainImgFilePath0" accept="image/*"/><br/>
-    <img id="mainImgFilePath0" src="imgs/upload.png" />
-    <input class="upload" type="file" id="image1" state="false" style="display:none" name="image10" accept="image/*"/><br/>
-    <img id="image10" src="imgs/upload.png"/>
-    <input class="upload" type="file" id="image2" state="false" style="display:none" name="image20" accept="image/*"/><br/>
-    <img id="image20" src="imgs/upload.png"/>
-    <input class="upload" type="file" id="image3" state="false" style="display:none" name="image30" accept="image/*"/><br/>
-    <img id="image30" src="imgs/upload.png"/>
-    <input class="upload" type="file" id="image4" state="false" style="display:none" name="image40" accept="image/*"/><br/>
-    <img id="image40" src="imgs/upload.png"/>
-    <input class="info" type="number" id="price" state="false"/><br/>
-    <input class="info" type="number" id="discount" state="false"/><br/>
-    <input class="info" type="number" id="number" state="false"/><br/>
-    <input class="info" type="text" id="description" state="false"/><br/>
-    <input type="text" id="name" /><br/>
+<div id="mian" >
+    <div>
+        <strong>主图片：</strong>
+        <input class="upload" type="file" id="mainImgFilePath"  state="false" style="display:none" name="mainImgFilePath0" accept="image/*"/><br/>
+        <img id="mainImgFilePath0" src="imgs/upload.png" />
+        <br/>
+        <strong>副图片：</strong>
+        <input class="upload" type="file" id="image1" state="false" style="display:none" name="image10" accept="image/*"/>
+        <img id="image10" src="imgs/upload.png"/>
+        <input class="upload" type="file" id="image2" state="false" style="display:none" name="image20" accept="image/*"/>
+        <img id="image20" src="imgs/upload.png"/>
+        <input class="upload" type="file" id="image3" state="false" style="display:none" name="image30" accept="image/*"/>
+        <img id="image30" src="imgs/upload.png"/>
+        <input class="upload" type="file" id="image4" state="false" style="display:none" name="image40" accept="image/*"/>
+        <img id="image40" src="imgs/upload.png"/>
+    </div>
+    <br/>
+    <div class="div">
+        <strong>价格：</strong>
+        <input class="info" type="number" id="price" state="false"/><br/>
+    </div>
+    <div class="div">
+        <strong>折扣(折)：</strong>
+        <input class="info" type="number" id="discount" state="false" max=1.0 min=0.0/><br/>
+    </div>
+    <div class="div">
+        <strong>数量：</strong>
+        <input class="info" type="number" id="number" state="false" /><br/>
+    </div>
+    <div class="div">
+        <strong>商品描述：</strong>
+        <input class="info" type="text" id="description" state="false"/><br/>
+    </div>
+    <div class="div">
+        <strong>商品描述：</strong>
+        <input type="text" id="name" /><br/>
+    </div>
+    <%
+        List<Tag> allTag ;
+        List<Tag> ownTag;
+    %>
+    <div>
+        <strong>商品标签：</strong>
+        <ul id="ownTag" >
+        </ul>
+    </div>
+    <div>
+        <strong>标签库：</strong>
+        <ul id="allTag" >
+            <li><strong class="alltag">女装</strong></li>
+            <li><strong class="alltag">女装</strong></li>
+        </ul>
+    </div>
     <input type="button" id="sumbit" value="提交" name="false" state="<%=product_saleID%>">
-</div>
-<%
-    List<Tag> allTag ;
-    List<Tag> ownTag;
-%>
-<div>
-    <ul id="ownTag" >
-        <li><strong class="mytag">我的账户</strong></li>
-        <li><strong class="mytag">女装</strong></li>
-    </ul>
-</div>
-<div>
-    <ul id="allTag" >
-        <li><strong class="alltag">女装</strong></li>
-        <li><strong class="alltag">女装</strong></li>
-    </ul>
 </div>
 <%@include file="common/footer_saler.jsp" %>
 </body>

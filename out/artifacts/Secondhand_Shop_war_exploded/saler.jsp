@@ -17,6 +17,12 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery.min.js"></script>
+    <script>
+            $(function () {
+                $("")
+            })
+    </script>
 </head>
 <body>
 
@@ -30,6 +36,7 @@
 
     }
 %>
+<a href="Servlet">WWWWWWW</a>
 <%@include file="common/header_saler.jsp"%>
 <div class="product-big-title-area">
     <div class="container">
