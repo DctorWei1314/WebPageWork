@@ -4,6 +4,7 @@ public class Constant {
     public static String USER_SESSION="USER_SESSION";
     public static String P_LIST="P_LIST";
     public static String Q_TYPE="Q_TYPE";
+    public static String T_LIST="T_LIST";
     public enum Querytype{
         PRODUCT,
         SELLERID,

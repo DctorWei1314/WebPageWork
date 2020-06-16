@@ -1,3 +1,6 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.web.service.tagService" %>
+<%@ page import="java.lang.reflect.Array" %>
 <%--
   Created by IntelliJ IDEA.
   User: administrator-PC
@@ -35,9 +38,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="list-group list-group-horizontal align-self-center">
-                    <a href="#" class="list-group-item">女装</a>
-                    <a href="#" class="list-group-item">女装</a>
-                    <a href="#" class="list-group-item">女装</a>
+                    <!--important要连数据库-->
+                    <%
+                        List<String> t_list=(List<String>)application.getAttribute(Constant.T_LIST);
+                        if(t_list!=null){
+                        for(String tag:t_list){
+                    %>
+                    <a onclick="location='BuyerQuery?type=label&condition=<%=tag%>';return false" href="#"  class="list-group-item" ><%=tag%></a>
+                    <%
+                        }}
+                    %>
                     <!--tip动态获取标签-->
                 </div>
             </div>

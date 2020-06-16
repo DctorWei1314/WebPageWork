@@ -63,7 +63,7 @@
                  </div>
              </span>
             <span class="btn n-btn">
-                <a href="/user/Buyerlogout">
+                <a onclick="location='<%=application.getContextPath()%>/user/Buyerlogout';return false" href="#" >
                  <button type="submit" id="exit_load" >退出登录</button>
                 </a>
                  <div style="width:1px; height:1px; overflow:hidden; ">
