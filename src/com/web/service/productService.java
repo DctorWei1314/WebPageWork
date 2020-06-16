@@ -1,6 +1,5 @@
 package com.web.service;
 
-import com.web.dao.Basedao;
 import com.web.entity.Comment;
 import com.web.entity.Product;
 import com.web.util.C3P0Demo;
@@ -21,7 +20,7 @@ public class productService {
     public static List<String> selectAllTag() {
         List<String> list = new ArrayList<>();
         ResultSet rs = null;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         try {
             String sql = "select * from tag";
@@ -33,7 +32,7 @@ public class productService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return list;
     }
@@ -47,7 +46,7 @@ public class productService {
     public static List<String> selectTagByProduct(String productName, String saleId) {
         List<String> list = new ArrayList<>();
         ResultSet rs = null;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         try {
             String sql = "select distinct tag from product_tag where saleID = ? and product_name = ?";
@@ -61,7 +60,7 @@ public class productService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return list;
     }
@@ -73,7 +72,7 @@ public class productService {
      */
     public static int selectProductCountByTag(String tag) {
         ResultSet rs = null;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int count = 0;
         try {
@@ -87,7 +86,7 @@ public class productService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return count;
     }
@@ -99,7 +98,7 @@ public class productService {
      */
     public static int selectProductCountBySaleID(String saleID) {
         ResultSet rs = null;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int count = 0;
         try {
@@ -113,7 +112,7 @@ public class productService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return count;
     }
@@ -125,7 +124,7 @@ public class productService {
      */
     public static int selectCommentCountByProduct(String productName) {
         ResultSet rs = null;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int count = 0;
         try {
@@ -139,7 +138,7 @@ public class productService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return count;
     }
@@ -154,7 +153,7 @@ public class productService {
     public static List<Product> selectProductPageByTag(String tag, int number, int size){
         List<Product> products = new ArrayList<>();
         ResultSet rs = null;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         try{
             int productCount = selectProductCountByTag(tag);
@@ -192,7 +191,7 @@ public class productService {
         }catch(Exception e){
             e.printStackTrace();
         }finally{
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return products;
     }
@@ -207,7 +206,7 @@ public class productService {
     public static List<Product> selectProductPageBySaleID(String saleID, int number, int size){
         List<Product> products = new ArrayList<>();
         ResultSet rs = null;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         try{
             int productCount = selectProductCountBySaleID(saleID);
@@ -244,7 +243,7 @@ public class productService {
         }catch(Exception e){
             e.printStackTrace();
         }finally{
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return products;
     }
@@ -260,7 +259,7 @@ public class productService {
             name = name.replaceAll("%", "\\%");
         }
         ResultSet rs = null;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         try{
             String sql = "select * from product " +
@@ -292,7 +291,7 @@ public class productService {
         }catch(Exception e){
             e.printStackTrace();
         }finally{
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return products;
     }
@@ -307,7 +306,7 @@ public class productService {
     public static List<Comment> selectCommentPageByProduct(String productName, int number, int size) {
         List<Comment> comments = new ArrayList<>();
         ResultSet rs = null;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         try{
             int commentCount = selectCommentCountByProduct(productName);
@@ -333,7 +332,7 @@ public class productService {
         }catch(Exception e){
             e.printStackTrace();
         }finally{
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return comments;
     }
@@ -344,7 +343,7 @@ public class productService {
      * @return 是否成功添加评论
      */
     public static Constant.MessageType insertComment(Comment comment) {
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int result = 0;
         try {
@@ -358,7 +357,7 @@ public class productService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(null, ps, conn);
+            C3P0Demo.closeall(null, ps, conn);
         }
         if (result > 0) {
             return Constant.MessageType.INSERT_COMMENT_SUCCESS;

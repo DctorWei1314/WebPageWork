@@ -1,6 +1,6 @@
 package com.web.service;
 
-import com.web.dao.Basedao;
+import com.web.util.C3P0Demo;
 import com.web.util.Constant;
 
 import java.sql.Connection;
@@ -16,7 +16,7 @@ public class tagService {
      */
     //todo test
     public static Constant.MessageType insertTag(String tag) {
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int result = 0;
         try {
@@ -27,7 +27,7 @@ public class tagService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(null, ps, conn);
+            C3P0Demo.closeall(null, ps, conn);
         }
         if (result > 0) {
             return Constant.MessageType.INSERT_TAG_SUCCESS;

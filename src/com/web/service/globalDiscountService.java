@@ -1,7 +1,5 @@
 package com.web.service;
 
-import com.web.dao.Basedao;
-import com.web.entity.User;
 import com.web.util.C3P0Demo;
 import com.web.util.Constant;
 

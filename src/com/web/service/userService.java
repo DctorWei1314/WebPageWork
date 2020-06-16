@@ -1,6 +1,5 @@
 package com.web.service;
 
-import com.web.dao.Basedao;
 import com.web.entity.Address;
 import com.web.entity.User;
 import com.web.util.C3P0Demo;
@@ -26,7 +25,7 @@ public class userService {
      */
     public static Constant.MessageType judgeExistByName(String userName) {
         int count = 0;
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -40,7 +39,7 @@ public class userService {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally{
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         if (count > 0) {
             return Constant.MessageType.USER_NAME_EXIST;
@@ -57,7 +56,7 @@ public class userService {
      */
     public static Constant.MessageType judgeLoginSuccessByNamePwd(String name, String pwd) {
         ResultSet rs = null;//声明结果集
-        Connection conn = Basedao.getconn();//获取连接对象\
+        Connection conn = C3P0Demo.getconn();//获取连接对象\
         int count = 0;
         PreparedStatement ps = null;
         try {
@@ -74,7 +73,7 @@ public class userService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         if (count > 0) {
             return Constant.MessageType.LOGIN_SUCCESS;
@@ -91,7 +90,7 @@ public class userService {
     public static User selectBasicInfoByName(String name) {
         User u = null;
         ResultSet rs = null;//声明结果集
-        Connection conn = Basedao.getconn();//获取连接对象
+        Connection conn = C3P0Demo.getconn();//获取连接对象
         PreparedStatement ps = null;
         try {
             String sql = "select password, imgFilePath, email, defaultAddress, type " +
@@ -113,7 +112,7 @@ public class userService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return u;
     }
@@ -126,7 +125,7 @@ public class userService {
     public static List<Address> selectAddressInfoByName(String name) {
         List<Address> addresses = new ArrayList<>();
         ResultSet rs = null;//声明结果集
-        Connection conn = Basedao.getconn();//获取连接对象
+        Connection conn = C3P0Demo.getconn();//获取连接对象
         PreparedStatement ps = null;
         try {
             String sql = "select street, mobile " +
@@ -144,7 +143,7 @@ public class userService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         return addresses;
     }
@@ -156,7 +155,7 @@ public class userService {
      * @return 是否更新用户信息成功
      */
     public static Constant.MessageType updateUserInfo(String name, User user) {
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int result = 0;
         try {
@@ -172,7 +171,7 @@ public class userService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(null, ps, conn);
+            C3P0Demo.closeall(null, ps, conn);
         }
         if (result > 0) {
             return Constant.MessageType.UPDATE_USER_INFO_SUCCESS;
@@ -189,7 +188,7 @@ public class userService {
     public static Constant.MessageType selectTypeByName(String name) {
         int result = 0;
         ResultSet rs = null;//声明结果集
-        Connection conn = Basedao.getconn();//获取连接对象
+        Connection conn = C3P0Demo.getconn();//获取连接对象
         PreparedStatement ps = null;
         try {
             String sql = "select type " +
@@ -204,7 +203,7 @@ public class userService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(rs, ps, conn);
+            C3P0Demo.closeall(rs, ps, conn);
         }
         if (result == 1) { //1为买家2为卖家3为管理员
             return Constant.MessageType.BUYER;
@@ -223,7 +222,7 @@ public class userService {
      * @return 是否注册成功
      */
     public static Constant.MessageType insertNewUser(User user) {
-        Connection conn = Basedao.getconn();
+        Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int result = 0;
         try {
@@ -240,7 +239,7 @@ public class userService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Basedao.closeall(null, ps, conn);
+            C3P0Demo.closeall(null, ps, conn);
         }
         if (result > 0) {
             return Constant.MessageType.REGISTER_SUCCESS;
