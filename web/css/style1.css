@@ -165,7 +165,7 @@ body{
 
 }
 #all {
-    height: 1000px;
+	height: 1000px;
 }
 .footer .wrap .footer-grid.footer-grid1 {
     float: left;
@@ -173,8 +173,6 @@ body{
 .footer .wrap .footer-grid.footer-grid2 {
     float: right;
 }
-
-
 
 
 

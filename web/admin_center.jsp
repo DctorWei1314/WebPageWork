@@ -95,7 +95,7 @@
             <div class="da-slide">
                 <h1>标签设置</h1>
                 <p>让我康康还能卖什么？</p>
-                <a href="admin_tag.jsp" class=da-link" style="text-decoration: none;">进入</a>
+                <a href="admin_tag.jsp" class="da-link" style="text-decoration: none;">进入</a>
             </div>
             <div class="da-slide">
                 <h1>投诉处理</h1>
