@@ -65,22 +65,22 @@
         <div class="row">
             <!--tip自动生成-->
             <%
-                if(request.getAttribute(Constant.Q_TYPE)==null){
-                    request.setAttribute(Constant.P_LIST, productService.selectAllProduct(1,12));
-                    request.setAttribute(Constant.PAGE,1);
-                    request.setAttribute(Constant.PAGE_NUM,productService.selectAllProductCount()/12);
-                }
-                List<Product> p_list=(List<Product>)request.getAttribute(Constant.P_LIST);
-//测试用代码
-//                Product pt=new Product();
-//                pt.setName("bby");
-//                pt.setSaleID("了12");
-//                pt.setMainImgFilePath("/imgs/product-2");
-//                pt.setName("腾讯");
-//                pt.setPrice(100);
-//                pt.setSalePrice(200);
-//                List<Product> p_list=new ArrayList<Product>();
-//                p_list.add(pt);
+//                if(request.getAttribute(Constant.Q_TYPE)==null){
+//                    request.setAttribute(Constant.P_LIST, productService.selectAllProduct(1,12));
+//                    request.setAttribute(Constant.PAGE,1);
+//                    request.setAttribute(Constant.PAGE_NUM,productService.selectAllProductCount()/12);
+//                }
+//                List<Product> p_list=(List<Product>)request.getAttribute(Constant.P_LIST);
+//测试用代码important
+                Product pt=new Product();
+                pt.setName("bby");
+                pt.setSaleID("了12");
+                pt.setMainImgFilePath("/imgs/product-2");
+                pt.setName("腾讯");
+                pt.setPrice(100);
+                pt.setSalePrice(200);
+                List<Product> p_list=new ArrayList<Product>();
+                p_list.add(pt);
                 for(Product p:p_list){
             %>
             <div class="col-md-3 col-sm-6">
@@ -110,27 +110,20 @@
                 <div class="product-pagination text-center">
                     <nav>
                         <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <!--tip根据商品数量来计算-->
                             <li><a href="#">1</a></li>
                             <li><a href="#">2</a></li>
                             <li><a href="#">3</a></li>
                             <li><a href="#">4</a></li>
                             <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>
 <!--通用尾部-->

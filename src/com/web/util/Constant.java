@@ -9,6 +9,7 @@ public class Constant {
     public static String PAGE="PAGE";
     public static String PAGE_NUM="PAGE_NUM";
     public static String SINGLE_PRODUCT="SINGLE_PRODUCT";
+    public static String SHOP_CART="SHOP_CART";
     public enum Querytype{
         PRODUCT,
         SELLERID,
