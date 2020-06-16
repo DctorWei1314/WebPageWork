@@ -110,7 +110,7 @@ public class userService {
                         rs.getString("imgFilePath"),
                         rs.getString("email"),
                         rs.getString("defaultAddress"),
-                        rs.getInt("type")
+                        Constant.MessageType.getUserType(rs.getString("type"))
                 );
             }
         } catch (SQLException e) {
@@ -192,7 +192,7 @@ public class userService {
      * @return 用户类型
      */
     public static Constant.MessageType selectTypeByName(String name) {
-        int result = 0;
+        String result = null;
         ResultSet rs = null;//声明结果集
         Connection conn = C3P0Demo.getconn();//获取连接对象
         PreparedStatement ps = null;
@@ -205,21 +205,23 @@ public class userService {
             ps.setString(1, name);
             rs = ps.executeQuery();
             if (rs.next()) {
-                result = rs.getInt("type");
+                result = rs.getString("type");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             C3P0Demo.closeall(rs, ps, conn);
         }
-        if (result == 1) { //1为买家2为卖家3为管理员
-            return Constant.MessageType.BUYER;
-        } else if (result == 2){
-            return Constant.MessageType.SELLER;
-        } else if (result == 3) {
-            return Constant.MessageType.ADMIN;
-        } else {
-            return Constant.MessageType.UNKNOWN;
+        assert result != null;
+        switch (result) {
+            case "buyer":  //1为买家2为卖家3为管理员
+                return Constant.MessageType.BUYER;
+            case "saler":
+                return Constant.MessageType.SELLER;
+            case "admin":
+                return Constant.MessageType.ADMIN;
+            default:
+                return Constant.MessageType.UNKNOWN;
         }
     }
 
@@ -242,7 +244,7 @@ public class userService {
             ps.setString(3, user.getImgFilePath());
             ps.setString(4, user.getEmail());
             ps.setString(5, user.getDeFaultAddress());
-            ps.setInt(6, user.getType());
+            ps.setString(6, Constant.MessageType.insertUserType(user.getType()));
             result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -301,12 +303,13 @@ public class userService {
 //            System.out.println(address.getStreet() + "\n" + address.getMobile());
 //        }
 //        updateUserBalance("1", 100);
-        User user = new User("3","1","img/default.jpg",  "2", "1", 2);
-//        insertNewUser(user);
+        User user = new User("4","1","img/default.jpg",  "2", "1", Constant.MessageType.BUYER);
+        insertNewUser(user);
 //        System.out.println(selectBasicInfoByName("2").getEmail());
-        if (Constant.MessageType.REGISTER_SUCCESS == insertNewUser(user)) {
-            System.out.println(Constant.MessageType.REGISTER_SUCCESS);
-        }
+//        if (Constant.MessageType.REGISTER_SUCCESS == insertNewUser(user)) {
+//            System.out.println(Constant.MessageType.REGISTER_SUCCESS);
+//        }
+//        System.out.println(selectBasicInfoByName("1").getImgFilePath());
 
     }
 }
