@@ -14,7 +14,7 @@ public class globalDiscountService {
      * @return 全局折扣
      */
     public static double selectGlobalDiscount() {
-        double discount = 1.00;
+        double discount = 0;
         ResultSet rs = null;
         Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;

@@ -1824,3 +1824,8 @@ html .cndzk-entrance-associate-area {
 .info{
     color: red!important;
 }
+img#head{
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+}
