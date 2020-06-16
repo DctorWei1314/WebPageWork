@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
+import static com.web.util.Constant.T_LIST;
 
 @WebServlet("/AddTagServlet")
 public class AddTagServlet extends HttpServlet {
@@ -23,6 +26,8 @@ public class AddTagServlet extends HttpServlet {
         String tag = request.getParameter("tag");
         Constant.MessageType result = tagService.insertTag(tag);
         if(result == Constant.MessageType.INSERT_TAG_SUCCESS) {
+            List<String> tagList = tagService.selectAllTag();
+            getServletContext().setAttribute(T_LIST, tagList);
             PrintWriter out = response.getWriter();
             out.print("<script> alert('标签添加成功！'); window.location='admin_tag.jsp' </script>");
             out.flush();
