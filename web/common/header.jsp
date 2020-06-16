@@ -16,7 +16,7 @@
                         <ul>
                             <%
                                 User user=(User) session.getAttribute(Constant.USER_SESSION);
-                                if(user!=null){
+                                if(user==null){
                             %>
                             <li><a href=<%=application.getContextPath()%>/login.jsp><i class="fa fa-user"></i> 登录</a></li>
                             <li><a href=<%=application.getContextPath()%>/register.jsp><i class="fa fa-user"></i> 注册</a></li>
@@ -50,12 +50,16 @@
                     </div>
                 </div>
                 <div class=" search col-sm-6">
+                        <form class="navbar-form navbar-left" role="search" action="<%=application.getContextPath()%>/BuyerQuery" method="post"><!--提交搜索表单-->
                             <div class="form-group">
-                                <input type="text" class="form-control" id="query">
+                                <input type="text" class="form-control"  name="condition" required>
+                                <input type="hidden"  id="type" name="type">
                             </div>
-                            <button type="submit" class="btn btn-default" id="product" onclick="query(this)">搜索产品</button>
-                            <button type="submit" class="btn btn-default" id="business" onclick="query(this)">搜索商家</button>
+                            <button type="submit" class="btn btn-default" id="product" onclick="queryl(this)">搜索产品</button>
+                            <button type="submit" class="btn btn-default" id="business" onclick="queryl(this)">搜索商家</button>
+                        </form>
                 </div>
+
                 <div class="col-sm-3">
                     <div class="shopping-item">
                         <a href="#">购物车 - <span class="cart-amunt">￥0<!--tip session中的金额--></span> <i
