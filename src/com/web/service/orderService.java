@@ -113,6 +113,48 @@ public class orderService {
     }
 
     /**
+     * 根据订单ID和店铺ID返回订单列表
+     * @param orderID 订单ID
+     * @param saleID 店铺ID
+     * @return 订单列表
+     */
+    public static List<OrderSheet> selectOrderListByOrderIDSaleID(int orderID, String saleID) {
+        List<OrderSheet> orderSheets = new ArrayList<>();
+        OrderSheet orderSheet = null;
+        ResultSet rs = null;//声明结果集
+        Connection conn = C3P0Demo.getconn();//获取连接对象
+        PreparedStatement ps = null;
+        try {
+            String sql = "select * " +
+                    "from orderSheet " +
+                    "where order_id = ? and saleID = ?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, orderID);
+            ps.setString(2, saleID);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                orderSheet = new OrderSheet(
+                        orderID,
+                        saleID,
+                        rs.getString("product_name"),
+                        rs.getInt("buyNumber"),
+                        rs.getString("buyer"),
+                        rs.getDouble("price"),
+                        rs.getTimestamp("time"),
+                        rs.getInt("state")
+                );
+                orderSheets.add(orderSheet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return orderSheets;
+    }
+
+    /**
      * 选出买家用户的订单数量
      * @param buyerID 买家用户
      * @return 买家用户的订单数量
@@ -187,6 +229,9 @@ public class orderService {
 
 
     public static void main(String[] args) {
+        for (OrderSheet orderSheet : selectOrderListByOrderIDSaleID(1, "1")) {
+            System.out.println(orderSheet.getDateTime());
+        }
 //        System.out.println(selectOrderPageByBuyerID("1", 1, 10).size());
 //        String date = "2019-07-16 19:20:00";
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
