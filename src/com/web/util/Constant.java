@@ -30,7 +30,33 @@ public class Constant {
         INSERT_ORDER_SUCCESS,                   //添加订单成功
         INSERT_ORDER_FAIL,                      //添加订单失败
         INSERT_SALE_SHOP_SUCCESS,               //添加店铺成功
-        INSERT_SALE_SHOP_FAIL,                  //添加店铺失败
+        INSERT_SALE_SHOP_FAIL;                  //添加店铺失败
+
+        public static MessageType getUserType(String result) {
+            switch (result) {
+                case "buyer":
+                    return MessageType.BUYER;
+                case "saler":
+                    return MessageType.SELLER;
+                case "admin":
+                    return MessageType.ADMIN;
+                default:
+                    return MessageType.UNKNOWN;
+            }
+        }
+
+        public static String insertUserType(MessageType messageType) {
+            switch (messageType) {
+                case BUYER:
+                    return "buyer";
+                case SELLER:
+                    return "saler";
+                case ADMIN:
+                    return "admin";
+                default:
+                    return "unknown";
+            }
+        }
     }
 
     private static MessageType testLogin() {
