@@ -1565,7 +1565,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button {
     text-transform: uppercase;
 }
 
-.register-top-grid input[type="text"], .register-bottom-grid input[type="text"] {
+.register-top-grid input[type="text"], .register-bottom-grid input[type="password"] {
     border: 1px solid #EEE;
     outline-color: #1abc9c;
     width: 85%;
@@ -1611,7 +1611,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button {
     display: block;
     text-transform: uppercase;
 }
-.login-right input[type="text"] {
+.login-right input[type="text"],.login-right input[type="password"] {
     border: 1px solid #DDDBDB;
     outline-color: #1abc9c;
     width: 96%;
@@ -1820,4 +1820,7 @@ html .cndzk-entrance-associate-area {
 }
 .page-index{
     padding: 12px;
+}
+.info{
+    color: red!important;
 }

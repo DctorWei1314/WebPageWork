@@ -1,5 +1,7 @@
 package com.web.entity;
 
+import java.sql.Timestamp;
+
 /**
  * 商品评论
  */
@@ -7,9 +9,9 @@ public class Comment {
     private String productName;//商品名称
     private String userID;//评论用户ID
     private String commentContent;//评论内容
-    private String time;//评论时间
+    private Timestamp time;//评论时间
 
-    public Comment(String productName, String userID, String commentContent, String time) {
+    public Comment(String productName, String userID, String commentContent, Timestamp time) {
         this.productName = productName;
         this.userID = userID;
         this.commentContent = commentContent;
@@ -40,11 +42,11 @@ public class Comment {
         this.commentContent = commentContent;
     }
 
-    public String getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 }

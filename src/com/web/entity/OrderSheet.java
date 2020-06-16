@@ -1,5 +1,7 @@
 package com.web.entity;
 
+import java.sql.Timestamp;
+
 /**
  * 订单
  */
@@ -11,10 +13,10 @@ public class OrderSheet {
     private int buyNumber;//购买数量
     private String buyerID;//买家ID
     private double price;//商品价格
-    private String dateTime;//交易时间
+    private Timestamp dateTime;//交易时间
     private int status;//订单状态：0下单,1待付款,2已付款,3待发货,4已发货, 5己收货,-1已取消
 
-    public OrderSheet(int orderID, String saleID, String productName, int buyNumber, String buyerID, double price, String dateTime, int status) {
+    public OrderSheet(int orderID, String saleID, String productName, int buyNumber, String buyerID, double price, Timestamp dateTime, int status) {
         this.orderID = orderID;
         this.saleID = saleID;
         this.productName = productName;
@@ -73,11 +75,11 @@ public class OrderSheet {
         this.price = price;
     }
 
-    public String getDateTime() {
+    public Timestamp getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
+    public void setDateTime(Timestamp dateTime) {
         this.dateTime = dateTime;
     }
 
