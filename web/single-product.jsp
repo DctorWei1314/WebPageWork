@@ -26,6 +26,7 @@
     <script src="js/jquery.sticky.js"></script>
     <script src="js/jquery.etalage.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/buyer.js"></script>
     <script>
         jQuery(document).ready(function ($) {
 
