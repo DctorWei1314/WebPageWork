@@ -5,7 +5,7 @@ import java.util.List;
 import com.web.service.globalDiscountService;
 import com.web.service.orderService;
 import com.web.service.productService;
-
+import com.web.util.Constant;
 
 
 /**
@@ -34,7 +34,24 @@ public class ShopCart {
         return 0;
     }
 
-    
+    /**
+     * 删除某个订单所对应的商品
+     * @param orderID ID
+     * @return 是否删除成功
+     */
+    public Constant.MessageType deleteProduct(int orderID) {
+        return orderService.deleteProductByOrderID(orderID);
+    }
+
+    /**
+     * 根据订单ID 和 更改后的购买数量 返回是否更新购买数量成功
+     * @param orderID 订单ID
+     * @param buyNumber 更改后的购买数量
+     * @return 是否更新购买数量成功
+     */
+    public Constant.MessageType updateBuyNumber(int orderID, int buyNumber) {
+        return orderService.updateProductBuyNumber(orderID, buyNumber);
+    }
 
     public static void main(String[] args){
         ShopCart shopCart = new ShopCart("1", 10);
