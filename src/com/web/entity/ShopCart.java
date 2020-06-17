@@ -138,4 +138,5 @@ public class ShopCart {
     public void setOrderSheets(List<OrderSheet> orderSheets) {
         this.orderSheets = orderSheets;
     }
+    //增加商品，设置商品数量，删除商品
 }

@@ -5,6 +5,11 @@ public class Constant {
     public static String P_LIST="P_LIST";
     public static String Q_TYPE="Q_TYPE";
     public static String T_LIST="T_LIST";
+    public static String CONDITION="CONDITION";
+    public static String PAGE="PAGE";
+    public static String PAGE_NUM="PAGE_NUM";
+    public static String SINGLE_PRODUCT="SINGLE_PRODUCT";
+    public static String SHOP_CART="SHOP_CART";
     public enum Querytype{
         PRODUCT,
         SELLERID,
@@ -37,8 +42,14 @@ public class Constant {
         INSERT_COMMENT_FAIL,                    //买家用户添加商品评论失败
         INSERT_ORDER_SUCCESS,                   //添加订单成功
         INSERT_ORDER_FAIL,                      //添加订单失败
+        INSERT_REPORT_SUCCESS,                  //添加投诉成功
+        INSERT_REPORT_FAIL,                     //添加投诉失败
         INSERT_SALE_SHOP_SUCCESS,               //添加店铺成功
-        INSERT_SALE_SHOP_FAIL;                  //添加店铺失败
+        INSERT_SALE_SHOP_FAIL,                  //添加店铺失败
+        UPDATE_PRODUCT_INFO_SUCCESS,            //更新商品信息成功
+        UPDATE_PRODUCT_INFO_FAIL,               //更新商品信息失败
+        UPDATE_PRODUCT_SCORE_SUCCESS,           //更新商品分数成功
+        UPDATE_PRODUCT_SCORE_FAIL;              //更新商品分数失败
 
         public static MessageType getUserType(String result) {
             switch (result) {
