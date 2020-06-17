@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.web.entity.Product" %><%--
   Created by IntelliJ IDEA.
   User: administrator-PC
   Date: 2020/6/13
@@ -36,7 +36,7 @@
             <div class="col-md-12">
                 <div class="product-content-right">
                     <div class="woocommerce">
-                        <form method="post" action="#">
+                        <div method="post" action="#">
                             <table cellspacing="0" class="shop_table cart">
                                 <thead>
                                 <tr>
@@ -50,7 +50,7 @@
                                 </thead>
                                 <tbody>
                                 <!--自动添加购物车-->
-                                <tr class="cart_item">
+                                <!--<tr class="cart_item">
                                     <td class="product-remove">
                                         <a title="删除该项目" class="remove" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></a>
                                     </td>
@@ -78,16 +78,60 @@
                                     <td class="product-subtotal">
                                         <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">£15.00</font></font></span>
                                     </td>
+                                </tr>-->
+                                <%
+                                    List<Product> p_list=shopCart.getProducts();
+                                    for (Product p:p_list)
+                                    {
+                                %>
+                                    <tr class="cart_item">
+                                    <td class="product-remove">
+                                        <a title="删除该项目" class="remove" href="javascript:deletecart('<%=p.getSaleID()%>','<%=p.getName()%>',${this})">×</a>
+                                    </td>
+
+                                    <td class="product-thumbnail">
+                                        <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src=<%=application.getContextPath()+p.getMainImgFilePath()%>></a>
+                                    </td>
+
+                                    <td class="product-name">
+                                        <a href="single-product.html"><%=p.getName()%></a>
+                                    </td>
+
+                                    <td class="product-price">
+                                        <span class="amount">￥<%=shopCart.price(p)%></span>
+                                    </td>
+
+                                    <td class="product-quantity">
+                                        <div class="quantity buttons_added">
+                                            <input type="number" size="4" class="input-text qty text" title="数量" value=<%=shopCart.buyNumber(p)%> min="1" max=<%=p.getLeftNumber()%> step="1">
+                                        </div>
+                                    </td>
+
+                                    <td class="product-subtotal">
+                                        <span class="amount">￥<%=shopCart.productTotalPrice(p)%></span>
+                                    </td>
                                 </tr>
+                                <%
+                                    }
+                                %>
+
                                 <tr>
                                     <td class="actions" colspan="6">
-                                        <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="更新购物车" name="update_cart" class="button"></font></font>
-                                        <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="继续进行结帐" name="proceed" class="checkout-button button alt wc-forward"></font></font>
+                                        <input type="submit" value="更新购物车" name="update_cart" class="button">
+                                        <input type="submit" value="继续进行结帐" name="proceed" class="checkout-button button alt wc-forward" onclick="tocheckup()" >
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
-                        </form>
+                        </div>
+                        <script>
+                            function tocheckup() {
+                                let pathName = window.document.location.pathname;
+                                let projectName = pathName
+                                    .substring(0, pathName.substr(1).indexOf('/') + 1);
+                                window.location.href=projectName+"/user/checkout.jsp"
+                            }
+                        </script>>
 
 
                     </div>

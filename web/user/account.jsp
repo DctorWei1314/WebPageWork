@@ -26,7 +26,7 @@
     <script src="../js/buyer.js"></script>
     <script>
         $(document).ready(function () {
-            QueryAdress(1);
+            QueryAdress();
         });
     </script>
 </head>

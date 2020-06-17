@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.web.entity.Product" %><%--
   Created by IntelliJ IDEA.
   User: administrator-PC
   Date: 2020/6/13
@@ -24,6 +24,11 @@
     <script src="../js/jquery.sticky.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/buyer.js"></script>
+    <script>
+        $(document).ready(function () {
+            QueryAdress(1);
+        });
+    </script>
 </head>
 <body>
 <%@include file="../common/header.jsp" %>
@@ -38,7 +43,7 @@
                 <div class="product-content-right">
                     <div class="woocommerce">
                         <!--tip倒是有默认值-->
-                        <form enctype="multipart/form-data" action="#" class="checkout" method="post" name="checkout">
+                        <div enctype="multipart/form-data"  class="checkout"  name="checkout">
 
                             <div id="customer_details" class="col2-set">
                                 <div class="col-1">
@@ -55,9 +60,9 @@
                                                     style="vertical-align: inherit;"><font
                                                     style="vertical-align: inherit;">*</font></font></abbr>
                                             </label>
-                                            <select  value=""  id="billing_address_1"
-                                                   name="billing_address_1" class="input-text ">
-                                                <option value=""></option><!--tip获取地址-->
+                                            <select value="" id="billing_address_1"
+                                                    name="billing_address_1" class="input-text " id="select-address">
+                                                <!--tip获取地址-->
                                             </select>
                                         </p>
                                         <p id="order_comments_field" class="form-row notes">
@@ -101,6 +106,26 @@
                                             <span class="amount"><font style="vertical-align: inherit;"><font
                                                     style="vertical-align: inherit;">£15.00</font></font></span></td>
                                     </tr>
+                                    <%
+                                        for (Product p : shopCart.getProducts()) {
+                                    %>
+                                    <tr class="cart_item">
+                                        <td class="product-name"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">
+                                            <%=p.getName()%>
+                                        </font></font><strong class="product-quantity"><font
+                                                style="vertical-align: inherit;"><font style="vertical-align: inherit;">×<%=shopCart.buyNumber(p)%>
+                                        </font></font></strong>
+                                        </td>
+                                        <td class="product-total">
+                                            <span class="amount"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">￥<%=shopCart.productTotalPrice(p)%></font></font></span>
+                                        </td>
+                                    </tr>
+                                    <%
+                                        }
+                                    %>
+
                                     </tbody>
                                     <tfoot>
 
@@ -108,7 +133,7 @@
                                         <th><font style="vertical-align: inherit;"><font
                                                 style="vertical-align: inherit;">合计金额</font></font></th>
                                         <td><strong><span class="amount"><font style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;">£15.00</font></font></span></strong>
+                                                style="vertical-align: inherit;">￥<%=shopCart.cartTotalPrice()%></font></font></span></strong>
                                         </td>
                                     </tr>
 
@@ -148,7 +173,7 @@
                                                                                         data-value="Place order"
                                                                                         value="下订单" id="place_order"
                                                                                         name="woocommerce_checkout_place_order"
-                                                                                        class="button alt"></font></font>
+                                                                                        class="button alt" onclick="placeorder()"></font></font>
 
 
                                     </div>
@@ -157,7 +182,7 @@
 
                                 </div>
                             </div>
-                        </form>
+                        </div>
 
                     </div>
                 </div>
