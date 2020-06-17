@@ -187,6 +187,36 @@ public class userService {
     }
 
     /**
+     *  更新用户头像
+     * @param name 用户名
+     * @param updatedImage 更新头像
+     * @return 是否更新成功
+     */
+    public static Constant.MessageType updateUserImage(String name, String updatedImage) {
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            String sql = "update user set imgFilePath = ?" +
+                    "where name = ?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, updatedImage);
+            ps.setString(2, name);
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
+        }
+        if (result > 0) {
+            return Constant.MessageType.UPDATE_USER_IMAGE_SUCCESS;
+        } else {
+            return Constant.MessageType.UPDATE_USER_IMAGE_FAIL;
+        }
+    }
+
+    /**
      * 根据用户名返回用户身份类型
      * @param name 用户名
      * @return 用户类型
@@ -288,7 +318,12 @@ public class userService {
         }
     }
 
+
+
     public static void main(String[] args) {
+        if (updateUserImage("1", "1") == Constant.MessageType.UPDATE_USER_IMAGE_SUCCESS) {
+            System.out.println("yes");
+        }
 //        if (judgeExistByName("1") == Constant.MessageType.USER_NAME_EXIST) {
 //            System.out.println(Constant.MessageType.USER_NAME_EXIST);
 //        }
@@ -303,8 +338,8 @@ public class userService {
 //            System.out.println(address.getStreet() + "\n" + address.getMobile());
 //        }
 //        updateUserBalance("1", 100);
-        User user = new User("4","1","img/default.jpg",  "2", "1", Constant.MessageType.BUYER);
-        insertNewUser(user);
+//        User user = new User("4","1","img/default.jpg",  "2", "1", Constant.MessageType.BUYER);
+//        insertNewUser(user);
 //        System.out.println(selectBasicInfoByName("2").getEmail());
 //        if (Constant.MessageType.REGISTER_SUCCESS == insertNewUser(user)) {
 //            System.out.println(Constant.MessageType.REGISTER_SUCCESS);

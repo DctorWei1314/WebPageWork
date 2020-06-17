@@ -44,10 +44,14 @@ public class Constant {
         INSERT_ORDER_FAIL,                      //添加订单失败
         INSERT_REPORT_SUCCESS,                  //添加投诉成功
         INSERT_REPORT_FAIL,                     //添加投诉失败
+        INSERT_PRODUCT_SUCCESS,                 //添加新产品成功
+        INSERT_PRODUCT_FAIL,                    //添加新产品失败
         INSERT_SALE_SHOP_SUCCESS,               //添加店铺成功
         INSERT_SALE_SHOP_FAIL,                  //添加店铺失败
         UPDATE_PRODUCT_INFO_SUCCESS,            //更新商品信息成功
         UPDATE_PRODUCT_INFO_FAIL,               //更新商品信息失败
+        UPDATE_USER_IMAGE_SUCCESS,              //更新用户头像成功
+        UPDATE_USER_IMAGE_FAIL,                 //更新用户头像失败
         UPDATE_PRODUCT_SCORE_SUCCESS,           //更新商品分数成功
         UPDATE_PRODUCT_SCORE_FAIL;              //更新商品分数失败
 

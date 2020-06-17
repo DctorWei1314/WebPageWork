@@ -27,6 +27,32 @@ public class OrderSheet {
         this.status = status;
     }
 
+    public static String statusToSalerString(int status) {
+        switch (status) {
+            case 1:
+                return "未处理";
+            case 2:
+                return "已同意";
+            case 3:
+                return "已拒绝";
+            default:
+                return "unknown";
+        }
+    }
+
+    public static String statusToBuyerString(int status) {
+        switch (status) {
+            case 1:
+                return "下单";
+            case 2:
+                return "已付款";
+            case 3:
+                return "付款失败";
+            default:
+                return "unknown";
+        }
+    }
+
     public int getOrderID() {
         return orderID;
     }

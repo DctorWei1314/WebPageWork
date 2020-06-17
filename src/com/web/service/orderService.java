@@ -119,7 +119,7 @@ public class orderService {
      */
     public static List<OrderSheet> selectOrderListBySaleIDState(String saleID, int state) {
         List<OrderSheet> orderSheets = new ArrayList<>();
-        OrderSheet orderSheet = null;
+        OrderSheet orderSheet;
         ResultSet rs = null;//声明结果集
         Connection conn = C3P0Demo.getconn();//获取连接对象
         PreparedStatement ps = null;
@@ -268,6 +268,35 @@ public class orderService {
         return orderSheets;
     }
 
+//    public static Constant.MessageType deleteProductByProductNameSaleID(String productName, String saleID){
+//        Connection conn = C3P0Demo.getconn();
+//        PreparedStatement ps = null;
+//        int result = 0;
+//        try {
+//            String sql = "delete from ordersheet"
+//                    + " where prod";
+//            assert conn != null;
+//            ps = conn.prepareStatement(sql);
+//            ps.setInt(1, order.getOrderID());
+//            ps.setString(2, order.getSaleID());
+//            ps.setString(3, order.getProductName());
+//            ps.setInt(4, order.getBuyNumber());
+//            ps.setString(5, order.getBuyerID());
+//            ps.setDouble(6, order.getPrice());
+//            ps.setTimestamp(7, order.getDateTime());
+//            ps.setDouble(8, order.getStatus());
+//            result = ps.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            C3P0Demo.closeall(null, ps, conn);
+//        }
+//        if (result > 0) {
+//            return Constant.MessageType.INSERT_ORDER_SUCCESS;
+//        } else {
+//            return Constant.MessageType.INSERT_ORDER_FAIL;
+//        }
+//    }
 
     public static void main(String[] args) {
         for (OrderSheet orderSheet : selectOrderListBySaleIDState("1", 2)) {
