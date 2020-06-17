@@ -10,9 +10,11 @@ public class Comment {
     private String userID;//评论用户ID
     private String commentContent;//评论内容
     private Timestamp time;//评论时间
+    private String saleID;//店铺ID
 
-    public Comment(String productName, String userID, String commentContent, Timestamp time) {
+    public Comment(String productName, String saleID, String userID, String commentContent, Timestamp time) {
         this.productName = productName;
+        this.saleID = saleID;
         this.userID = userID;
         this.commentContent = commentContent;
         this.time = time;
@@ -48,5 +50,13 @@ public class Comment {
 
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+    public String getSaleID() {
+        return saleID;
+    }
+
+    public void setSaleID(String saleID) {
+        this.saleID = saleID;
     }
 }

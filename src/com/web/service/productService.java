@@ -3,6 +3,7 @@ package com.web.service;
 import com.web.entity.Comment;
 import com.web.entity.Product;
 import com.web.util.C3P0Demo;
+import com.web.util.Constant;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -148,16 +149,17 @@ public class productService {
      * @param productName 商品名称
      * @return 此商品评论数量
      */
-    public static int selectCommentCountByProduct(String productName) {
+    public static int selectCommentCountByProduct(String productName, String saleID) {
         ResultSet rs = null;
         Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int count = 0;
         try {
-            String sql = "select count(*) from comment where product_name = ?";
+            String sql = "select count(*) from comment where product_name = ? and saleID = ?";
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, productName);
+            ps.setString(2, saleID);
             rs = ps.executeQuery();
             if(rs.next()) {
                 count =  rs.getInt(1);
@@ -185,9 +187,10 @@ public class productService {
         try{
             int productCount = selectProductCountByTag(tag);
             if(productCount > 0){
-                String sql = "select * from product " +
-                        " where name in ("
-                        +" select product_name from product_tag where tag =?)" +
+                String sql = "select * from product, product_tag " +
+                        " where product.name = product_tag.product_name and " +
+                        "product.saleID = product_tag.saleID and "
+                        +" tag = ? " +
                         " order by price DESC LIMIT ?,?";
                 assert conn != null;
                 ps = conn.prepareStatement(sql);
@@ -387,26 +390,28 @@ public class productService {
      * @param size 每页要显示最多的数量
      * @return 分页评论列表
      */
-    public static List<Comment> selectCommentPageByProduct(String productName, int number, int size) {
+    public static List<Comment> selectCommentPageByProduct(String productName, String saleID, int number, int size) {
         List<Comment> comments = new ArrayList<>();
         ResultSet rs = null;
         Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         try{
-            int commentCount = selectCommentCountByProduct(productName);
+            int commentCount = selectCommentCountByProduct(productName, saleID);
             if(commentCount > 0){
                 String sql = "select * from comment " +
-                        " where product_name = ?"+
+                        " where product_name = ? and saleID = ?"+
                         " order by product_name DESC LIMIT ?,?";
                 assert conn != null;
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, productName);
-                ps.setInt(2, (number - 1) * size);
-                ps.setInt(3, size);
+                ps.setString(2, saleID);
+                ps.setInt(3, (number - 1) * size);
+                ps.setInt(4, size);
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     Comment comment = new Comment(
                             rs.getString("product_name"),
+                            rs.getString("saleID"),
                             rs.getString("userID"),
                             rs.getString("commentContent"),
                             rs.getTimestamp("time")
@@ -493,10 +498,79 @@ public class productService {
         return product;
     }
 
-    public static void main(String[] args) {
-        for (Product product: selectProductByLikeName( "第",1, 10)) {
-            System.out.println(product.getDescription());
+    /**
+     * 更新商品分数
+     * @param productName 商品名
+     * @param saleID 商品ID
+     * @param score 用户打的分数
+     * @return 是否更新成功
+     */
+    public static Constant.MessageType updateProductScore(String productName, String saleID, double score) {
+        Product product = selectProductByProductNameSaleID(productName, saleID);
+        double originScore = product.getScore();
+        int number = product.getScoreNumber();
+        double updatedScore = originScore * number / (number + 1);
+        product.setScore(updatedScore);
+        product.setScoreNumber(number + 1);
+        if (updateProductInfo(product) == Constant.MessageType.UPDATE_PRODUCT_INFO_SUCCESS) {
+            return Constant.MessageType.UPDATE_PRODUCT_SCORE_SUCCESS;
+        } else {
+            return Constant.MessageType.UPDATE_PRODUCT_SCORE_FAIL;
         }
+    }
+
+    /**
+     * 更新商品信息
+     * @param product 商品实体类
+     * @return 是否更新商品信息成功
+     */
+    public static Constant.MessageType updateProductInfo(Product product) {
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            String sql = "update product " +
+                    "SET image = ?, image1 = ?, image2 = ?,image3 = ?, image4 = ?," +
+                    "score = ?, scoreNumber = ?, saleNumber = ?, leftNumber = ?," +
+                    "price= ?, discount = ?, salePrice = ?, description = ? " +
+                    "WHERE name = ? and saleID = ?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, product.getMainImgFilePath());
+            ps.setString(2, product.getImage1());
+            ps.setString(3, product.getImage2());
+            ps.setString(4, product.getImage3());
+            ps.setString(5, product.getImage4());
+            ps.setDouble(6, product.getScore());
+            ps.setInt(7, product.getScoreNumber());
+            ps.setInt(8, product.getSaleNumber());
+            ps.setInt(9, product.getLeftNumber());
+            ps.setDouble(10, product.getPrice());
+            ps.setDouble(11, product.getDiscount());
+            ps.setDouble(12, product.getSalePrice());
+            ps.setString(13, product.getDescription());
+            ps.setString(14, product.getName());
+            ps.setString(15, product.getSaleID());
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
+        }
+        if (result > 0) {
+            return Constant.MessageType.UPDATE_PRODUCT_INFO_SUCCESS;
+        } else {
+            return Constant.MessageType.UPDATE_PRODUCT_INFO_FAIL;
+        }
+    }
+
+    public static void main(String[] args) {
+        for (Comment comment : selectCommentPageByProduct("1", "1", 1, 10)) {
+            System.out.println(comment.getCommentContent());
+        }
+//        if (updateProductScore("1", "1", 5)== Constant.MessageType.UPDATE_PRODUCT_SCORE_SUCCESS) {
+//            System.out.println("yes");
+//        }
 //        System.out.println(selectProductByProductNameSaleID("199", "1").getDescription());
 //        String date = "2019-07-16 19:20:00";
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

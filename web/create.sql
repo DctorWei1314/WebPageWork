@@ -77,6 +77,7 @@ CREATE TABLE `saleShop` (
 
 CREATE TABLE `comment` (
   `product_name` varchar(30) NOT NULL,
+  `saleID` varchar(30) NOT NULL,
   `userID` varchar(20) NOT NULL,
   `commentContent` varchar(255) NOT NULL,
   `time` datetime NOT NULL
