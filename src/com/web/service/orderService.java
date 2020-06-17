@@ -113,12 +113,11 @@ public class orderService {
     }
 
     /**
-     * 根据订单ID和店铺ID返回订单列表
-     * @param orderID 订单ID
+     * 根据店铺ID返回订单列表
      * @param saleID 店铺ID
      * @return 订单列表
      */
-    public static List<OrderSheet> selectOrderListByOrderIDSaleID(int orderID, String saleID) {
+    public static List<OrderSheet> selectOrderListBySaleIDState(String saleID, int state) {
         List<OrderSheet> orderSheets = new ArrayList<>();
         OrderSheet orderSheet = null;
         ResultSet rs = null;//声明结果集
@@ -127,15 +126,15 @@ public class orderService {
         try {
             String sql = "select * " +
                     "from orderSheet " +
-                    "where order_id = ? and saleID = ?";
+                    "where saleID = ? and state = ?";
             assert conn != null;
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, orderID);
-            ps.setString(2, saleID);
+            ps.setString(1, saleID);
+            ps.setInt(2, state);
             rs = ps.executeQuery();
             if (rs.next()) {
                 orderSheet = new OrderSheet(
-                        orderID,
+                        rs.getInt("order_id"),
                         saleID,
                         rs.getString("product_name"),
                         rs.getInt("buyNumber"),
@@ -271,7 +270,7 @@ public class orderService {
 
 
     public static void main(String[] args) {
-        for (OrderSheet orderSheet : selectOrderListByOrderIDSaleID(1, "1")) {
+        for (OrderSheet orderSheet : selectOrderListBySaleIDState("1", 2)) {
             System.out.println(orderSheet.getDateTime());
         }
 //        System.out.println(selectOrderPageByBuyerID("1", 1, 10).size());
