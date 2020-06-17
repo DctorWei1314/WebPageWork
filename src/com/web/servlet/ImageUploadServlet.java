@@ -89,6 +89,7 @@ public class ImageUploadServlet extends HttpServlet {
                     //删除处理文件上传时生成的临时文件
                     item.delete();
                     //路径载入数据库的操作没写!!!!!!!!!!!!!!!!!!!可以调用处理数据库的人的函数把路径相关信息载入数据库！！！！！！
+
                 }
             }
         } catch (FileUploadException e) {

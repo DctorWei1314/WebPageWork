@@ -151,7 +151,7 @@
     </style>
 </head>
 <body>
-<%@include file="common/header_saler.jsp"%>
+<%@include file="common/header.jsp"%>
 <%
     String product_name = request.getParameter("product_name");
     String product_saleID = request.getParameter("product_saleID");
@@ -218,6 +218,6 @@
     </div>
     <input type="button" id="sumbit" value="提交" name="false" state="<%=product_saleID%>">
 </div>
-<%@include file="common/footer_saler.jsp" %>
+<%@include file="common/footer" %>
 </body>
 </html>

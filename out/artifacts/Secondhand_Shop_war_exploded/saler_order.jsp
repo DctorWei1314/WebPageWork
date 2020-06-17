@@ -10,6 +10,8 @@
 <%@ page import="com.web.entity.User" %>
 <%@ page import="com.web.entity.OrderSheet" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.web.service.productService" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <html>
 <head>
     <title>订单管理</title>
@@ -67,12 +69,11 @@
     </script>
 </head>
 <body>
-<%@include file="common/header_saler.jsp"%>
+<%@include file="common/header.jsp"%>
 <%! boolean flag = false;%>
 <% String status = request.getParameter("status");
 if(status == null || status == "1")
     flag = true;
-User user = (User)session.getAttribute("user");
 %>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
@@ -100,50 +101,61 @@ User user = (User)session.getAttribute("user");
                             <tbody>
                             <!--tip自动添加订单-->
                             <%
+                                List<OrderSheet> list = null;
                                 if(flag == true){
-                                    List<OrderSheet> list = orderService.selectOrderListByOrderIDSaleID(user.getUserID());
+                                    list = orderService.selectOrderListBySaleIDState(user.getUserID(),1);
                                 }
                                 else{
+                                    list.addAll(orderService.selectOrderListBySaleIDState(user.getUserID(),2));
+                                    list.addAll(orderService.selectOrderListBySaleIDState(user.getUserID(),3));
+                                }
+                                for(OrderSheet order:list){
+                                    String icon = productService.selectProductByProductNameSaleID(order.getProductName(),order.getSaleID()).getMainImgFilePath();
+                                    %>
+                            <tr class="cart_item">
+                                <td class="product-ID">
+                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JD-101</font></font></span>
+                                </td>
+                                <td class="product-thumbnail">
+                                    <a href="single-product.html"><img width="145" height="145" alt="商品图片" class="shop_picture" src="<%="D:/NB/"+icon%>"></a>
+                                </td>
 
+                                <td class="product-name">
+                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%=order.getProductName()%></font></font></span>
+                                </td>
+
+                                <td class="product-price">
+                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">￥<%=order.getPrice()%></font></font></span>
+                                </td>
+
+                                <td class="product-quantity">
+                                    <span class="quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%=order.getBuyNumber()%></font></font></span>
+                                </td>
+
+                                <td class="product-time">
+                                    <span class="time"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getDateTime())%></font></font></span>
+                                </td>
+
+                                <td class="product-status">
+                                    <span class="status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%=OrderSheet.statusToSalerString(order.getStatus())%></font></font></span>
+                                </td>
+                                <%
+                                    if(flag){
+                                        %>
+                                <td class="product-status">
+                                    <button class="agree"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">同意订单</font></font></button>
+                                </td>
+                                <td class="product-status">
+                                    <button class="reject"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">残忍拒绝</font></font></button>
+                                </td>
+
+                            <%
+                                    }
+                            %>
+
+                            </tr>
+                            <%
                                 }
-                                while (){
-                                    orderService.selectOrderListByOrderIDSaleID(user.getUserID());
-                                }
-                                out.print("                            <tr class=\"cart_item\" id=\"2222\">\n" +
-                                        "                                <td class=\"product-ID\">\n" +
-                                        "                                    <span class=\"amount\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">2222</font></font></span>\n" +
-                                        "                                </td>\n" +
-                                        "                                <td class=\"product-thumbnail\">\n" +
-                                        "                                    <a href=\"single-product.html\"><img width=\"145\" height=\"145\" alt=\"商品图片\" class=\"shop_picture\" src=\"\"></a>\n" +
-                                        "                                </td>\n" +
-                                        "\n" +
-                                        "                                <td class=\"product-name\">\n" +
-                                        "                                    <span class=\"amount\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">22</font></font></span>\n" +
-                                        "                                </td>\n" +
-                                        "\n" +
-                                        "                                <td class=\"product-price\">\n" +
-                                        "                                    <span class=\"amount\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">￥22</font></font></span>\n" +
-                                        "                                </td>\n" +
-                                        "\n" +
-                                        "                                <td class=\"product-quantity\">\n" +
-                                        "                                    <span class=\"quantity\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">22</font></font></span>\n" +
-                                        "                                </td>\n" +
-                                        "\n" +
-                                        "                                <td class=\"product-time\">\n" +
-                                        "                                    <span class=\"time\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">22</font></font></span>\n" +
-                                        "                                </td>\n" +
-                                        "\n" +
-                                        "                                <td class=\"product-status\">\n" +
-                                        "                                    <span class=\"status\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">22</font></font></span>\n" +
-                                        "                                </td>\n" +
-                                        "\n" +
-                                        "                                <td class=\"product-status\">\n" +
-                                        "                                    <button class=\"agree\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">同意订单</font></font></button>\n" +
-                                        "                                </td>\n" +
-                                        "                                <td class=\"product-status\">\n" +
-                                        "                                    <button class=\"reject\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">残忍拒绝</font></font></button>\n" +
-                                        "                                </td>\n" +
-                                        "                            </tr>");
                             %>
                             </tbody>
                         </table>
@@ -175,6 +187,6 @@ User user = (User)session.getAttribute("user");
         </div>
     </div>
 </div>
-<%@include file="common/footer_saler.jsp"%>
+<%@include file="common/footer.jsp"%>
 </body>
 </html>

@@ -22,15 +22,26 @@
                             <li><a href=<%=application.getContextPath()%>/register.jsp><i class="fa fa-user"></i> 注册</a></li>
                             <%
                                 }
-                            else
+                            else if(user.getType()==Constant.MessageType.BUYER)
                                 {
-
                                 %>
                             <li><a href=<%=application.getContextPath()%>/user/account.jsp><img id="head" src=<%=application.getContextPath()+user.getImgFilePath()%> ></img> 我的账户</a></li>
                             <li><a href=<%=application.getContextPath()%>/user/order.jsp><i class="fa fa-list-ul"></i> 订单历史</a></li>
                             <li><a href=<%=application.getContextPath()%>/user/cart.jsp><i class="fa fa-shopping-cart"></i> 购物车</a></li>
                             <li><a href=<%=application.getContextPath()%>/user/checkout.jsp><i class="fa fa-credit-card"></i> 结算</a></li>
                             <%
+                                }
+                            else if(user.getType()==Constant.MessageType.SELLER)
+                                {
+                            %>
+                            <li><a href=<%=application.getContextPath()%>/saler_account.jsp><i class="fa fa-list-ul"></i> 我的账户</a></li><!--tip登陆后为账户叶面-->
+                            <li><a href=<%=application.getContextPath()%>/saler_order.jsp><i class="fa fa-list-ul"></i> 订单管理</a></li><!--tip登陆后为账户叶面-->
+                            <li><a href=<%=application.getContextPath()%>/product_upload.jsp><i class="fa fa-credit-card"></i> 商品上架</a></li><!--tip登陆后为账户叶面-->
+                            <li><a href=<%=application.getContextPath()%>/saler.jsp><i class="fa fa-user"></i> 个人首页</a></li><!--tip登陆后为账户叶面-->
+                            <%
+                                }
+                            else{
+
                                 }
                             %>
                             <li><a href="#"><i class="fa fa-user"></i> 卖家中心</a></li><!--tip等待填充-->
@@ -59,20 +70,18 @@
                             <button type="submit" class="btn btn-default" id="sellerid" onclick="queryl(this)">搜索商家</button>
                         </form>
                 </div>
-
+                <%
+                    if(user==null||user.getType()!=Constant.MessageType.SELLER){
+                %>
                 <div class="col-sm-3">
-                    <%
-                        if(user!=null){
-                    %>
                     <div class="shopping-item">
                         <a href=<%=application.getContextPath()%>/user/account.jsp>购物车 - <span class="cart-amunt">￥0<!--tip session中的金额--></span> <i
                                 class="fa fa-shopping-cart"></i> <span class="product-count">0
                             <!--tip session中的数量--></span></a>
                     </div>
-                    <%
-                        }
-                    %>
                 </div>
+                <%}
+                %>
             </div>
         </div>
     </div> <!-- End site branding area -->
@@ -84,7 +93,7 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a onclick="location='<%=application.getContextPath()%>/shop.jsp';return false" href="#" >商品</a></li><!--tip登陆后为账户叶面-->
                         <%
-                            if(user!=null){
+                            if(user!=null&&user.getType()!=Constant.MessageType.BUYER){
                         %>
                         <li><a onclick="location='<%=application.getContextPath()%>/user/account.jsp';return false" href="#" >购物车</a></li><!--tip登陆后为账户叶面-->
                         <li><a onclick="location='<%=application.getContextPath()%>/user/checkout.jsp>';return false" href="#" >结算</a></li><!--tip登陆后为账户叶面-->

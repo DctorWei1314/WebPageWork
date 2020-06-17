@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.web.service.tagService" %><%--
+<%@ page import="com.web.service.tagService" %>
+<%@ page import="com.web.util.Constant" %><%--
   Created by IntelliJ IDEA.
   User: h'm'l
   Date: 2020/6/16
@@ -27,7 +28,7 @@
 <%
     request.setCharacterEncoding("utf-8");
     response.setContentType("text/html;charset=utf-8");
-    List<String> tagList = tagService.selectAllTag();
+    List<String> tagList = (List<String>) application.getAttribute(Constant.T_LIST);
 %>
 <div class="wrap">
     <div class="pages-top">
@@ -46,6 +47,8 @@
                 <li class="active"><a href="admin_tag.jsp">标签</a>
                 </li>
                 <li><a href="admin_report.jsp">投诉</a>
+                </li>
+                <li><a href="#">处理</a>
                 </li>
             </ul>
             <script type="text/javascript" src="js/nav.js"></script>

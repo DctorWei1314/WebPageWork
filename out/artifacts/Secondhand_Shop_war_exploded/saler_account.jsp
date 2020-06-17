@@ -22,7 +22,7 @@
     <script src="js/main.js"></script>
 </head>
 <body>
-<%@include file="common/header_saler.jsp"%>
+<%@include file="common/header.jsp"%>
 <div class="sns-nf">
     <form id="baseInfoForm" name="baseInfoForm" method="post" class="infoForm">
         <input name="_tb_token_" type="hidden" value="3bf0e5e737b13">
@@ -66,6 +66,6 @@
         </div>
     </form>
 </div>
-<%@include file="common/footer_saler.jsp"%>
+<%@include file="common/footer.jsp"%>
 </body>
 </html>

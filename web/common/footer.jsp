@@ -38,13 +38,24 @@
                         <li><a href=<%=application.getContextPath()%>/login.jsp>登录</a></li><!--tip登陆后为账户叶面-->
                         <li><a href=<%=application.getContextPath()%>/register.jsp>注册</a></li><!--tip登陆后为账户叶面-->
                         <%
-                        } else {
+                        } else if(user.getType()==Constant.MessageType.BUYER){
                         %>
                         <li><a href=<%=application.getContextPath()%>/user/account.jsp>我的账户</a></li><!--tip登陆后为账户叶面-->
                         <li><a href=<%=application.getContextPath()%>/user/order.jsp>订单历史</a></li><!--tip登陆后为账户叶面-->
                         <li><a href=<%=application.getContextPath()%>/user/cart.jsp>购物车</a></li><!--tip登陆后为账户叶面-->
                         <li><a href=<%=application.getContextPath()%>/user/checkout.jsp>结账</a></li>
                         <%
+                            }
+                            else if(user.getType()==Constant.MessageType.SELLER){
+
+                        %>
+                        <li><a href=<%=application.getContextPath()%>/saler_account.jsp><i class="fa fa-list-ul"></i> 我的账户</a></li><!--tip登陆后为账户叶面-->
+                        <li><a href=<%=application.getContextPath()%>/saler_order.jsp><i class="fa fa-list-ul"></i> 订单管理</a></li><!--tip登陆后为账户叶面-->
+                        <li><a href=<%=application.getContextPath()%>/product_upload.jsp><i class="fa fa-credit-card"></i> 商品上架</a></li><!--tip登陆后为账户叶面-->
+                        <li><a href=<%=application.getContextPath()%>/saler.jsp><i class="fa fa-user"></i> 个人首页</a></li><!--tip登陆后为账户叶面-->
+                        <%
+                            }
+                            else{
                             }
                         %>
                     </ul>

@@ -78,6 +78,8 @@
                 </li>
                 <li class="active"><a href="admin_report.jsp">投诉</a>
                 </li>
+                <li><a href="#">处理</a>
+                </li>
             </ul>
             <script type="text/javascript" src="js/nav.js"></script>
         </div><!-- end h_menu4 -->
@@ -104,7 +106,9 @@
             %>
             <tr>
                 <td><%=report.getReportUserID()%></td>
-                <td><%=report.getReportedShopID()%></td>
+                <td ><a onclick="location='admin_title?salerID=<%=report.getReportedShopID()%>';return false" href="#" >
+                    <%=report.getReportedShopID()%>
+                </a></td>
                 <td><%=report.getDescription()%></td>
                 <td><%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(report.getReportTime())%></td>
             </tr>

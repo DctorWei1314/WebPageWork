@@ -79,6 +79,8 @@
                 </li>
                 <li><a href="admin_report.jsp">投诉</a>
                 </li>
+                <li><a href="#">处理</a>
+                </li>
             </ul>
             <script type="text/javascript" src="js/nav.js"></script>
         </div><!-- end h_menu4 -->
@@ -101,6 +103,11 @@
                 <h1>投诉处理</h1>
                 <p>谁敢造次?</p>
                 <a href="admin_report.jsp" class="da-link" style="text-decoration: none;">进入</a>
+            </div>
+            <div class="da-slide">
+                <h1>店家处理</h1>
+                <p>坏店就该有坏名</p>
+                <a href="#" class="da-link" style="text-decoration: none;">进入</a>
             </div>
             <nav class="da-arrows">
                 <span class="da-arrows-prev"></span>

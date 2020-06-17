@@ -1,21 +1,19 @@
-<%@ page import="com.web.entity.Report" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.web.service.reportService" %>
-<%@ page import="java.text.SimpleDateFormat" %><%--
+<%--
   Created by IntelliJ IDEA.
-  User: h'm'l
-  Date: 2020/6/16
-  Time: 10:38
+  User: 无索魏
+  Date: 2020/6/17
+  Time: 20:56
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>投诉处理</title>
+    <title>店家处理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="css/style4.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/style3.css" rel="stylesheet" type="text/css" media="all" />
     <script src="js/jquery1.min.js"></script>
+    <script type="text/javascript" src="js/go.js"></script>
     <script type="text/javascript" src="js/jquery.lightbox.js"></script>
     <link rel="stylesheet" type="text/css" href="css/lightbox.css" media="screen" />
     <script type="text/javascript">
@@ -23,47 +21,12 @@
             $('.gallery a').lightBox();
         });
     </script>
-    <style type="text/css">
-        #customers
-        {
-            font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
-            width:95%;
-            border-collapse:collapse;
-            margin: auto;
-        }
-
-        #customers td, #customers th
-        {
-            font-size:1em;
-            border:1px solid #98bf21;
-            padding:3px 7px 2px 7px;
-        }
-
-        #customers th
-        {
-            font-size:1.1em;
-            text-align:left;
-            padding-top:5px;
-            padding-bottom:4px;
-            background-color:#245269;
-            color:#ffffff;
-        }
-
-        #customers tr.alt td
-        {
-            color:#000000;
-            background-color:#EAF2D3;
-        }
-    </style>
 </head>
 <body>
-<%
-    List<Report> reportList = reportService.selectAllReport();
-%>
 <div class="wrap">
     <div class="pages-top">
         <div class="logo">
-            <a href="admin_center.jsp">最NB商城<br/>管理员中心</a>
+            <a href="index.html">最NB商城<br/>管理员中心</a>
         </div>
         <div class="photo">
             <img src="images/pig.png" alt=""/>
@@ -74,9 +37,9 @@
                 <li><a href="admin_center.jsp">主页</a></li>
                 <li><a href="admin_dis.jsp">折扣</a>
                 </li>
-                <li><a href="admin_tag.jsp">标签</a>
+                <li class="active"><a href="admin_tag.jsp">标签</a>
                 </li>
-                <li class="active"><a href="admin_report.jsp">投诉</a>
+                <li><a href="admin_report.jsp">投诉</a>
                 </li>
                 <li><a href="#">处理</a>
                 </li>
@@ -86,39 +49,24 @@
         <div class="clear"></div>
     </div><!-- end header_main4 -->
 </div>
+
 <div class="main">
     <br/>
-    <div id="title">
-        <p style="font-size: x-large;font-family: '黑体';">查看用户投诉</p>
-        <p style="font-size: medium;font-style: italic;font-family: '微软雅黑 Light';">忠言逆耳利于行</p>
+    <div id="current">
+        <p><b>店铺：</b></p><br/>
+        <div style="height: 320px; overflow-x: hidden; overflow-y: auto; border: 0.5px dashed rgba(156,156,156,1.00); padding-top: 5px;">
+        <%=request.getParameter("salerID")%>
+        </div>
     </div>
-    <div style="margin-top: 20px; text-align: center">
-        <table id="customers">
-            <tr>
-                <th style="font-weight: bolder">投诉用户&nbsp;</th>
-                <th style="font-weight: bolder">被投诉商家&nbsp;</th>
-                <th style="font-weight: bolder">投诉内容&nbsp;</th>
-                <th style="font-weight: bolder">投诉时间&nbsp;</th>
-            </tr>
-            <%
-                if(reportList.size() > 0) {
-                    for(Report report : reportList) {
-            %>
-            <tr>
-                <td><%=report.getReportUserID()%></td>
-                <td ><a onclick="location='admin_title?salerID=<%=report.getReportedShopID()%>';return false" href="#" >
-                    <%=report.getReportedShopID()%>
-                </a></td>
-                <td><%=report.getDescription()%></td>
-                <td><%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(report.getReportTime())%></td>
-            </tr>
-            <%
-                    }
-                }
-            %>
-        </table>
+    <div id="future">
+        <p>赋予头衔</p><br/>
+        <input id="title" type="text" style="height: 40px; width: 310px; font-size: x-large;"><br/>
+        <div class="btn">
+            <a href="AddTitleServlet?title=" class="da-link" style="text-decoration: none;" onclick="addTitle(this)">确认</a>
+        </div>
     </div>
 </div>
+
 <div class="footer">
     <div class="wrap">
         <div class="footer-grid footer-grid1">

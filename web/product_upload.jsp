@@ -149,7 +149,7 @@
     </style>
 </head>
 <body>
-<%@include file="common/header_saler.jsp"%>
+<%@include file="common/header.jsp"%>
 <%
     String product_saleID = request.getParameter("product_saleID");
 %>
@@ -187,12 +187,11 @@
         <input class="info" type="text" id="description" state="false"/><br/>
     </div>
     <div class="div">
-        <strong>商品描述：</strong>
+        <strong>商品名：</strong>
         <input type="text" id="name" /><br/>
     </div>
     <%
-        List<Tag> allTag ;
-        List<Tag> ownTag;
+        List<String> allTag = (List<String>) application.getAttribute(Constant.T_LIST); ;
     %>
     <div>
         <strong>商品标签：</strong>
@@ -201,13 +200,20 @@
     </div>
     <div>
         <strong>标签库：</strong>
-        <ul id="allTag" >
-            <li><strong class="alltag">女装</strong></li>
-            <li><strong class="alltag">女装</strong></li>
-        </ul>
+        <ol id="allTag" style="font-size: large">
+            <%
+                if(allTag.size() > 0) {
+                    for(String tag : allTag) {
+            %>
+            <li class="allTag"><%=tag%></li>
+            <%
+                    }
+                }
+            %>
+        </ol>
     </div>
     <input type="button" id="sumbit" value="提交" name="false" state="<%=product_saleID%>">
 </div>
-<%@include file="common/footer_saler.jsp" %>
+<%@include file="common/footer.jsp" %>
 </body>
 </html>

@@ -21,3 +21,9 @@ function addTag(obj) {
    else
        obj.setAttribute("href", "#");
 }
+function addTitle(obj) {
+    var tag = document.getElementById("title").value;
+        var href = obj.getAttribute("href");
+        var hrefNew = href + tag;
+        obj.setAttribute("href", hrefNew);
+}
