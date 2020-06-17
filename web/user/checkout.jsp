@@ -27,6 +27,7 @@
 </head>
 <body>
 <%@include file="../common/header.jsp" %>
+<input type="hidden" id="username-order" value=<%=user.getName()%>>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">

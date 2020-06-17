@@ -24,9 +24,15 @@
     <script src="../js/jquery.sticky.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/buyer.js"></script>
+    <script>
+        $(document).ready(function () {
+            QueryOrder(1);
+        });
+    </script>
 </head>
 <body>
 <%@include file="../common/header.jsp"%>
+<input type="hidden" id="username" value=<%=user.getName()%>>"
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -49,7 +55,7 @@
                                     <th class="product-status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订单状态</font></font></th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="order-list">
                                 <!--tip自动添加订单-->
                                 <tr class="cart_item">
                                     <td class="product-ID">
@@ -83,29 +89,15 @@
                                         <span class="status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">待发货</font></font></span>
                                     </td>
                                 </tr>
+
                                 </tbody>
                             </table>
                     </div>
                 </div>
                 <div class="product-pagination text-center">
                     <nav>
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">«</span>
-                                </a>
-                            </li>
+                        <ul class="pagination" id="order-page">
                             <!--tip根据商品数量来计算-->
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">»</span>
-                                </a>
-                            </li>
                         </ul>
                     </nav>
                 </div>

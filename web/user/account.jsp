@@ -26,13 +26,13 @@
     <script src="../js/buyer.js"></script>
     <script>
         $(document).ready(function () {
-            QueryAdress();
+            QueryAdress(1);
         });
-    </script>>
+    </script>
 </head>
 <body>
 <%@include file="../common/header.jsp" %>
-<input type="hidden" value=<%=user.getName()%>>
+<input type="hidden" id="username" value=<%=user.getName()%>>"
 <div class="sns-nf">
     <form id="baseInfoForm" name="baseInfoForm" method="post" class="infoForm">
         <input name="_tb_token_" type="hidden" value="3bf0e5e737b13">
@@ -79,7 +79,7 @@
                             class="next-form-item-label"><label required="">详细地址:</label></div></span>
                         <div class="cndzk-entrance-associate-area"><textarea
                                 class="cndzk-entrance-associate-area-textarea" rows="2" cols="20"
-                                placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"></textarea></div>
+                                placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息" id="street"></textarea></div>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                     <div dir="ltr" role="gridcell" class="next-col next-form-item-label"><label> </label></div>
                     <div dir="ltr" role="gridcell" class="next-col next-col-19 next-form-item-control">
                         <button type="submit" class="next-btn next-medium next-btn-primary"><span
-                                class="next-btn-helper">保存地址</span></button>
+                                class="next-btn-helper" onclick="addAddress()">保存地址</span></button>
                     </div>
                 </div>
             </form>
@@ -142,7 +142,7 @@
 
                         </tr>
                         </thead>
-                        <tbody class="next-table-body"><!--tip动态增加-->
+                        <tbody class="next-table-body" id="address-list"><!--tip动态增加-->
 
                         <tr class="next-table-row " role="row">
                             <td data-next-table-col="0" data-next-table-row="0" class="next-table-cell first"
