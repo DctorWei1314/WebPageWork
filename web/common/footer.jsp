@@ -67,8 +67,8 @@
                             }
                         %>
                         <li>
-                            <a onclick="location='<%=application.getContextPath()%>/BuyerQuery?type=label&condition=<%=tag%>';return false"
-                               href="#"><%=tag%>
+                            <a
+                               href="javascript:QueryProduct(1,'label',<%=tag%>)"><%=tag%>
                             </a></li>
                         <%
                             if (t % 6 == 0) {

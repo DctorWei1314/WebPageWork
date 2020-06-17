@@ -74,8 +74,8 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
             <div class="col-md-12">
                 <div class="product-content-right">
                     <div class="product-breadcroumb">
-                        <a href=<%=application.getContextPath()%>/shop.jsp>首页</a>
-                        <a href=<%=application.getContextPath()%>/BuyerQuery?type=sellerid&condition=<%=p.getSaleID()%>><%=p.getSaleID()%></a>
+                        <a href="javascript:QueryProduct(1,'ALL','ALL')">首页</a>
+                        <a href="javascript:QueryProduct(1,'label',<%=p.getSaleID()%>)"><%=p.getSaleID()%></a>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">

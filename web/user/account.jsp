@@ -24,9 +24,15 @@
     <script src="../js/jquery.sticky.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/buyer.js"></script>
+    <script>
+        $(document).ready(function () {
+            QueryAdress();
+        });
+    </script>>
 </head>
 <body>
 <%@include file="../common/header.jsp" %>
+<input type="hidden" value=<%=user.getName()%>>
 <div class="sns-nf">
     <form id="baseInfoForm" name="baseInfoForm" method="post" class="infoForm">
         <input name="_tb_token_" type="hidden" value="3bf0e5e737b13">
@@ -40,37 +46,31 @@
                 <label>当前头像：</label>
                 <span class="pf-avatar-box">
                                 <a class="pf-avatar">
-                                    <img src="../imgs/product-2.jpg">
+                                    <img src=<%=application.getContextPath()+user.getImgFilePath()%>>
                                                                     </a>
-                                <a href="//i.taobao.com/user/headset.htm" class="pf-edit-avatar" style="display: none;">编辑头像</a>
                             </span>
             </p>
             <p>
                 <label>ID:</label>
-                <label id="name">开心快乐每一天</label>
+                <label id="name"><%=user.getName()%></label>
             </p>
             <p>
                 <label>Eamil：</label>
-                <input id="J_realname-mask" class="f-txt" type="text" value="" maxlength="6">
-                <input id="J_realname" name="_fm.b._0.r" type="hidden" value="" maxlength="6">
+                <input id="Email" class="f-txt" type="text" value=<%=user.getEmail()%>>
             </p>
         </div>
+
         <div class="act skin-blue">
              <span class="btn n-btn">
                  <button type="submit" id="J_saveProfile">保存</button>
-                 <div style="width:1px; height:1px; overflow:hidden; ">
-                     <input type="submit">
-                 </div>
              </span>
             <span class="btn n-btn">
                 <a onclick="location='<%=application.getContextPath()%>/user/Buyerlogout';return false" href="#" >
                  <button type="submit" id="exit_load" >退出登录</button>
                 </a>
-                 <div style="width:1px; height:1px; overflow:hidden; ">
-                     <input type="submit">
-                 </div>
              </span>
         </div>
+
         <div class="page-index">
             <div class="head"><span class="h-text">收货地址</span></div>
             <div class="cndzkEntrance" id="cndzkEntrance">
@@ -112,6 +112,7 @@
                     </div>
                 </div>
             </form>
+
             <div class="addressList">
                 <div class="next-table next-table-medium">
                     <table role="table">
@@ -142,6 +143,7 @@
                         </tr>
                         </thead>
                         <tbody class="next-table-body"><!--tip动态增加-->
+
                         <tr class="next-table-row " role="row">
                             <td data-next-table-col="0" data-next-table-row="0" class="next-table-cell first"
                                 role="gridcell">
@@ -163,6 +165,8 @@
                                 </div>
                             </td>
                         </tr>
+
+
                         </tbody>
                     </table>
                 </div>
