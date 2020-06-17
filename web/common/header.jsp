@@ -50,14 +50,13 @@
                     </div>
                 </div>
                 <div class=" search col-sm-6">
-                        <form class="navbar-form navbar-left" role="search" action="<%=application.getContextPath()%>/BuyerQuery" method="post"><!--提交搜索表单-->
+                        <div class="navbar-form navbar-left" role="search" ><!--提交搜索表单-->
                             <div class="form-group">
-                                <input type="text" class="form-control"  name="condition" required>
-                                <input type="hidden"  id="type" name="type">
+                                <input type="text" class="form-control"  id="searchCondition" required>
                             </div>
                             <button type="submit" class="btn btn-default" id="product" onclick="queryl(this)">搜索产品</button>
                             <button type="submit" class="btn btn-default" id="sellerid" onclick="queryl(this)">搜索商家</button>
-                        </form>
+                        </div>
                 </div>
 
                 <div class="col-sm-3">
@@ -76,7 +75,7 @@
             <div class="row">
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a onclick="location='<%=application.getContextPath()%>/shop.jsp';return false" href="#" >商品</a></li><!--tip登陆后为账户叶面-->
+                        <li class="active"><a href="javascript:QueryProduct(1,'ALL','ALL')" >商品</a></li><!--tip登陆后为账户叶面-->
                         <%
                             if(user!=null){
                         %>
