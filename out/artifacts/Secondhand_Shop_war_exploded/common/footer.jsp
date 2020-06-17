@@ -1,3 +1,6 @@
+<%@ page import="com.web.entity.User" %>
+<%@ page import="com.web.util.Constant" %>
+<%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.
   User: administrator-PC
@@ -29,11 +32,21 @@
                 <div class="footer-menu">
                     <h2 class="footer-wid-title">用户导航 </h2>
                     <ul>
-                        <li><a href="#">我的账户</a></li><!--tip登陆后为账户叶面-->
-                        <li><a href="#">订单历史</a></li><!--tip登陆后为账户叶面-->
-                        <li><a href="#">首页</a></li><!--tip登陆后为账户叶面-->
-                        <li><a href="#">购物车</a></li><!--tip登陆后为账户叶面-->
-                        <li><a href="#">结账</a></li><!--tip登陆后为账户叶面-->
+                        <%
+                            if (user == null) {
+                        %>
+                        <li><a href=<%=application.getContextPath()%>/login.jsp>登录</a></li><!--tip登陆后为账户叶面-->
+                        <li><a href=<%=application.getContextPath()%>/register.jsp>注册</a></li><!--tip登陆后为账户叶面-->
+                        <%
+                        } else {
+                        %>
+                        <li><a href=<%=application.getContextPath()%>/user/account.jsp>我的账户</a></li><!--tip登陆后为账户叶面-->
+                        <li><a href=<%=application.getContextPath()%>/user/order.jsp>订单历史</a></li><!--tip登陆后为账户叶面-->
+                        <li><a href=<%=application.getContextPath()%>/user/cart.jsp>购物车</a></li><!--tip登陆后为账户叶面-->
+                        <li><a href=<%=application.getContextPath()%>/user/checkout.jsp>结账</a></li>
+                        <%
+                            }
+                        %>
                     </ul>
                 </div>
             </div>
@@ -41,22 +54,30 @@
             <div class="col-md-3 col-sm-6">
                 <div class="footer-menu">
                     <h2 class="footer-wid-title">分类目录</h2>
+                    <%
+                        List<String> b_list = (List<String>) application.getAttribute(Constant.T_LIST);
+                        if (b_list != null) {
+                            int t = 0;
+                            for (String tag : b_list) {
+                                if (t % 6 == 0) {
+                    %>
                     <ul>
-                        <!--tip动态添加标签-->
-                        <li><a href="">Mobile Phone</a></li>
-                        <li><a href="">Mobile Phone</a></li>
-                        <li><a href="">Mobile Phone</a></li>
-                        <li><a href="">Mobile Phone</a></li>
-                        <li><a href="">Mobile Phone</a></li>
-                        <li><a href="">Mobile Phone</a></li>
+                        <%
+                            }
+                        %>
+                        <li>
+                            <a onclick="location='<%=application.getContextPath()%>/BuyerQuery?type=label&condition=<%=tag%>';return false"
+                               href="#"><%=tag%>
+                            </a></li>
+                        <%
+                            if (t % 6 == 0) {
+                        %>
                     </ul>
-                    <ul>
-                        <!--tip动态添加标签-->
-                        <li><a href="">Mobile Phone</a></li>
-                        <li><a href="">Mobile Phone</a></li>
-                        <li><a href="">Mobile Phone</a></li>
-                        <li><a href="">Mobile Phone</a></li>
-                    </ul>
+                    <%
+                                }
+                            }
+                        }
+                    %>
                 </div>
             </div>
         </div>

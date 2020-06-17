@@ -20,7 +20,7 @@
 </head>
 <body>
 <%@include file="common/header_saler.jsp" %>
-<% request.getParameter("saleID") %>
+<% request.getParameter("saleID"); %>
 <div class="product-big-title-area">
     <div class="container">
         <div class="row">

@@ -309,7 +309,7 @@ public class userService {
 //        if (Constant.MessageType.REGISTER_SUCCESS == insertNewUser(user)) {
 //            System.out.println(Constant.MessageType.REGISTER_SUCCESS);
 //        }
-//        System.out.println(selectBasicInfoByName("1").getImgFilePath());
+//               System.out.println(selectBasicInfoByName("1").getImgFilePath());
 
     }
 }

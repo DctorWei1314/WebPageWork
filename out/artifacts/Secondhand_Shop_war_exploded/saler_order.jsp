@@ -6,6 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.web.service.orderService" %>
+<%@ page import="com.web.entity.User" %>
+<%@ page import="com.web.entity.OrderSheet" %>
+<%@ page import="java.util.List" %>
 <html>
 <head>
     <title>订单管理</title>
@@ -20,16 +24,15 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/main.js"></script>
-    <% request.getParameter("state")%>
     <script>
         $(function () {
-                $("button").click(
+                $(".agree").click(
                     function () {
                         $("#"+$(this)[0].parentNode.parentNode.id).remove();
                         $.ajax({
                             url:"SalerOrderServlet",
                             type:"POST",
-                            data:"orderID=" +$(this)[0].parentNode.parentNode.id,
+                            data:"orderID=" +$(this)[0].parentNode.parentNode.id+"&status=2",
                             success: function (result) {
                                 if (result!=null){
                                     alert(result);
@@ -41,12 +44,36 @@
                         });
                     }
                 );
+            $(".reject").click(
+                function () {
+                    $("#"+$(this)[0].parentNode.parentNode.id).remove();
+                    $.ajax({
+                        url:"SalerOrderServlet",
+                        type:"POST",
+                        data:"orderID=" +$(this)[0].parentNode.parentNode.id+"&status=3",
+                        success: function (result) {
+                            if (result!=null){
+                                alert(result);
+                            }
+                        },
+                        error: function () {
+                            alert("失败！");
+                        }
+                    });
+                }
+            );
             }
         )
     </script>
 </head>
 <body>
 <%@include file="common/header_saler.jsp"%>
+<%! boolean flag = false;%>
+<% String status = request.getParameter("status");
+if(status == null || status == "1")
+    flag = true;
+User user = (User)session.getAttribute("user");
+%>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -66,43 +93,58 @@
                                 <th class="product-quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">数量</font></font></th>
                                 <th class="product-time"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订购时间</font></font></th>
                                 <th class="product-status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订单状态</font></font></th>
-                                <th class="product-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订购</font></font></th>
+                                <th class="product-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">同意订单</font></font></th>
+                                <th class="product-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">残忍拒绝</font></font></th>
                             </tr>
                             </thead>
                             <tbody>
                             <!--tip自动添加订单-->
-                            <tr class="cart_item" id="2222">
-                                <td class="product-ID">
-                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2222</font></font></span>
-                                </td>
-                                <td class="product-thumbnail">
-                                    <a href="single-product.html"><img width="145" height="145" alt="商品图片" class="shop_picture" src=""></a>
-                                </td>
+                            <%
+                                if(flag == true){
+                                    List<OrderSheet> list = orderService.selectOrderListByOrderIDSaleID(user.getUserID());
+                                }
+                                else{
 
-                                <td class="product-name">
-                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">22</font></font></span>
-                                </td>
-
-                                <td class="product-price">
-                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">￥22</font></font></span>
-                                </td>
-
-                                <td class="product-quantity">
-                                    <span class="quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">22</font></font></span>
-                                </td>
-
-                                <td class="product-time">
-                                    <span class="time"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">22</font></font></span>
-                                </td>
-
-                                <td class="product-status">
-                                    <span class="status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">22</font></font></span>
-                                </td>
-
-                                <td class="product-status">
-                                    <button class="button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">同意订单</font></font></button>
-                                </td>
-                            </tr>
+                                }
+                                while (){
+                                    orderService.selectOrderListByOrderIDSaleID(user.getUserID());
+                                }
+                                out.print("                            <tr class=\"cart_item\" id=\"2222\">\n" +
+                                        "                                <td class=\"product-ID\">\n" +
+                                        "                                    <span class=\"amount\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">2222</font></font></span>\n" +
+                                        "                                </td>\n" +
+                                        "                                <td class=\"product-thumbnail\">\n" +
+                                        "                                    <a href=\"single-product.html\"><img width=\"145\" height=\"145\" alt=\"商品图片\" class=\"shop_picture\" src=\"\"></a>\n" +
+                                        "                                </td>\n" +
+                                        "\n" +
+                                        "                                <td class=\"product-name\">\n" +
+                                        "                                    <span class=\"amount\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">22</font></font></span>\n" +
+                                        "                                </td>\n" +
+                                        "\n" +
+                                        "                                <td class=\"product-price\">\n" +
+                                        "                                    <span class=\"amount\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">￥22</font></font></span>\n" +
+                                        "                                </td>\n" +
+                                        "\n" +
+                                        "                                <td class=\"product-quantity\">\n" +
+                                        "                                    <span class=\"quantity\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">22</font></font></span>\n" +
+                                        "                                </td>\n" +
+                                        "\n" +
+                                        "                                <td class=\"product-time\">\n" +
+                                        "                                    <span class=\"time\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">22</font></font></span>\n" +
+                                        "                                </td>\n" +
+                                        "\n" +
+                                        "                                <td class=\"product-status\">\n" +
+                                        "                                    <span class=\"status\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">22</font></font></span>\n" +
+                                        "                                </td>\n" +
+                                        "\n" +
+                                        "                                <td class=\"product-status\">\n" +
+                                        "                                    <button class=\"agree\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">同意订单</font></font></button>\n" +
+                                        "                                </td>\n" +
+                                        "                                <td class=\"product-status\">\n" +
+                                        "                                    <button class=\"reject\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">残忍拒绝</font></font></button>\n" +
+                                        "                                </td>\n" +
+                                        "                            </tr>");
+                            %>
                             </tbody>
                         </table>
                     </div>

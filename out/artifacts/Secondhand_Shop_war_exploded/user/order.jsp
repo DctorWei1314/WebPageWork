@@ -23,6 +23,7 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.sticky.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/buyer.js"></script>
 </head>
 <body>
 <%@include file="../common/header.jsp"%>
