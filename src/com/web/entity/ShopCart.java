@@ -34,6 +34,8 @@ public class ShopCart {
         return 0;
     }
 
+    
+
     public static void main(String[] args){
         ShopCart shopCart = new ShopCart("1", 10);
         for (Product product : shopCart.productPage(1)) {

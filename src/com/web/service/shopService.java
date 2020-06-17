@@ -55,12 +55,14 @@ public class shopService {
         PreparedStatement ps = null;
         int result = 0;
         try {
-            String sql = "update saleShop set saleAddress = ?, description = ?, title = ?";
+            String sql = "update saleShop set saleAddress = ?, description = ?, title = ?" +
+                    " where saleID = ?";
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, saleShop.getSaleAddress());
             ps.setString(2, saleShop.getDescription());
             ps.setString(3, saleShop.getTitle());
+            ps.setString(4, saleShop.getSaleID());
             result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,7 +114,7 @@ public class shopService {
                 "3",
                 "4"
         );
-        if (Constant.MessageType.INSERT_SALE_SHOP_SUCCESS == insertNewSaleShop(saleShop))
+        if (Constant.MessageType.UPDATE_SALE_INFO_SUCCESS == updateSaleInfo(saleShop))
             System.out.println(Constant.MessageType.INSERT_SALE_SHOP_SUCCESS);
     }
 }
