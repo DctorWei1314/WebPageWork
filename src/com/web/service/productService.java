@@ -564,10 +564,48 @@ public class productService {
         }
     }
 
-    public static void main(String[] args) {
-        for (Comment comment : selectCommentPageByProduct("1", "1", 1, 10)) {
-            System.out.println(comment.getCommentContent());
+    public static Constant.MessageType insertNewProduct(Product product) {
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            String sql = "insert into product " +
+                    "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, product.getName());
+            ps.setString(2, product.getSaleID());
+            ps.setString(3, product.getMainImgFilePath());
+            ps.setString(4, product.getImage1());
+            ps.setString(5, product.getImage2());
+            ps.setString(6, product.getImage3());
+            ps.setString(7, product.getImage4());
+            ps.setDouble(8, product.getScore());
+            ps.setInt(9, product.getScoreNumber());
+            ps.setInt(10, product.getSaleNumber());
+            ps.setInt(11, product.getLeftNumber());
+            ps.setDouble(12, product.getPrice());
+            ps.setDouble(13, product.getDiscount());
+            ps.setDouble(14, product.getSalePrice());
+            ps.setString(15, product.getDescription());
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
         }
+        if (result > 0) {
+            return Constant.MessageType.INSERT_PRODUCT_SUCCESS;
+        } else {
+            return Constant.MessageType.INSERT_PRODUCT_FAIL;
+        }
+    }
+
+    public static void main(String[] args) {
+
+//        for (Comment comment : selectCommentPageByProduct("1", "1", 1, 10)) {
+//            System.out.println(comment.getCommentContent());
+//        }
 //        if (updateProductScore("1", "1", 5)== Constant.MessageType.UPDATE_PRODUCT_SCORE_SUCCESS) {
 //            System.out.println("yes");
 //        }
@@ -587,8 +625,10 @@ public class productService {
 //                "不好吃",
 //                timestamp
 //        );
-//        if (insertComment(comment) == Constant.MessageType.INSERT_COMMENT_SUCCESS) {
-//            System.out.println(Constant.MessageType.INSERT_COMMENT_SUCCESS);
-//        }
+        Product product = new Product("2", "1", "1", "1","1", "1", "1",
+                1, 1, 1, 1, 1, 1, 1, "1");
+        if (insertNewProduct(product) == Constant.MessageType.INSERT_PRODUCT_SUCCESS) {
+            System.out.println("yes");
+        }
     }
 }
