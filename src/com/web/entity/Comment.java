@@ -1,5 +1,6 @@
 package com.web.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
