@@ -57,6 +57,7 @@
                     <%
                         List<String> b_list = (List<String>) application.getAttribute(Constant.T_LIST);
                         if (b_list != null) {
+                            b_list.add("全部商品");
                             int t = 0;
                             for (String tag : b_list) {
                                 if (t % 6 == 0) {

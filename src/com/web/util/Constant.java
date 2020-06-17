@@ -5,6 +5,11 @@ public class Constant {
     public static String P_LIST="P_LIST";
     public static String Q_TYPE="Q_TYPE";
     public static String T_LIST="T_LIST";
+    public static String CONDITION="CONDITION";
+    public static String PAGE="PAGE";
+    public static String PAGE_NUM="PAGE_NUM";
+    public static String SINGLE_PRODUCT="SINGLE_PRODUCT";
+    public static String SHOP_CART="SHOP_CART";
     public enum Querytype{
         PRODUCT,
         SELLERID,

@@ -61,17 +61,11 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <%
-                        if(user!=null){
-                    %>
                     <div class="shopping-item">
                         <a href=<%=application.getContextPath()%>/user/account.jsp>购物车 - <span class="cart-amunt">￥0<!--tip session中的金额--></span> <i
                                 class="fa fa-shopping-cart"></i> <span class="product-count">0
                             <!--tip session中的数量--></span></a>
                     </div>
-                    <%
-                        }
-                    %>
                 </div>
             </div>
         </div>
