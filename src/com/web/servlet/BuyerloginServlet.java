@@ -21,15 +21,17 @@ public class BuyerloginServlet extends HttpServlet {
         System.out.println("Buyerlogin");
         if(userService.judgeLoginSuccessByNamePwd(username,pwd)==Constant.MessageType.LOGIN_SUCCESS) {
             User user = userService.selectBasicInfoByName(username);
+            req.getSession().setAttribute(Constant.USER_SESSION, user);
             if (user.getType() == Constant.MessageType.BUYER) {
-                req.getSession().setAttribute(Constant.USER_SESSION, user);
-                resp.sendRedirect("shop.jsp");
                 ShopCart shopCart=new ShopCart(username,10);
                 req.getSession().setAttribute(Constant.SHOP_CART,shopCart);
+                resp.sendRedirect("shop.jsp");
             }
-            else {
-                req.setAttribute("error","请换个地方登录");
-                req.getRequestDispatcher("login.jsp").forward(req,resp);
+            else if(user.getType() == Constant.MessageType.SELLER){
+                resp.sendRedirect("shop.jsp");
+            }
+            else if(user.getType() == Constant.MessageType.ADMIN){
+                resp.sendRedirect("admin_center.jsp");
             }
         }
         else {

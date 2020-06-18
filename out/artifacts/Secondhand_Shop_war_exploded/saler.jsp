@@ -89,16 +89,18 @@
                     </div>
 
                     <div class="product-option-shop">
-                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow"
-                           onclick="addcart(p,1)">
                             <%
                                 if(user==null||user.getType()==Constant.MessageType.BUYER){
                             %>
+                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow"
+                           onclick="addcart(p,1)">
                             加入购物车
                             <%
                                 }else if(user.getType()==Constant.MessageType.SELLER&&user.getUserID()==saleID)
                                 {
                             %>
+                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow"
+                               onclick="addcart(p,1)">
                             修改信息
                             <%
                                 }else{

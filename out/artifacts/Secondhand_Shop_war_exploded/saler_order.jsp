@@ -34,7 +34,7 @@
                         $.ajax({
                             url:"SalerOrderServlet",
                             type:"POST",
-                            data:"orderID=" +$(this)[0].parentNode.parentNode.id+"&status=2",
+                            data:"orderID=" +$(this)[0].parentNode.parentNode.id+"&status=3",
                             success: function (result) {
                                 if (result!=null){
                                     alert(result);
@@ -52,7 +52,7 @@
                     $.ajax({
                         url:"SalerOrderServlet",
                         type:"POST",
-                        data:"orderID=" +$(this)[0].parentNode.parentNode.id+"&status=3",
+                        data:"orderID=" +$(this)[0].parentNode.parentNode.id+"&status=4",
                         success: function (result) {
                             if (result!=null){
                                 alert(result);
@@ -94,8 +94,14 @@ if(status == null || status == "1")
                                 <th class="product-quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">数量</font></font></th>
                                 <th class="product-time"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订购时间</font></font></th>
                                 <th class="product-status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订单状态</font></font></th>
+                                <%
+                                    if(flag){
+                                %>
                                 <th class="product-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">同意订单</font></font></th>
                                 <th class="product-button"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">残忍拒绝</font></font></th>
+                                <%
+                                    }
+                                %>
                             </tr>
                             </thead>
                             <tbody>
@@ -103,11 +109,11 @@ if(status == null || status == "1")
                             <%
                                 List<OrderSheet> list = null;
                                 if(flag == true){
-                                    list = orderService.selectOrderListBySaleIDState(user.getUserID(),1);
+                                    list = orderService.selectOrderListBySaleIDState(user.getUserID(),2);
                                 }
                                 else{
-                                    list.addAll(orderService.selectOrderListBySaleIDState(user.getUserID(),2));
                                     list.addAll(orderService.selectOrderListBySaleIDState(user.getUserID(),3));
+                                    list.addAll(orderService.selectOrderListBySaleIDState(user.getUserID(),4));
                                 }
                                 for(OrderSheet order:list){
                                     String icon = productService.selectProductByProductNameSaleID(order.getProductName(),order.getSaleID()).getMainImgFilePath();

@@ -10,6 +10,7 @@ import com.web.entity.User;
 import com.web.service.orderService;
 import com.web.service.productService;
 import com.web.service.userService;
+import com.web.entity.OrderSheet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -65,17 +66,7 @@ public class QueryOrderServlet extends HttpServlet {
             else {
                 jo.put("Timestamp", new SimpleDateFormat("yyyy-MM-dd").format(o.getDateTime()));
             }
-            String status;
-            switch (o.getStatus()){
-                case 0: status="下单";break;
-                case 1: status="待付款";break;
-                case 2: status="已付款";break;
-                case 3: status="待发货";break;
-                case 4: status="已发货";break;
-                case 5: status="己收货";break;
-                case -1: status="已取消";break;
-                default:status="未知";
-            }
+            String status = OrderSheet.statusToBuyerString(o.getStatus());
             jo.put("status",status);
             json.add(jo);
         }

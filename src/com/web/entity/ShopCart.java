@@ -138,7 +138,7 @@ public class ShopCart {
         else {
             Product p=productService.selectProductByProductNameSaleID(productName,saleID);
             int orderID=genegrate();
-            OrderSheet orderSheet=new OrderSheet(orderID,saleID,productName,num,buyer,num*price(p),null,0);
+            OrderSheet orderSheet=new OrderSheet(orderID,saleID,productName,num,buyer,num*price(p),null,1);
             orderService.insertOrder(orderSheet);
             orderIDlist.put(saleID+productName,orderID);
             products.add(p);

@@ -5,6 +5,8 @@ import com.web.entity.Comment;
 import com.web.entity.User;
 import com.web.util.C3P0Demo;
 import com.web.util.Constant;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -263,10 +265,11 @@ public class userService {
     public static Constant.MessageType insertNewUser(User user) {
         Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
+        System.out.println(user.getUserPassword());
         int result = 0;
         try {
             String sql = "insert into user " +
-                    "values(?, ?, ?, ?, ?, ?)";
+                    "values(?, ?, ?, ?, ?, ?);";
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, user.getName());

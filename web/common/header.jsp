@@ -8,7 +8,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%ShopCart shopCart=(ShopCart) pageContext.getAttribute(Constant.SHOP_CART);%>
+<%!
+    ShopCart shopCart;
+%>
+<%  User user=(User) session.getAttribute(Constant.USER_SESSION);
+    if(user!=null&&user.getType()== Constant.MessageType.BUYER){
+        shopCart=(ShopCart) pageContext.getSession().getAttribute(Constant.SHOP_CART);
+    }
+%>
 <div class="header-area">
     <div class="container">
         <div class="container">
@@ -17,7 +24,6 @@
                     <div class="user-menu">
                         <ul>
                             <%
-                                User user=(User) session.getAttribute(Constant.USER_SESSION);
                                 //User user=new User();
                                 if(user==null){
                             %>
@@ -78,7 +84,7 @@
                 <div class="col-sm-3">
                     <div class="shopping-item">
                         <%
-                            if(user!=null){
+                            if(shopCart!=null){
                         %>
                         <a href=<%=application.getContextPath()%>/user/account.jsp>购物车 - <span class="cart-amunt" id="totalprice">￥<%=shopCart.cartTotalPrice()%><!--tip session中的金额--></span> <i
                                 class="fa fa-shopping-cart"></i> <span class="product-count" id="totalnum"><%=shopCart.getProducts().size()%>

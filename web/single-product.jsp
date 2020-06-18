@@ -65,8 +65,8 @@ p.setScore(3.75);
 p.setScoreNumber(100);
 p.setSaleID("华为");
 %>
-<input type="hidden" id="saleID" value=<%=p.getSaleID()%>>
-<input type="hidden" id="productname" value=<%=p.getName()%>>
+<input type="hidden" id="saleID" value="<%=p.getSaleID()%>">
+<input type="hidden" id="productname" value="<%=p.getName()%>">
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -75,7 +75,7 @@ p.setSaleID("华为");
                 <div class="product-content-right">
                     <div class="product-breadcroumb">
                         <a href="javascript:QueryProduct(1,'ALL','ALL')">首页</a>
-                        <a href="javascript:QueryProduct(1,'label',<%=p.getSaleID()%>)"><%=p.getSaleID()%></a>
+                        <a href="javascript:QueryProduct(1,'sellerid',<%=p.getSaleID()%>)"><%=p.getSaleID()%></a>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">

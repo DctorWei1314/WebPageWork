@@ -14,7 +14,7 @@ public class OrderSheet {
     private String buyerID;//买家ID
     private double price;//商品价格
     private Timestamp dateTime;//交易时间
-    private int status;//订单状态：0下单,1待付款,2已付款,3待发货,4已发货, 5己收货,-1已取消
+    private int status;//订单状态：1,2,3,4,
 
     public OrderSheet(int orderID, String saleID, String productName, int buyNumber, String buyerID, double price, Timestamp dateTime, int status) {
         this.orderID = orderID;
@@ -29,11 +29,11 @@ public class OrderSheet {
 
     public static String statusToSalerString(int status) {
         switch (status) {
-            case 1:
-                return "未处理";
             case 2:
-                return "已同意";
+                return "未处理";
             case 3:
+                return "已同意";
+            case 4:
                 return "已拒绝";
             default:
                 return "unknown";
@@ -43,11 +43,13 @@ public class OrderSheet {
     public static String statusToBuyerString(int status) {
         switch (status) {
             case 1:
-                return "下单";
+                return "未交易";
             case 2:
-                return "已付款";
+                return "待确认";
             case 3:
-                return "付款失败";
+                return "成功出货";
+            case 4:
+                return "拒绝出货,金额已退";
             default:
                 return "unknown";
         }

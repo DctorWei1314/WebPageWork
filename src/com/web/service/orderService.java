@@ -38,6 +38,34 @@ public class orderService {
             return Constant.MessageType.UPDATE_PRODUCT_STATE_FAIL;
         }
     }
+    /**
+     * 更新商品时间
+     * @param orderID 订单ID
+     * @param time 时间
+     * @return 是否修改成功
+     */
+    public static Constant.MessageType updateProductTime(int orderID,Timestamp time) {
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            String sql = "update ordersheet SET time=? WHERE order_id=?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setTimestamp(1, time);
+            ps.setInt(2, orderID);
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
+        }
+        if (result > 0) {
+            return Constant.MessageType.UPDATE_PRODUCT_STATE_SUCCESS;
+        } else {
+            return Constant.MessageType.UPDATE_PRODUCT_STATE_FAIL;
+        }
+    }
 
     /**
      * 更新商品购买数量

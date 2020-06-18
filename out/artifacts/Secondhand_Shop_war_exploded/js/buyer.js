@@ -23,24 +23,74 @@ function queryl(obj) {
     let  condition=document.getElementById("searchCondition").value;
     QueryProduct(1,t,condition);
 }
-function addcart(obj,num) {
-
+function addcart() {
+    let num;
+    let pathName = window.document.location.pathname;
+    let projectName = pathName
+        .substring(0, pathName.substr(1).indexOf('/') + 1);
+    if(arguments.length<3){
+        num=document.getElementById("num").value;
+    }
+    else {
+        num=arguments[2];
+    }
+    $.ajax({
+        type: "post", // 以get方式发起请求
+        url: projectName+"/user/Cart",
+        data:{
+            "type":"add",
+            "saleID": arguments[0],
+            "name": arguments[1],
+            "num": num,
+        },
+        success(data) {
+            updatecart(data)
+        }
+    })
+}
+function deletecart() {
+    let pathName = window.document.location.pathname;
+    let projectName = pathName
+        .substring(0, pathName.substr(1).indexOf('/') + 1);
+    alert(arguments[2]);
+    $.ajax({
+        type: "post", // 以get方式发起请求
+        url: projectName+"/user/Cart",
+        data:{
+            "type":"delete",
+            "saleID": arguments[0],
+            "name": arguments[1],
+        },
+        success(data) {
+            updatecart(data)
+        }
+    })
+}
+function updatecart(data) {
+    let jsonObject= jQuery.parseJSON(data);
+    document.getElementById("totalprice").innerText=jsonObject['price'];
+    document.getElementById("totalnum").innerText=jsonObject['num'];
 }
 //评论
 function score_1() {
-    document.getElementById("commentscore").value=parseInt($("#stars").attr("data-default-index"))
-    $("#commentForm").ajaxSubmit(function(result) {
-        // 对于表单提交成功后处理，result为表单正常提交后返回的内容
-        console.log(result);
-    });
-    document.getElementById("comment").value=""
+    if (parseInt($("#stars").attr("data-default-index")!=0)){
+        document.getElementById("commentscore").value = parseInt($("#stars").attr("data-default-index"))
+        $("#commentForm").ajaxSubmit(function (result) {
+            // 对于表单提交成功后处理，result为表单正常提交后返回的内容
+            alert(result);
+        });
+        document.getElementById("comment").value = ""
+    }
+    else {
+        alert("请给商品打分")
+    }
     return false;
 }
 //投诉
 function complaint() {
     $("#complaint").ajaxSubmit(function(result) {
         // 对于表单提交成功后处理，result为表单正常提交后返回的内容
-        console.log(result);
+        alert(result);
     });
     document.getElementById("Comtext").value=""
     Querycomment(1);
@@ -155,7 +205,7 @@ function ProductLoad(data) {
             "                    </div>\n" +
             "                    <div class=\"product-option-shop\">\n" +
             "                        <a class=\"add_to_cart_button\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"70\" rel=\"nofollow\"\n" +
-            "                        onclick=\"addcart( " +(1)+ " ,1)\">加入购物车</a>\n" +
+            "                        onclick=\"addcart( " +(jsonObject[j]['saleID'])+","+(jsonObject[j]['name'])+ " ,1)\">加入购物车</a>\n" +
             "                        <!--tip加入购物车链接-->\n" +
             "                    </div>\n" +
             "                </div>\n" +
@@ -172,9 +222,25 @@ function QueryAdress() {
         type: "get", // 以get方式发起请求
         url: projectName+"/user/QueryAddress?username="+username,
         success(data) {
-            AddressLoad(data);//调用
+            if(arguments.length==0) {
+                AddressLoad(data);//个人调用
+            }
+            else {
+                CheckLoad(data);//结账调用
+            }
         }
     })
+}
+function CheckLoad(data) {
+    let pathName = window.document.location.pathname;
+    let projectName = pathName
+        .substring(0, pathName.substr(1).indexOf('/') + 1);
+    let jsonObject= jQuery.parseJSON(data);
+    let AddressHtml="";
+    for (let i=0;i<jsonObject.length;i++){
+        AddressHtml+="<option value=\" "+(jsonObject[i]['contact'])+":"+(jsonObject[i]['mobile'])+":"+(jsonObject[i]['street'])+ " \"></option>"
+    }
+    document.getElementById("select-address").innerHTML=AddressHtml;
 }
 function AddressLoad(data) {
     console.log(data);
@@ -198,9 +264,7 @@ function AddressLoad(data) {
             "                            </td>\n" +
             "                            <td data-next-table-col=\"5\" data-next-table-row=\"0\" class=\"next-table-cell\" role=\"gridcell\">\n" +
             "                                <div class=\"next-table-cell-wrapper\" data-next-table-row=\"0\">\n" +
-            "                                    <div class=\"tAction\"><a class=\"t-change\"\n" +
-            "                                                            href=\"javascript:modifyAddress($(this))\"\n" +
-            "                                                            target=\"_self\">修改</a><span class=\"t-line\">|</span><a href=\"javascript:deleteAddress(this)\" \n" +
+            "                                    <div class=\"tAction\"></span><a href=\"javascript:deleteAddress(this)\" \n" +
             "                                            class=\"t-delete\">删除</a></div>\n" +
             "                                </div>\n" +
             "                            </td>\n" +
@@ -290,4 +354,17 @@ function OrderLoad(data) {
             "                                </tr>"
     }
     document.getElementById("order-list").innerHTML=OrdertHtml;
+}
+function placeorder() {
+    let pathName = window.document.location.pathname;
+    let projectName = pathName
+        .substring(0, pathName.substr(1).indexOf('/') + 1);
+    $.ajax({
+        type: "get", // 以get方式发起请求
+        url: projectName+"/user/PlaceOrder",
+        success(data) {
+            alert(data);//调用
+            window.location.href=projectName+"/user/order.jsp"
+        }
+    })
 }

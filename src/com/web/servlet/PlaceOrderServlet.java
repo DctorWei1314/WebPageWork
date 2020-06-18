@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/user/PlaceOrder")
@@ -23,9 +26,10 @@ public class PlaceOrderServlet extends HttpServlet {
         ShopCart shopCart=(ShopCart) request.getSession().getAttribute(Constant.SHOP_CART);
         List<Product> p_list=shopCart.getProducts();
         for (Product p:p_list){
-            int orderID=shopCart.getOrderIDlist().get(p.getSaleID());
+            int orderID=shopCart.getOrderIDlist().get(p.getSaleID()+p.getName());
             orderService.updateProductStatus(orderID,2);
             //等待更新时间
+            orderService.updateProductTime(orderID, (Timestamp) new Date());
             shopCart.clearCart();
         }
         out.write("交易成功，即将跳转订单界面");
