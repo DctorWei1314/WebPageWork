@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>商品</title><!--tip动态商品名称-->    <!-- Bootstrap -->
+    <title>Title</title><!--tip动态商品名称-->    <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Font Awesome -->
@@ -53,17 +53,17 @@
 <body>
 <%@include file="common/header.jsp" %>
 <%
-//Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
-Product p=new Product();
-p.setSalePrice(100);
-p.setPrice(200);
-p.setName("华为P20");
-p.setMainImgFilePath("/images/arrow.png");p.setDescription("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-p.setLeftNumber(100);
-p.setSaleNumber(222);
-p.setScore(3.75);
-p.setScoreNumber(100);
-p.setSaleID("华为");
+Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
+//Product p=new Product();
+//p.setSalePrice(100);
+//p.setPrice(200);
+//p.setName("华为P20");
+//p.setMainImgFilePath("/images/arrow.png");p.setDescription("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//p.setLeftNumber(100);
+//p.setSaleNumber(222);
+//p.setScore(3.75);
+//p.setScoreNumber(100);
+//p.setSaleID("华为");
 %>
 <input type="hidden" id="saleID" value=<%=p.getSaleID()%>>
 <input type="hidden" id="productname" value=<%=p.getName()%>>
@@ -150,7 +150,7 @@ p.setSaleID("华为");
                                                name="quantity" min="1" max=<%=p.getLeftNumber()%> step="1"><!--tipmax为数量-->
                                     </div>
                                     <label>(库存<%=p.getLeftNumber()%>件)</label><!--tipmax为数量-->
-                                    <button class="add_to_cart_button" type="submit" onclick="addcart(<%=p.getSaleID()%>,<%=p.getName()%>)">加入购物车</button>
+                                    <button class="add_to_cart_button" type="submit" onclick="addcart(<%=p%>,document.getElementById(num).value)">加入购物车</button>
                                 </form>
                                 <%
                                     double a=p.getScore();//输入正浮点数a
