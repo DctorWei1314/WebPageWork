@@ -53,17 +53,17 @@
 <body>
 <%@include file="common/header.jsp" %>
 <%
-Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
-//Product p=new Product();
-//p.setSalePrice(100);
-//p.setPrice(200);
-//p.setName("华为P20");
-//p.setMainImgFilePath("/images/arrow.png");p.setDescription("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//p.setLeftNumber(100);
-//p.setSaleNumber(222);
-//p.setScore(3.75);
-//p.setScoreNumber(100);
-//p.setSaleID("华为");
+//Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
+Product p=new Product();
+p.setSalePrice(100);
+p.setPrice(200);
+p.setName("华为P20");
+p.setMainImgFilePath("/images/arrow.png");p.setDescription("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+p.setLeftNumber(100);
+p.setSaleNumber(222);
+p.setScore(3.75);
+p.setScoreNumber(100);
+p.setSaleID("华为");
 %>
 <input type="hidden" id="saleID" value=<%=p.getSaleID()%>>
 <input type="hidden" id="productname" value=<%=p.getName()%>>

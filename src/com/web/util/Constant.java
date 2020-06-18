@@ -2,6 +2,7 @@ package com.web.util;
 
 public class Constant {
     public static String USER_SESSION="USER_SESSION";
+    public static String GLOBAL_DISCOUNT="GLOBAL_DISCOUNT";
     public static String P_LIST="P_LIST";
     public static String Q_TYPE="Q_TYPE";
     public static String T_LIST="T_LIST";
@@ -10,6 +11,7 @@ public class Constant {
     public static String PAGE_NUM="PAGE_NUM";
     public static String SINGLE_PRODUCT="SINGLE_PRODUCT";
     public static String SHOP_CART="SHOP_CART";
+    public static String PRODUCT_NAME="PRODUCT_NAME";
     public enum Querytype{
         PRODUCT,
         SELLERID,

@@ -1,4 +1,5 @@
-<%@ page import="com.web.service.globalDiscountService" %><%--
+<%@ page import="com.web.service.globalDiscountService" %>
+<%@ page import="com.web.util.Constant" %><%--
   Created by IntelliJ IDEA.
   User: h'm'l
   Date: 2020/6/15
@@ -26,7 +27,7 @@
 <%
     request.setCharacterEncoding("utf-8");
     response.setContentType("text/html;charset=utf-8");
-    Double discount = globalDiscountService.selectGlobalDiscount();
+    Double discount = (Double)application.getAttribute(Constant.GLOBAL_DISCOUNT);
     String current;
     if(discount == 0)
         current = "无";

@@ -1,5 +1,6 @@
 <%@ page import="com.web.entity.Product" %>
-<%@ page import="com.web.service.productService" %><%--
+<%@ page import="com.web.service.productService" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: administrator-PC
   Date: 2020/6/12
@@ -23,12 +24,13 @@
     <link rel="stylesheet" href="css/etalage.css">
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/jquery.etalage.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/buyer.js"></script>
-    <script>
+       <script>
         jQuery(document).ready(function ($) {
 
             $('#etalage').etalage({
@@ -43,11 +45,28 @@
             });
 
         });
+        $(document).ready(function () {
+            Querycomment(1);
+        });
     </script>
 </head>
 <body>
 <%@include file="common/header.jsp" %>
-<%Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);%>
+<%
+//Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
+Product p=new Product();
+p.setSalePrice(100);
+p.setPrice(200);
+p.setName("华为P20");
+p.setMainImgFilePath("/images/arrow.png");p.setDescription("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+p.setLeftNumber(100);
+p.setSaleNumber(222);
+p.setScore(3.75);
+p.setScoreNumber(100);
+p.setSaleID("华为");
+%>
+<input type="hidden" id="saleID" value=<%=p.getSaleID()%>>
+<input type="hidden" id="productname" value=<%=p.getName()%>>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -150,7 +169,11 @@
                                 <div class="product-inner-category">
                                     <!--tip标签动态更新-->
                                     标签:
-                                    <%List<String> t_list= productService.selectTagByProduct(p.getName(),p.getSaleID());
+                                    <%
+                                        //测试代码important
+                                        List<String> t_list= productService.selectTagByProduct(p.getName(),p.getSaleID());
+//                                        List<String> t_list=new ArrayList<String>();
+//                                        t_list.add("手机");
                                         for (String tag:t_list){
                                     %>
                                     <a href=<%=application.getContextPath()%>/BuyerQuery?type=label&condition=<%=tag%>><%=tag%></a>,
@@ -176,12 +199,12 @@
                                         </div>
                                         <div role="tabpanel" class="tab-pane fade" id="profile">
                                             <h2>投诉信息</h2>
-                                            <form action=<%=application.getContextPath()%>/user/Complaint method="post"><!--important投诉-->
+                                            <form id="complaint" action=<%=application.getContextPath()%>user/Complaint method="post" onsubmit="return complaint()"><!--important投诉-->
                                             <div class="submit-review">
-                                                <textarea name="review" id=""
+                                                <textarea name="description" id="Comtext"
                                                           cols="30"
                                                           rows="10"></textarea>
-                                                </p>
+                                                <input type="hidden" name="saleID" value=<%=p.getSaleID()%>
                                                 <p><input type="submit" value="提交"></p>
                                             </div>
                                             </form>
@@ -195,7 +218,10 @@
                             <div class=" single_top">
                                 <!--tip教训记得看源码-->
                                 <ul id="flexiselDemo1">
-                                    <%List<Product> p_list=productService.selectRelatedProduct(p.getName(),p.getSaleID(),1,8);
+                                    <%
+                                        //important测试代码
+                                        List<Product> p_list=productService.selectRelatedProduct(p.getName(),p.getSaleID(),1,8);
+//                                        List<Product> p_list=new ArrayList<Product>();
                                         for(Product rp:p_list){
                                     %>
                                     <li><img src=<%=application.getContextPath()+rp.getMainImgFilePath()%>/>
@@ -242,7 +268,7 @@
                 </div>
                 <div class="comment-send">
 
-                    <form id="commentForm" method="post" action=<%=application.getContextPath()%>/user/Comment onsubmit="score()">
+                    <form id="commentForm" method="post" action=<%=application.getContextPath()%>/user/Comment onsubmit="return score_1()">
                         <div class="row">
                             <div class="col-sm-2">
                             <span class="comment-avatar">
@@ -250,11 +276,11 @@
                             </span>
                             </div>
                             <div class="col-sm-6">
-                            <textarea class="comment-send-input" name="comment" form="commentForm" cols="80" rows="5"
+                            <textarea class="comment-send-input" name="comment" form="commentForm" id="comment" cols="80" rows="5"
                                       placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
                             </div>
                             <div class="col-sm-2">
-                                <span id="stars" data-default-index="0">
+                                <span id="stars" data-default-index="0" >
                                 <img src="imgs/stard.png" id="star1" width="16" height="16">
                                 <img src="imgs/stard.png" id="star2" width="16" height="16">
                                 <img src="imgs/stard.png" id="star3" width="16" height="16">
@@ -263,6 +289,7 @@
                                 </span>
                                 <input type="hidden" id="commentscore" name="score">
                                 <input type="hidden" name="productname" value=<%=p.getName()%>>
+                                <input type="hidden" name="saleID" value=<%=p.getSaleID()%>>
                             </div>
                             <div class="col-sm-2">
                                 <input class="comment-send-button" type="submit" value="发表评论" >
@@ -271,6 +298,7 @@
                     </form>
                 </div>
                 <div class="comment-list" id="commentList">
+
                     <div class="comment row">
                         <span class="comment-avatar col-sm-2">
                             <img src="imgs/product-2.jpg" alt="avatar">
@@ -286,6 +314,7 @@
                         </div>
                         <div class="cls"></div>
                     </div>
+
                     <div class="comment comment-bottom row">
                         <span class="comment-avatar col-sm-2">
                             <img src="imgs/product-2.jpg" alt="avatar">
@@ -301,29 +330,21 @@
                         </div>
                         <div class="cls"></div>
                     </div>
+
                 </div>
                 <div class="product-pagination text-center">
                     <nav>
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">«</span>
-                                </a>
-                            </li>
+                        <ul class="pagination" id="page">
                             <!--tip根据商品数量来计算-->
                             <li><a href="#">1</a></li>
                             <li><a href="#">2</a></li>
                             <li><a href="#">3</a></li>
                             <li><a href="#">4</a></li>
                             <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">»</span>
-                                </a>
-                            </li>
                         </ul>
                     </nav>
                 </div>
+
             </div>
         </div>
     </div>

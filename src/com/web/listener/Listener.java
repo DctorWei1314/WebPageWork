@@ -1,5 +1,6 @@
 package com.web.listener;
 
+import com.web.service.globalDiscountService;
 import com.web.service.tagService;
 
 import javax.servlet.ServletContextEvent;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import java.util.List;
 
 import static com.web.util.Constant.T_LIST;
-
+import static com.web.util.Constant.GLOBAL_DISCOUNT;
 @WebListener()
 public class Listener implements ServletContextListener,
         HttpSessionListener, HttpSessionAttributeListener {
@@ -32,6 +33,7 @@ public class Listener implements ServletContextListener,
       */
         List<String> tagList = tagService.selectAllTag();
         sce.getServletContext().setAttribute(T_LIST, tagList);
+        sce.getServletContext().setAttribute(GLOBAL_DISCOUNT,globalDiscountService.selectGlobalDiscount());
     }
 
     public void contextDestroyed(ServletContextEvent sce) {

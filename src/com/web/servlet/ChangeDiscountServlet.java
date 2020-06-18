@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import static com.web.util.Constant.GLOBAL_DISCOUNT;
 import static com.web.util.Constant.T_LIST;
 
 @WebServlet("/ChangeDiscountServlet")
@@ -25,6 +26,7 @@ public class ChangeDiscountServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         double discount = Double.parseDouble(request.getParameter("discount"));
+        getServletContext().setAttribute(GLOBAL_DISCOUNT, discount);
         Constant.MessageType result = globalDiscountService.updateGlobalDiscount(discount);
         if(result == Constant.MessageType.UPDATE_GLOBAL_DISCOUNT_SUCCESS) {
             PrintWriter out = response.getWriter();

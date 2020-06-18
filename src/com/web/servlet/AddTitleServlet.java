@@ -24,12 +24,12 @@ public class AddTitleServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         String title = request.getParameter("title");
-        Constant.MessageType result = shopService.updateSaleInfo(title);
-        if(result == Constant.MessageType.UPDATE_SALE_INFO_SUCCESS) {
-            PrintWriter out = response.getWriter();
-            out.print("<script> alert('头衔赋予成功！'); window.location='admin_report.jsp' </script>");
-            out.flush();
-            out.close();
-        }
+//        Constant.MessageType result = shopService.updateSaleInfo(title);
+//        if(result == Constant.MessageType.UPDATE_SALE_INFO_SUCCESS) {
+//            PrintWriter out = response.getWriter();
+//            out.print("<script> alert('头衔赋予成功！'); window.location='admin_report.jsp' </script>");
+//            out.flush();
+//            out.close();
+//        }
     }
 }

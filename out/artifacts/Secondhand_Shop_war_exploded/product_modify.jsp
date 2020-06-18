@@ -9,6 +9,7 @@
 <%@ page import="com.web.entity.Product" %>
 <%@ page import="com.web.entity.Tag" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.web.service.productService" %>
 <html>
 <head>
     <title>修改商品信息</title>
@@ -20,7 +21,7 @@
             $("#submit").click(function () {
                 var formData = new FormData();
                 var files = document.getElementsByClassName("upload");
-                formData.append("modify","false");
+                formData.append("modify","true");
                 for(var i=0;i<files.length;i++){
                     if (files[i].state == "true"){
                         $("#"+files[i].name).attr("src","imgs/wait.gif");
@@ -115,7 +116,7 @@
                 $("#image4").trigger("click");
             });
             $(".allTag").click(function () {
-                $("#ownTag").append("<li><strong class=\"mytag\" state=\"true\">"+$(this)[0].innerHTML+"</strong></li>");
+                $("#ownTag").append("<li><strong class=\"owntag\" state=\"true\">"+$(this)[0].innerHTML+"</strong></li>");
                 $(this).remove();
             })
             //...........
@@ -154,41 +155,40 @@
 <%@include file="common/header.jsp"%>
 <%
     String product_name = request.getParameter("product_name");
-    String product_saleID = request.getParameter("product_saleID");
-    if(product_name != null){
-        Product product = new Product();
-    }else {
-
-    }
+    Product product = productService.selectProductByProductNameSaleID(product_name,user.getUserID());
 %>
 <div id="mian" >
     <div>
         <strong>主图片：</strong>
         <input class="upload" type="file" id="mainImgFilePath"  state="false" style="display:none" name="mainImgFilePath0" accept="image/*"/><br/>
-        <img id="mainImgFilePath0" src="<%=***%>" />
+        <img id="mainImgFilePath0" src="D:NB/+<%=product.getMainImgFilePath()%>" />
         <br/>
         <strong>副图片：</strong>
         <input class="upload" type="file" id="image1" state="false" style="display:none" name="image10" accept="image/*"/>
-        <img id="image10" src="<%***?***:"imgs/upload.png"%>"/>
+        <img id="image10" src="<%=product.getImage1().isEmpty()?"imgs/upload.png":new String("D:NB/"+product.getImage1())%>"/>
         <input class="upload" type="file" id="image2" state="false" style="display:none" name="image20" accept="image/*"/>
-        <img id="image20" src="<%***?***:"imgs/upload.png"%>"/>
+        <img id="image20" src="<%=product.getImage2().isEmpty()?"imgs/upload.png":new String("D:NB/"+product.getImage2())%>"/>
         <input class="upload" type="file" id="image3" state="false" style="display:none" name="image30" accept="image/*"/>
-        <img id="image30" src="<%***?***:"imgs/upload.png"%>"/>
+        <img id="image30" src="<%=product.getImage3().isEmpty()?"imgs/upload.png":new String("D:NB/"+product.getImage3())%>"/>
         <input class="upload" type="file" id="image4" state="false" style="display:none" name="image40" accept="image/*"/>
-        <img id="image40" src="<%***?***:"imgs/upload.png"%>"/>
+        <img id="image40" src="<%=product.getImage4().isEmpty()?"imgs/upload.png":new String("D:NB/"+product.getImage4())%>"/>
     </div>
     <br/>
     <div class="div">
         <strong>价格：</strong>
-        <input class="info" type="number" id="price" state="false" value="<%***%>"/><br/>
+        <input class="info" type="number" id="price" state="false" value="<%=product.getPrice()%>"/><br/>
     </div>
     <div class="div">
         <strong>折扣(折)：</strong>
-        <input class="info" type="number" typ id="discount" state="false" value="<%***?***:10%>"/><br/>
+        <input class="info" type="number" typ id="discount" state="false" value="<%=product.getDiscount()*10%>"/><br/>
     </div>
     <div class="div">
-        <strong>数量：</strong>
-        <input class="info" type="number" id="number" state="false" value="<%***%>" /><br/>
+        <strong>剩余数量：</strong>
+        <input class="info" type="text" id="number" readonly="readonly" value="<%=product.getLeftNumber()%>" /><br/>
+    </div>
+    <div class="div">
+        <strong>加货数量：</strong>
+        <input class="info" type="number" typ id="add" state="false" value="0"/><br/>
     </div>
     <div class="div">
         <strong>商品描述：</strong>
@@ -196,28 +196,44 @@
     </div>
     <div class="div">
         <strong>商品名：</strong>
-        <input type="text" id="name" readonly="readonly"/><br/>
+        <input type="text" readonly="readonly" id="name" readonly="readonly"/><br/>
     </div>
     <%
-        List<Tag> allTag ;
-        List<Tag> ownTag;
+        List<String> allTag = (List<String>) application.getAttribute(Constant.T_LIST);
+        List<String> ownTag = (List<String>)productService.selectTagByProduct(user.getUserID(),product_name);
     %>
     <div>
         <strong>商品标签：</strong>
         <ul id="ownTag" >
-            <li><strong class="alltag">男装</strong></li>
-            <li><strong class="alltag">女装</strong></li>
+            <%
+                if(ownTag.size() > 0) {
+                    for(String tag : ownTag) {
+            %>
+            <li class="ownTag" status="false"><%=tag%></li>
+            <%
+                    }
+                }
+            %>
         </ul>
     </div>
     <div>
         <strong>标签库：</strong>
         <ul id="allTag" >
-            <li><strong class="alltag">女装</strong></li>
-            <li><strong class="alltag">女装</strong></li>
+            <%
+                if(ownTag.size() > 0) {
+                    for(String tag : ownTag) {
+                        if(!ownTag.contains(tag)){
+            %>
+            <li class="allTag"><%=tag%></li>
+            <%
+                        }
+                    }
+                }
+            %>
         </ul>
     </div>
-    <input type="button" id="sumbit" value="提交" name="false" state="<%=product_saleID%>">
+    <input type="button" id="sumbit" value="提交" name="<%=product_name%>">
 </div>
-<%@include file="common/footer" %>
+<%@include file="common/footer.jsp" %>
 </body>
 </html>

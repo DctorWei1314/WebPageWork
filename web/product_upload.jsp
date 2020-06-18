@@ -21,16 +21,18 @@
                 var formData = new FormData();
                 var files = document.getElementsByClassName("upload");
                 formData.append("modify","false");
+                var info = document.getElementsByClassName("info");
+                for(var i=0;i<info.length;i++){
+                    if (info[i].value == null){
+                        alert("请补全信息!!!");
+                        return;
+                    }
+                    formData.append(info[i].id, info[i].value);
+                }
                 for(var i=0;i<files.length;i++){
                     if (files[i].state == "true"){
                         $("#"+files[i].name).attr("src","imgs/wait.gif");
                         formData.append("image"+i, files[i].files[0]);
-                    }
-                }
-                var info = document.getElementsByClassName("info");
-                for(var i=0;i<info.length;i++){
-                    if (info[i].state == "true"){
-                        formData.append(info[i].id, info[i].value);
                     }
                 }
                 var tag = document.getElementsByClassName("mytag");
@@ -150,9 +152,6 @@
 </head>
 <body>
 <%@include file="common/header.jsp"%>
-<%
-    String product_saleID = request.getParameter("product_saleID");
-%>
 <div id="mian" >
     <div>
         <strong>主图片：</strong>
@@ -172,26 +171,26 @@
     <br/>
     <div class="div">
         <strong>价格：</strong>
-        <input class="info" type="number" id="price" state="false"/><br/>
+        <input class="info" type="number" id="price" /><br/>
     </div>
     <div class="div">
         <strong>折扣(折)：</strong>
-        <input class="info" type="number" id="discount" state="false" max=1.0 min=0.0/><br/>
+        <input class="info" type="number" id="discount"  max=10.0 min=0.0 value="10.0"/><br/>
     </div>
     <div class="div">
         <strong>数量：</strong>
-        <input class="info" type="number" id="number" state="false" /><br/>
+        <input class="info" type="number" id="number"  /><br/>
     </div>
     <div class="div">
         <strong>商品描述：</strong>
-        <input class="info" type="text" id="description" state="false"/><br/>
+        <input class="info" type="text" id="description" /><br/>
     </div>
     <div class="div">
         <strong>商品名：</strong>
         <input type="text" id="name" /><br/>
     </div>
     <%
-        List<String> allTag = (List<String>) application.getAttribute(Constant.T_LIST); ;
+        List<String> allTag = (List<String>) application.getAttribute(Constant.T_LIST);
     %>
     <div>
         <strong>商品标签：</strong>
@@ -212,7 +211,7 @@
             %>
         </ol>
     </div>
-    <input type="button" id="sumbit" value="提交" name="false" state="<%=product_saleID%>">
+    <input type="button" id="sumbit" value="提交" >
 </div>
 <%@include file="common/footer.jsp" %>
 </body>

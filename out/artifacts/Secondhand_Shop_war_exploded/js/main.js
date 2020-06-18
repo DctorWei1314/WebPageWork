@@ -59,7 +59,6 @@ jQuery(document).ready(function ($) {
             $("#stars").find("img").eq(i).attr("src","../imgs/stars.png");
         }
     })
-
     //     loop:true,
     //     nav:true,
     //     margin:20,

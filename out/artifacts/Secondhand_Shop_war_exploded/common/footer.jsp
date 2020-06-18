@@ -25,6 +25,7 @@
                         <a href="https://wx.qq.com/" target="_blank"><i class="fa fa-weixin"></i></a>
                         <a href="https://weibo.com/" target="_blank"><i class="fa fa-weibo"></i></a>
                     </div>
+                    <img src="imgs/Qrcode.png" />
                 </div>
             </div>
 
