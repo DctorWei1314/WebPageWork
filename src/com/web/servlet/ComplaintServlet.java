@@ -31,10 +31,10 @@ public class ComplaintServlet extends HttpServlet {
         Timestamp time= new Timestamp(System.currentTimeMillis());
         Report report=new Report(userid,saleID,description,time);
         if(reportService.insertReport(report)==Constant.MessageType.INSERT_REPORT_SUCCESS){
-            out.write("投诉成功，您的批评和建议我们用心审查");
+            out.write("success");
         }
         else {
-            out.write("投诉失败");
+            out.write("fail");
         }
         out.close();
         System.out.println(description+saleID+userid);//测试
