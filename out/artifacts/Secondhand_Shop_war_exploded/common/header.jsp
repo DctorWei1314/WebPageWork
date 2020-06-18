@@ -1,5 +1,6 @@
 <%@ page import="com.web.entity.User" %>
-<%@ page import="com.web.util.Constant" %><%--
+<%@ page import="com.web.util.Constant" %>
+<%@ page import="com.web.entity.ShopCart" %><%--
   Created by IntelliJ IDEA.
   User: administrator-PC
   Date: 2020/6/11
@@ -7,6 +8,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%ShopCart shopCart=(ShopCart) pageContext.getAttribute(Constant.SHOP_CART);%>
 <div class="header-area">
     <div class="container">
         <div class="container">
@@ -16,6 +18,7 @@
                         <ul>
                             <%
                                 User user=(User) session.getAttribute(Constant.USER_SESSION);
+                                //User user=new User();
                                 if(user==null){
                             %>
                             <li><a href=<%=application.getContextPath()%>/login.jsp><i class="fa fa-user"></i> 登录</a></li>
@@ -74,9 +77,15 @@
                 %>
                 <div class="col-sm-3">
                     <div class="shopping-item">
-                        <a href=<%=application.getContextPath()%>/user/account.jsp>购物车 - <span class="cart-amunt">￥0<!--tip session中的金额--></span> <i
-                                class="fa fa-shopping-cart"></i> <span class="product-count">0
+                        <%
+                            if(user!=null){
+                        %>
+                        <a href=<%=application.getContextPath()%>/user/account.jsp>购物车 - <span class="cart-amunt" id="totalprice">￥<%=shopCart.cartTotalPrice()%><!--tip session中的金额--></span> <i
+                                class="fa fa-shopping-cart"></i> <span class="product-count" id="totalnum"><%=shopCart.getProducts().size()%>
                             <!--tip session中的数量--></span></a>
+                        <%
+                            }
+                        %>
                     </div>
                 </div>
                 <%}

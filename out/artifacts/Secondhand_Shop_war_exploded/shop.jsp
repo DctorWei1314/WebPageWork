@@ -69,7 +69,7 @@ else
                             t_list.add("全部商品");
                         for(String tag:t_list){
                     %>
-                    <a onclick="location='BuyerQuery?type=label&condition=<%=tag%>';return false" href="#"  class="list-group-item" ><%=tag%></a>
+                    <a  href="javascript:QueryProduct(1,'label',<%=tag%>)"  class="list-group-item" ><%=tag%></a>
                     <%
                         }}
                     %>

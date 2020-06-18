@@ -1,6 +1,10 @@
 package com.web.servlet;
 
+import com.web.entity.SaleShop;
 import com.web.entity.Tag;
+import com.web.entity.User;
+import com.web.service.shopService;
+import com.web.util.Constant;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -11,13 +15,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.UUID;
 
+import com.web.service.userService;
 @WebServlet("/ImageUploadServlet")
 public class ImageUploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,7 +28,11 @@ public class ImageUploadServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
-        String savePath ="D:NB/potrait";
+        String image = null;
+        String username = null;
+        String saledescription = null;
+        String saleaddresss =null;
+        String savePath ="D:NB/";
         File file = new File(savePath);
         if(!file.exists()&&!file.isDirectory()){
             System.out.println("目录或文件不存在！");
@@ -53,6 +59,15 @@ public class ImageUploadServlet extends HttpServlet {
                     //解决普通输入项的数据的中文乱码问题
                     String value = item.getString("UTF-8");
                     System.out.println(name + "  " + value);
+                    if(name == "username"){
+                        username = value;
+                    }
+                    if(name == "saledescription"){
+                        saledescription = value;
+                    }if(name == "saleaddresss"){
+                        saleaddresss = value;
+                    }
+
                 } else {
                     String name = item.getFieldName();
                     System.out.println("file-field" + name);
@@ -89,8 +104,15 @@ public class ImageUploadServlet extends HttpServlet {
                     //删除处理文件上传时生成的临时文件
                     item.delete();
                     //路径载入数据库的操作没写!!!!!!!!!!!!!!!!!!!可以调用处理数据库的人的函数把路径相关信息载入数据库！！！！！！
-
+                    image = fileName;
                 }
+            }
+            System.out.println(userService.updateUserImage(username,image));
+            if(Constant.MessageType.SELLER == userService.selectTypeByName(username)){
+                SaleShop saleShop = shopService.selectSaleInfoBySaleID(username);
+                saleShop.setDescription(saledescription);
+                saleShop.setSaleAddress(saleaddresss);
+                shopService.updateSaleInfo(saleShop);
             }
         } catch (FileUploadException e) {
             // TODO Auto-generated catch block

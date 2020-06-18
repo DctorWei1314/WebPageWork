@@ -1,6 +1,10 @@
 package com.web.servlet;
 
+import com.sun.xml.internal.txw2.output.DumpSerializer;
 import com.web.entity.Tag;
+import com.web.entity.User;
+import com.web.service.productService;
+import com.web.util.Constant;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -29,7 +33,8 @@ public class UploadHandleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         boolean modify = false;
-        Product product = new Product();
+        Product product = null;
+        User user = (User)request.getSession().getAttribute(Constant.USER_SESSION);
         List<Tag> tagList = new ArrayList<Tag>();
         PrintWriter printWriter = response.getWriter();
         String savePath ="D:NB";
@@ -62,16 +67,30 @@ public class UploadHandleServlet extends HttpServlet {
                if(name == "modify" && value == "true"){
                    modify = true;
                }
-               if(name == "name")
-                   product.setName(value);
+               if(name == "name"){
+                   if(modify == true) {
+                       product = productService.selectProductByProductNameSaleID(value,user.getUserID());
+               }
+                   else {
+                       Product temp = productService.selectProductByProductNameSaleID(value,user.getUserID());
+                       if(temp != null){
+                           throw new RuntimeException();
+                       }
+                       product = new Product();
+                       product.setName(value);
+                       product.setSaleID(user.getUserID());
+                   }
+               }
                if(name == "description")
                    product.setDescription(value);
                if(name == "discount")
-                   product.setDiscount(Double.parseDouble(value));
+                   product.setDiscount(Double.parseDouble(value)/10);
                if(name == "price")
                    product.setPrice(Double.parseDouble(value));
                if(name == "number")
-                   product.setSaleNumber(Integer.parseInt(value));
+                   product.setLeftNumber(Integer.parseInt(value));
+               if(name == "add")
+                   product.setLeftNumber(product.getLeftNumber()+Integer.parseInt(value));
                if(name == "mytag"){
                    Tag tag = new Tag(value);
                    tagList.add(tag);
@@ -129,15 +148,13 @@ public class UploadHandleServlet extends HttpServlet {
                     }
                 }
             }
+            product.setSalePrice(product.getPrice()*product.getDiscount());
             //product.getName()
-            if(false){
-                throw new RuntimeException();
-            }
             if(modify){
-                //
+                productService.updateProductInfo(product);
             }
             else {
-                //
+                productService.insertNewProduct(product);
             }
         } catch (FileUploadException e) {
             // TODO Auto-generated catch block

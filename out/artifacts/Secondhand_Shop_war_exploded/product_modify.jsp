@@ -176,11 +176,11 @@
     <br/>
     <div class="div">
         <strong>价格：</strong>
-        <input class="info" type="number" id="price" state="false" value="<%=product.getPrice()%>"/><br/>
+        <input class="info" type="number" id="price" state="false" onchange="this.state='true'"value="<%=product.getPrice()%>"/><br/>
     </div>
     <div class="div">
         <strong>折扣(折)：</strong>
-        <input class="info" type="number" typ id="discount" state="false" value="<%=product.getDiscount()*10%>"/><br/>
+        <input class="info" type="number" typ id="discount" state="false" onchange="this.state='true'" value="<%=product.getDiscount()*10%>"/><br/>
     </div>
     <div class="div">
         <strong>剩余数量：</strong>
@@ -188,11 +188,11 @@
     </div>
     <div class="div">
         <strong>加货数量：</strong>
-        <input class="info" type="number" typ id="add" state="false" value="0"/><br/>
+        <input class="info" type="number" typ id="add" state="false" onchange="this.state='true'" value="0"/><br/>
     </div>
     <div class="div">
         <strong>商品描述：</strong>
-        <input class="info" type="text" id="description" state="false"/><br/>
+        <input class="info" type="text" id="description" state="false" value="<%=product.getDescription()%>" onchange="this.state='true'"/><br/>
     </div>
     <div class="div">
         <strong>商品名：</strong>

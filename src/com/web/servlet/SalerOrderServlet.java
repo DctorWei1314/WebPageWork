@@ -36,7 +36,6 @@ public class SalerOrderServlet extends HttpServlet {
         else if(type == Constant.MessageType.UPDATE_PRODUCT_STATE_FAIL){
             printWriter.write("失败");
         }
-        printWriter.write("成功");
         printWriter.close();
     }
 }

@@ -28,11 +28,58 @@
         $(document).ready(function () {
             QueryAdress();
         });
+        $("#test").click(function(){
+            $("#file").trigger("click");
+        });
+        $("#file").change(function(){
+            var fileimg = $(this)[0].files[0]
+            // var reader = new FileReader();
+            var URL = window.URL || window.webkitURL;
+            // 通过 file 生成目标 url
+            var imgURL = URL.createObjectURL(fileimg);
+            $("#test").attr("src",imgURL);
+        });
+            $("#J_saveProfile").click(function () {
+                $("#test").attr("src","imgs/wait.gif");
+                var formData = new FormData();
+                formData.append("image", document.getElementById("file").files[0]);
+                formData.append("username", document.getElementById("username").value);
+                $.ajax({
+                    url: "ImageUploadServlet",
+                    type: "POST",
+                    data: formData,
+                    /**
+                     *必须false才会自动加上正确的Content-Type
+                     */
+                    contentType: false,
+                    /**
+                     * 必须false才会避开jQuery对 formdata 的默认处理
+                     * XMLHttpRequest会对 formdata 进行正确的处理
+                     */
+                    processData: false,
+                    success: function (result) {
+                        var fileimg = $("#file")[0].files[0];
+                        // var reader = new FileReader();
+                        var URL = window.URL || window.webkitURL;
+                        // 通过 file 生成目标 url
+                        var imgURL = URL.createObjectURL(fileimg);
+                        // $(this).removeClass
+                        // $(this).removeClass("onweek");
+                        // $(this).addClass("onweek");
+                        // $(this).css("background-color", "red");
+                        $("#test").attr("src",imgURL);
+                        alert(result);
+                    },
+                    error: function () {
+                        alert("上传失败！");
+                    }
+                });
+            });
     </script>
 </head>
 <body>
 <%@include file="../common/header.jsp" %>
-<input type="hidden" id="username" value=<%=user.getName()%>>"
+<input type="hidden" id="username" value="<%=user.getName()%>"/>
 <div class="sns-nf">
     <form id="baseInfoForm" name="baseInfoForm" method="post" class="infoForm">
         <input name="_tb_token_" type="hidden" value="3bf0e5e737b13">
@@ -46,7 +93,8 @@
                 <label>当前头像：</label>
                 <span class="pf-avatar-box">
                                 <a class="pf-avatar">
-                                    <img src=<%=application.getContextPath()+user.getImgFilePath()%>>
+                                    <input id="file"  type="file" accept="image/*"  class="file" style="display:none"/><br />
+                                    <img id="test" src=<%=application.getContextPath()+user.getImgFilePath()%>>
                                                                     </a>
                             </span>
             </p>
