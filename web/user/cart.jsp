@@ -42,13 +42,15 @@
                                 <tr>
                                     <th class="product-remove">&nbsp;</th>
                                     <th class="product-thumbnail">&nbsp;</th>
-                                    <th class="product-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">产品</font></font></th>
-                                    <th class="product-price"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">价钱</font></font></th>
-                                    <th class="product-quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">数量</font></font></th>
-                                    <th class="product-subtotal"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">总</font></font></th>
+                                    <th class="product-name">产品</th>
+                                    <th class="product-price">价钱</th>
+                                    <th class="product-quantity">数量</th>
+                                    <th class="product-subtotal">总价</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <form method="post" action=<%=application.getContextPath()%>/user/Cart id="update-cart" onsubmit="return UpdateCart()">
+                                    <input type="hidden" name="type" value="update">
+                                <tbody id="cart-list">
                                 <!--自动添加购物车-->
                                 <!--<tr class="cart_item">
                                     <td class="product-remove">
@@ -84,9 +86,9 @@
                                     for (Product p:p_list)
                                     {
                                 %>
-                                    <tr class="cart_item">
+                                    <tr class="cart_item" itemid=<%=p.getSaleID()+p.getName()%>>
                                     <td class="product-remove">
-                                        <a title="删除该项目" class="remove" href="javascript:deletecart('<%=p.getSaleID()%>','<%=p.getName()%>',${this})">×</a>
+                                        <a title="删除该项目" class="remove" href="javascript:deletecart('<%=p.getSaleID()%>','<%=p.getName()%>')">×</a>
                                     </td>
 
                                     <td class="product-thumbnail">
@@ -103,7 +105,7 @@
 
                                     <td class="product-quantity">
                                         <div class="quantity buttons_added">
-                                            <input type="number" size="4" class="input-text qty text" title="数量" value=<%=shopCart.buyNumber(p)%> min="1" max=<%=p.getLeftNumber()%> step="1">
+                                            <input type="number" size="4" class="input-text qty text" title="数量" name=<%=p.getSaleID()+p.getName()%> value=<%=shopCart.buyNumber(p)%> min="1" max=<%=p.getLeftNumber()%> step="1">
                                         </div>
                                     </td>
 
@@ -117,20 +119,16 @@
 
                                 <tr>
                                     <td class="actions" colspan="6">
-                                        <input type="submit" value="更新购物车" name="update_cart" class="button">
-                                        <input type="submit" value="继续进行结帐" name="proceed" class="checkout-button button alt wc-forward" onclick="tocheckup()" >
+                                        <input type="submit" value="更新购物车" class="button" >
+                                        <input type="submit" value="继续进行结帐"  class="checkout-button button alt wc-forward" onclick="tocheckup()" >
                                     </td>
                                 </tr>
                                 </tbody>
+                                </form>
                             </table>
                         </div>
                         <script>
-                            function tocheckup() {
-                                let pathName = window.document.location.pathname;
-                                let projectName = pathName
-                                    .substring(0, pathName.substr(1).indexOf('/') + 1);
-                                window.location.href=projectName+"/user/checkout.jsp"
-                            }
+
                         </script>>
 
 

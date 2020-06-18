@@ -35,13 +35,13 @@ public class CommentServlet extends HttpServlet {
         //添加评论
 
         if(userService.insertComment(comment1)==Constant.MessageType.INSERT_COMMENT_SUCCESS){
-            out.write("评论成功，感谢你的支持，您的支持就是对我们最大的鼓励");
+            out.write("success");
         }
         else {
-            out.write("评论失败");
+            out.write("fail");
         }
         out.close();
-        System.out.println(comment+productname+saleID+userid);//测试
+        System.out.println(comment+productname+saleID+userid+"评论");//测试
         int score=Integer.parseInt(request.getParameter("score"));
         //添加评分
         productService.updateProductScore(productname,saleID,score);
