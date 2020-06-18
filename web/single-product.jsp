@@ -53,17 +53,17 @@
 <body>
 <%@include file="common/header.jsp" %>
 <%
-//Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
-Product p=new Product();
-p.setSalePrice(100);
-p.setPrice(200);
-p.setName("华为P20");
-p.setMainImgFilePath("/images/arrow.png");p.setDescription("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-p.setLeftNumber(100);
-p.setSaleNumber(222);
-p.setScore(3.75);
-p.setScoreNumber(100);
-p.setSaleID("华为");
+Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
+//Product p=new Product();
+//p.setSalePrice(100);
+//p.setPrice(200);
+//p.setName("华为P20");
+//p.setMainImgFilePath("/images/arrow.png");p.setDescription("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//p.setLeftNumber(100);
+//p.setSaleNumber(222);
+//p.setScore(3.75);
+//p.setScoreNumber(100);
+//p.setSaleID("华为");
 %>
 <input type="hidden" id="saleID" value="<%=p.getSaleID()%>">
 <input type="hidden" id="productname" value="<%=p.getName()%>">
@@ -84,16 +84,16 @@ p.setSaleID("华为");
                                 <div class="grid images_3_of_2">
                                     <ul id="etalage">
                                         <li>
-                                                <img class="etalage_thumb_image" src=<%=application.getContextPath()+p.getMainImgFilePath()%>
+                                                <img class="etalage_thumb_image" src=<%=application.getContextPath()+"/imgs/"+p.getMainImgFilePath()%>
                                                      class="img-responsive"/>
-                                                <img class="etalage_source_image" src=<%=application.getContextPath()+p.getMainImgFilePath()%>
+                                                <img class="etalage_source_image" src=<%=application.getContextPath()+"/imgs/"+p.getMainImgFilePath()%>
                                                      class="img-responsive" title=""/>
                                         </li>
                                         <%if(p.getImage1()!=null){%>
                                         <li>
-                                            <img class="etalage_thumb_image" src=<%=application.getContextPath()+p.getImage1()%>
+                                            <img class="etalage_thumb_image" src=<%=application.getContextPath()+"/imgs/"+p.getImage1()%>
                                                     class="img-responsive"/>
-                                            <img class="etalage_source_image" src=<%=application.getContextPath()+p.getImage1()%>
+                                            <img class="etalage_source_image" src=<%=application.getContextPath()+"/imgs/"+p.getImage1()%>
                                                     class="img-responsive" title=""/>
                                         </li>
                                         <%
@@ -101,9 +101,9 @@ p.setSaleID("华为");
                                         %>
                                         <%if(p.getImage2()!=null){%>
                                         <li>
-                                            <img class="etalage_thumb_image" src=<%=application.getContextPath()+p.getImage2()%>
+                                            <img class="etalage_thumb_image" src=<%=application.getContextPath()+"/imgs/"+p.getImage2()%>
                                                     class="img-responsive"/>
-                                            <img class="etalage_source_image" src=<%=application.getContextPath()+p.getImage2()%>
+                                            <img class="etalage_source_image" src=<%=application.getContextPath()+"/imgs/"+p.getImage2()%>
                                                     class="img-responsive" title=""/>
                                         </li>
                                         <%
@@ -111,9 +111,9 @@ p.setSaleID("华为");
                                         %>
                                         <%if(p.getImage3()!=null){%>
                                         <li>
-                                            <img class="etalage_thumb_image" src=<%=application.getContextPath()+p.getImage3()%>
+                                            <img class="etalage_thumb_image" src=<%=application.getContextPath()+"/imgs/"+p.getImage3()%>
                                                     class="img-responsive"/>
-                                            <img class="etalage_source_image" src=<%=application.getContextPath()+p.getImage3()%>
+                                            <img class="etalage_source_image" src=<%=application.getContextPath()+"/imgs/"+p.getImage3()%>
                                                     class="img-responsive" title=""/>
                                         </li>
                                         <%
@@ -121,9 +121,9 @@ p.setSaleID("华为");
                                         %>
                                         <%if(p.getImage4()!=null){%>
                                         <li>
-                                            <img class="etalage_thumb_image" src=<%=application.getContextPath()+p.getImage4()%>
+                                            <img class="etalage_thumb_image" src=<%=application.getContextPath()+"/imgs/"+p.getImage4()%>
                                                     class="img-responsive"/>
-                                            <img class="etalage_source_image" src=<%=application.getContextPath()+p.getImage4()%>
+                                            <img class="etalage_source_image" src=<%=application.getContextPath()+"/imgs/"+p.getImage4()%>
                                                     class="img-responsive" title=""/>
                                         </li>
                                         <%

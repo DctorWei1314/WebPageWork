@@ -1,9 +1,6 @@
 package com.web.entity;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.web.service.globalDiscountService;
 import com.web.service.orderService;
@@ -19,7 +16,7 @@ public class ShopCart {
     private int size;//单页尺寸
     private String buyer;//购买者
     private List<Product> products = new ArrayList<>();//购物车中商品列表
-    private Map<String, Integer> orderIDlist;
+    private Map<String, Integer> orderIDlist = new HashMap<>();
     //private List<OrderSheet> orderSheets;//订单列表
 
     private int pageCount;//总共的页数量
@@ -30,6 +27,8 @@ public class ShopCart {
      * @return 购买数量
      */
     public int buyNumber(Product product) {
+        if(orderIDlist==null)
+            return 0;
         if (orderIDlist.containsKey(product.getSaleID()+product.getName())){
             int orderID=orderIDlist.get(product.getSaleID()+product.getName());
             OrderSheet orderSheet=orderService.selectOrderByOrderID(orderID);
@@ -116,8 +115,7 @@ public class ShopCart {
      * @return 折扣后的价格
      */
     public double price(Product product) {
-        double discount = globalDiscountService.selectGlobalDiscount();
-        return product.getDiscount() * product.getPrice() * discount;
+        return product.getSalePrice();
     }
     /**
      * 清空购物车
@@ -130,7 +128,15 @@ public class ShopCart {
      * 享购物车增加商品
      */
     public void addProduct(String saleID,String productName,int num) {
-        if(orderIDlist.containsKey(saleID+productName)){
+        if(orderIDlist==null){
+            Product p=productService.selectProductByProductNameSaleID(productName,saleID);
+            int orderID=genegrate();
+            OrderSheet orderSheet=new OrderSheet(orderID,saleID,productName,num,buyer,num*price(p),null,1);
+            orderService.insertOrder(orderSheet);
+            Map<String, Integer> orderIDlist =new HashMap();
+            orderIDlist.put(saleID + productName,orderID);
+            products.add(p);
+        }else if(orderIDlist.containsKey(saleID+productName)){
             int orderID=orderIDlist.get(saleID+productName);
             int snum=orderService.selectOrderByOrderID(orderID).getBuyNumber();
             orderService.updateProductBuyNumber(orderID, snum+num);
@@ -160,7 +166,6 @@ public class ShopCart {
         List<OrderSheet> orderSheets = orderService.selectAllOrdeByBuyerID(buyer);
         for (OrderSheet orderSheet : orderSheets) {
             Product product = productService.selectProductByProductNameSaleID(orderSheet.getProductName(),orderSheet.getSaleID());
-            products.add(product);
             orderIDlist.put(orderSheet.getSaleID()+orderSheet.getProductName(),orderSheet.getOrderID());
         }
         if (products.size() % size == 0) {

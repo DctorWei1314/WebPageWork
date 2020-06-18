@@ -9,6 +9,7 @@
 <%@ page import="com.web.entity.Product" %>
 <%@ page import="com.web.entity.Tag" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.web.util.Constant" %>
 <html>
 <head>
     <title>上传商品信息</title>
@@ -21,6 +22,7 @@
                 var formData = new FormData();
                 var files = document.getElementsByClassName("upload");
                 formData.append("modify","false");
+                formData.append("name",document.getElementById("name").value);
                 var info = document.getElementsByClassName("info");
                 for(var i=0;i<info.length;i++){
                     if (info[i].value == null){
@@ -37,7 +39,7 @@
                 }
                 var tag = document.getElementsByClassName("mytag");
                 for(var i=0;i<tag.length;i++){
-                    formData.append(tag[i].class,tag[i].innerHTML)
+                    formData.append("mytag",tag[i].innerHTML)
                 }
                 $.ajax({
                     url: "UploadHandleServlet",
@@ -64,7 +66,7 @@
                             }
                         }
                         if (result!=null){
-                            alert(resul);
+                            alert(result);
                         }
                     },
                     error: function () {
@@ -211,7 +213,7 @@
             %>
         </ol>
     </div>
-    <input type="button" id="sumbit" value="提交" >
+    <input type="button" id="submit" value="提交" />
 </div>
 <%@include file="common/footer.jsp" %>
 </body>

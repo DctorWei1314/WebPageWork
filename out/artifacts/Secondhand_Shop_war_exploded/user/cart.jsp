@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.web.entity.Product" %><%--
   Created by IntelliJ IDEA.
   User: administrator-PC
   Date: 2020/6/13
@@ -27,6 +27,7 @@
 </head>
 <body>
 <%@include file="../common/header.jsp"%>
+<div>NB网购物全网折扣:<%=(double)application.getAttribute(Constant.GLOBAL_DISCOUNT)*10%>折!!!</div>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -36,21 +37,23 @@
             <div class="col-md-12">
                 <div class="product-content-right">
                     <div class="woocommerce">
-                        <form method="post" action="#">
+                        <div method="post" action="#">
                             <table cellspacing="0" class="shop_table cart">
                                 <thead>
                                 <tr>
                                     <th class="product-remove">&nbsp;</th>
                                     <th class="product-thumbnail">&nbsp;</th>
-                                    <th class="product-name"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">产品</font></font></th>
-                                    <th class="product-price"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">价钱</font></font></th>
-                                    <th class="product-quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">数量</font></font></th>
-                                    <th class="product-subtotal"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">总</font></font></th>
+                                    <th class="product-name">产品</th>
+                                    <th class="product-price">价钱</th>
+                                    <th class="product-quantity">数量</th>
+                                    <th class="product-subtotal">NB网折后总价</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <form method="post" action=<%=application.getContextPath()%>/user/Cart id="update-cart" onsubmit="return UpdateCart()">
+                                    <input type="hidden" name="type" value="update">
+                                <tbody id="cart-list">
                                 <!--自动添加购物车-->
-                                <tr class="cart_item">
+                                <!--<tr class="cart_item">
                                     <td class="product-remove">
                                         <a title="删除该项目" class="remove" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></a>
                                     </td>
@@ -78,16 +81,56 @@
                                     <td class="product-subtotal">
                                         <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">£15.00</font></font></span>
                                     </td>
+                                </tr>-->
+                                <%
+                                    List<Product> p_list=shopCart.getProducts();
+                                    for (Product p:p_list)
+                                    {
+                                %>
+                                    <tr class="cart_item" itemid=<%=p.getSaleID()+p.getName()%>>
+                                    <td class="product-remove">
+                                        <a title="删除该项目" class="remove" href="javascript:deletecart('<%=p.getSaleID()%>','<%=p.getName()%>')">×</a>
+                                    </td>
+
+                                    <td class="product-thumbnail">
+                                        <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src=<%=application.getContextPath()+"/imgs/"+p.getMainImgFilePath()%>></a>
+                                    </td>
+
+                                    <td class="product-name">
+                                        <a href="single-product.html"><%=p.getName()%></a>
+                                    </td>
+
+                                    <td class="product-price">
+                                        <span class="amount">￥<%=shopCart.price(p)%></span>
+                                    </td>
+
+                                    <td class="product-quantity">
+                                        <div class="quantity buttons_added">
+                                            <input type="number" size="4" class="input-text qty text" title="数量" name=<%=p.getSaleID()+p.getName()%> value=<%=shopCart.buyNumber(p)%> min="1" max=<%=p.getLeftNumber()%> step="1">
+                                        </div>
+                                    </td>
+
+                                    <td class="product-subtotal">
+                                        <span class="amount">￥<%=shopCart.productTotalPrice(p)*(double)application.getAttribute(Constant.GLOBAL_DISCOUNT)%></span>
+                                    </td>
                                 </tr>
+                                <%
+                                    }
+                                %>
+
                                 <tr>
                                     <td class="actions" colspan="6">
-                                        <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="更新购物车" name="update_cart" class="button"></font></font>
-                                        <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="继续进行结帐" name="proceed" class="checkout-button button alt wc-forward"></font></font>
+                                        <input type="submit" value="更新购物车" class="button" >
+                                        <input type="submit" value="继续进行结帐"  class="checkout-button button alt wc-forward" onclick="tocheckup()" >
                                     </td>
                                 </tr>
                                 </tbody>
+                                </form>
                             </table>
-                        </form>
+                        </div>
+                        <script>
+
+                        </script>>
 
 
                     </div>

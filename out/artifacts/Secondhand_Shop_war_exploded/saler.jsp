@@ -60,6 +60,8 @@
             <!--tip自动生成-->
             <%
                 String saleID = request.getParameter("saleID");
+                System.out.println(saleID);
+                System.out.println(user.getUserID());
                 //                if(request.getAttribute(Constant.Q_TYPE)==null){
 //                    request.setAttribute(Constant.P_LIST, productService.selectAllProduct(1,12));
 //                    request.setAttribute(Constant.PAGE,1);
@@ -96,7 +98,7 @@
                                 onclick="addcart(p,1)">
                             加入购物车
                             <%
-                                }else if(user.getType()==Constant.MessageType.SELLER&&user.getUserID()==saleID)
+                                }else if(user.getType()==Constant.MessageType.SELLER&&user.getUserID().equals(saleID))
                                 {
                             %>
                             <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow"

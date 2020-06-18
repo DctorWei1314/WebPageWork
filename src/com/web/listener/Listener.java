@@ -32,8 +32,14 @@ public class Listener implements ServletContextListener,
          You can initialize servlet context related data here.
       */
         List<String> tagList = tagService.selectAllTag();
+        tagList.add("全部商品");
         sce.getServletContext().setAttribute(T_LIST, tagList);
-        sce.getServletContext().setAttribute(GLOBAL_DISCOUNT,globalDiscountService.selectGlobalDiscount());
+        if(globalDiscountService.selectGlobalDiscount() != 0)
+            sce.getServletContext().setAttribute(GLOBAL_DISCOUNT,globalDiscountService.selectGlobalDiscount());
+        else{
+            globalDiscountService.updateGlobalDiscount(1.0);
+            sce.getServletContext().setAttribute(GLOBAL_DISCOUNT,1.0);
+        }
     }
 
     public void contextDestroyed(ServletContextEvent sce) {

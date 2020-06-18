@@ -26,13 +26,70 @@
     <script src="../js/buyer.js"></script>
     <script>
         $(document).ready(function () {
-            QueryAdress(1);
+            QueryAdress();
+        });
+        $(function () {
+            $("#test").click(function(){
+                $("#file").trigger("click");
+            });
+            $("#file").change(function(){
+                var fileimg = $(this)[0].files[0];
+                // var reader = new FileReader();
+                var URL = window.URL || window.webkitURL;
+                // 通过 file 生成目标 url
+                $(this)[0].state ="true";
+                var imgURL = URL.createObjectURL(fileimg);
+                $("#test").attr("src",imgURL);
+            });
+            $("#J_saveProfile").click(function () {
+                $("#test").attr("src","imgs/wait.gif");
+                var formData = new FormData();
+                if (document.getElementById("file").state == "true")
+                    formData.append("image", document.getElementById("file").files[0]);
+                alert(document.getElementById("file").state);
+                    formData.append("email", document.getElementById("Email").value);
+                alert(document.getElementById("Email").value);
+                let pathName = window.document.location.pathname;
+                let projectName = pathName
+                    .substring(0, pathName.substr(1).indexOf('/') + 1);
+                $.ajax({
+                    url: projectName+"/ImageUploadServlet",
+                    type: "POST",
+                    data: formData,
+                    /**
+                     *必须false才会自动加上正确的Content-Type
+                     */
+                    contentType: false,
+                    /**
+                     * 必须false才会避开jQuery对 formdata 的默认处理
+                     * XMLHttpRequest会对 formdata 进行正确的处理
+                     */
+                    processData: false,
+                    success: function (result) {
+                        alert("sssss")
+                        var fileimg = $("#file")[0].files[0];
+                        // var reader = new FileReader();
+                        var URL = window.URL || window.webkitURL;
+                        // 通过 file 生成目标 url
+                        var imgURL = URL.createObjectURL(fileimg);
+                        // $(this).removeClass
+                        // $(this).removeClass("onweek");
+                        // $(this).addClass("onweek");
+                        // $(this).css("background-color", "red");
+                        $("#test").attr("src",imgURL);
+                        alert(result);
+                    },
+                    error: function () {
+                        alert("上传失败！");
+                    }
+                });
+            });
         });
     </script>
 </head>
 <body>
 <%@include file="../common/header.jsp" %>
-<input type="hidden" id="username" value=<%=user.getName()%>>"
+<input type="hidden" id="username" value="<%=user.getName()%>"/>
 <div class="sns-nf">
     <form id="baseInfoForm" name="baseInfoForm" method="post" class="infoForm">
         <input name="_tb_token_" type="hidden" value="3bf0e5e737b13">
@@ -44,9 +101,10 @@
         <div id="main-profile" class="parts">
             <p>
                 <label>当前头像：</label>
-                <span class="pf-avatar-box">
+                <span >
                                 <a class="pf-avatar">
-                                    <img src=<%=application.getContextPath()+user.getImgFilePath()%>>
+                                    <input id="file" state="false" type="file" accept="image/*"  class="file" style="display:none"/><br />
+                                    <img id="test" style="width:100px;height:100px" src="<%=pageContext.getServletContext().getContextPath()+(user.getImgFilePath()==null?"/imgs/default_portrait.jpg":new String("/imgs/"+user.getImgFilePath()))%>">
                                                                     </a>
                             </span>
             </p>

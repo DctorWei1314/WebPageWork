@@ -60,7 +60,6 @@ public class Constant {
         UPDATE_USER_IMAGE_FAIL,                 //更新用户头像失败
         UPDATE_PRODUCT_SCORE_SUCCESS,           //更新商品分数成功
         UPDATE_PRODUCT_SCORE_FAIL;              //更新商品分数失败
-
         public static MessageType getUserType(String result) {
             switch (result) {
                 case "buyer":

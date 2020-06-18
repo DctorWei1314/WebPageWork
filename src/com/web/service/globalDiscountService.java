@@ -1,12 +1,11 @@
 package com.web.service;
 
+import com.sun.org.apache.xerces.internal.xs.ItemPSVI;
 import com.web.util.C3P0Demo;
 import com.web.util.Constant;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
 public class globalDiscountService {
 
     /**
@@ -44,7 +43,15 @@ public class globalDiscountService {
         PreparedStatement ps = null;
         int result = 0;
         try {
-            String sql = "update global_discount set discount = ?";
+            String sql0 = "select * from global_discount";
+            String sql=null;
+            Statement temp = conn.createStatement();
+            if(temp.executeQuery(sql).next()){
+                sql = "update global_discount set discount = ?";
+            }else{
+                sql = "insert into global_discount values(?)";
+            }
+            temp.close();
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setDouble(1, discount);

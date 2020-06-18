@@ -35,9 +35,9 @@ public class UploadHandleServlet extends HttpServlet {
         boolean modify = false;
         Product product = null;
         User user = (User)request.getSession().getAttribute(Constant.USER_SESSION);
-        List<Tag> tagList = new ArrayList<Tag>();
+        List<String> tagList = new ArrayList<String>();
         PrintWriter printWriter = response.getWriter();
-        String savePath ="D:NB";
+        String savePath =this.getServletContext().getRealPath("imgs");
         File file = new File(savePath);
         if(!file.exists()&&!file.isDirectory()){
             System.out.println("目录或文件不存在！");
@@ -64,36 +64,38 @@ public class UploadHandleServlet extends HttpServlet {
                //解决普通输入项的数据的中文乱码问题
                String value = item.getString("UTF-8");
                System.out.println(name+"  "+value);
-               if(name == "modify" && value == "true"){
+               if(name.equals("modify")  && value == "true"){
+                   System.out.println("wwww");
                    modify = true;
                }
-               if(name == "name"){
+               if(name.equals("name")){
                    if(modify == true) {
                        product = productService.selectProductByProductNameSaleID(value,user.getUserID());
-               }
+                   }
                    else {
+                       System.out.println("wwww");
                        Product temp = productService.selectProductByProductNameSaleID(value,user.getUserID());
                        if(temp != null){
                            throw new RuntimeException();
                        }
+                       System.out.println("wwww");
                        product = new Product();
                        product.setName(value);
                        product.setSaleID(user.getUserID());
                    }
                }
-               if(name == "description")
+               if(name.equals("description"))
                    product.setDescription(value);
-               if(name == "discount")
+               if(name.equals("discount"))
                    product.setDiscount(Double.parseDouble(value)/10);
-               if(name == "price")
+               if(name.equals("price"))
                    product.setPrice(Double.parseDouble(value));
-               if(name == "number")
+               if(name.equals("number"))
                    product.setLeftNumber(Integer.parseInt(value));
-               if(name == "add")
+               if(name.equals("add"))
                    product.setLeftNumber(product.getLeftNumber()+Integer.parseInt(value));
-               if(name == "mytag"){
-                   Tag tag = new Tag(value);
-                   tagList.add(tag);
+               if(name.equals("mytag")){
+                   tagList.add(value);
                }
                }else{
                     String name = item.getFieldName();
@@ -131,23 +133,24 @@ public class UploadHandleServlet extends HttpServlet {
                     //删除处理文件上传时生成的临时文件
                     item.delete();
                     //路径载入数据库的操作没写!!!!!!!!!!!!!!!!!!!可以调用处理数据库的人的函数把路径相关信息载入数据库！！！！！！
-                    if(name == "image0"){
+                    if(name.equals("image0") ){
                         product.setMainImgFilePath(fileName);
                     }
-                    if(name == "image1"){
+                    if(name.equals("image1")){
                         product.setImage1(fileName);
                     }
-                    if(name == "image2"){
+                    if(name.equals("image2") ){
                         product.setImage2(fileName);
                     }
-                    if(name == "image3"){
+                    if(name.equals("image3") ){
                         product.setImage3(fileName);
                     }
-                    if(name == "image4"){
+                    if(name.equals("image4") ){
                         product.setImage4(fileName);
                     }
                 }
             }
+            System.out.println(product.getMainImgFilePath());
             product.setSalePrice(product.getPrice()*product.getDiscount());
             //product.getName()
             if(modify){
@@ -155,6 +158,10 @@ public class UploadHandleServlet extends HttpServlet {
             }
             else {
                 productService.insertNewProduct(product);
+            }
+            for(String tag :tagList){
+                productService.addProductyTag(product.getName(),user.getUserID(),tag);
+                System.out.println(product.getName());
             }
         } catch (FileUploadException e) {
             // TODO Auto-generated catch block

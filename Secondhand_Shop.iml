@@ -31,5 +31,7 @@
     <orderEntry type="library" name="mysql-connector-java-5.1.39-bin" level="project" />
     <orderEntry type="library" name="fastjson-1.2.7" level="project" />
     <orderEntry type="library" name="fastjson-1.2.7 (2)" level="project" />
+    <orderEntry type="library" name="commons-codec-1.14" level="project" />
+    <orderEntry type="library" name="poi-3.10-FINAL-20140208" level="project" />
   </component>
 </module>

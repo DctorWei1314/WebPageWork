@@ -10,6 +10,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class productService {
+    public static void addProductyTag(String name,String saleID,String tag) {
+        int rs = 0;
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int count = 0;
+        try {
+            String sql = "insert into product_tag values(?, ?, ?)";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,name);
+            ps.setString(2,saleID);
+            ps.setString(3,tag);
+            System.out.println(name+saleID+tag);
+            rs = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
+        }
+    }
 
     /**
      * 得到某一个商品的所有标签

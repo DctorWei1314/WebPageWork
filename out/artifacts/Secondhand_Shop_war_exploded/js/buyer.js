@@ -23,6 +23,7 @@ function queryl(obj) {
     let  condition=document.getElementById("searchCondition").value;
     QueryProduct(1,t,condition);
 }
+//增加购物车中得值
 function addcart() {
     let num;
     let pathName = window.document.location.pathname;
@@ -48,11 +49,11 @@ function addcart() {
         }
     })
 }
+//删除购物车中的值
 function deletecart() {
     let pathName = window.document.location.pathname;
     let projectName = pathName
         .substring(0, pathName.substr(1).indexOf('/') + 1);
-    alert(arguments[2]);
     $.ajax({
         type: "post", // 以get方式发起请求
         url: projectName+"/user/Cart",
@@ -63,10 +64,26 @@ function deletecart() {
         },
         success(data) {
             updatecart(data)
+            $("#cart-list>tr").each(function () {
+                if($(this).attr("itemid")==arguments[0]+arguments[1]){
+                    $(this).remove();
+                    return false;
+                }
+            })
         }
     })
 }
-function updatecart(data) {
+//更新购物车
+function UpdateCart() {
+    $("#update-cart").ajaxSubmit(function(result) {
+        // 对于表单提交成功后处理，result为表单正常提交后返回的内容
+        updatecart(result);
+    });
+    return false;
+}
+//更新右上角图标
+function updatecart(data)
+{
     let jsonObject= jQuery.parseJSON(data);
     document.getElementById("totalprice").innerText=jsonObject['price'];
     document.getElementById("totalnum").innerText=jsonObject['num'];
@@ -77,9 +94,15 @@ function score_1() {
         document.getElementById("commentscore").value = parseInt($("#stars").attr("data-default-index"))
         $("#commentForm").ajaxSubmit(function (result) {
             // 对于表单提交成功后处理，result为表单正常提交后返回的内容
-            alert(result);
+            if(result==='success') {
+                alert("评论成功，感谢你的评论，您的支持就是对我们最大的鼓励;")
+                Querycomment(1);
+                document.getElementById("comment").value = ""
+            }
+            else {
+                alert("因未知原因评论失败");
+            }
         });
-        document.getElementById("comment").value = ""
     }
     else {
         alert("请给商品打分")
@@ -90,10 +113,14 @@ function score_1() {
 function complaint() {
     $("#complaint").ajaxSubmit(function(result) {
         // 对于表单提交成功后处理，result为表单正常提交后返回的内容
-        alert(result);
+        if (result==="success") {
+            alert("投诉成功，您的批评和建议我们会仔细审查")
+            document.getElementById("Comtext").value = ""
+        }
+        else {
+            alert("因未知原因评论失败")
+        }
     });
-    document.getElementById("Comtext").value=""
-    Querycomment(1);
     return false;
 }
 function commentLoad(data){
@@ -197,7 +224,7 @@ function ProductLoad(data) {
         ProductHtml+="            <div class=\"col-md-3 col-sm-6\">\n" +
             "                <div class=\"single-shop-product\">\n" +
             "                    <div class=\"product-upper\">\n" +
-            "                        <img src="+projectName+(jsonObject[j]['mainImgFilePath'])+" alt="+(jsonObject[j]['name'])+" >\n" +
+            "                        <img src="+projectName+"/imgs/"+(jsonObject[j]['mainImgFilePath'])+" alt="+(jsonObject[j]['name'])+" >\n" +
             "                    </div>\n" +
             "                    <h2><a href="+projectName+"/SingleProduct?saleID="+(jsonObject[j]['saleID'])+"&name="+(jsonObject[j]['name'])+"> "+(jsonObject[j]['name'])+" </a></h2><!--tip单品链接-->\n" +
             "                    <div class=\"product-carousel-price\">\n" +
@@ -205,7 +232,7 @@ function ProductLoad(data) {
             "                    </div>\n" +
             "                    <div class=\"product-option-shop\">\n" +
             "                        <a class=\"add_to_cart_button\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"70\" rel=\"nofollow\"\n" +
-            "                        onclick=\"addcart( " +(jsonObject[j]['saleID'])+","+(jsonObject[j]['name'])+ " ,1)\">加入购物车</a>\n" +
+            "                        onclick=\"addcart( '" +(jsonObject[j]['saleID'])+"',"+(jsonObject[j]['name'])+ " ,1)\">加入购物车</a>\n" +
             "                        <!--tip加入购物车链接-->\n" +
             "                    </div>\n" +
             "                </div>\n" +
@@ -367,4 +394,10 @@ function placeorder() {
             window.location.href=projectName+"/user/order.jsp"
         }
     })
+}
+function tocheckup() {
+    let pathName = window.document.location.pathname;
+    let projectName = pathName
+        .substring(0, pathName.substr(1).indexOf('/') + 1);
+    window.location.href=projectName+"/user/checkout.jsp"
 }

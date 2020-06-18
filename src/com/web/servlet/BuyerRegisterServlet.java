@@ -1,7 +1,9 @@
 package com.web.servlet;
 
+import com.web.entity.SaleShop;
 import com.web.entity.ShopCart;
 import com.web.entity.User;
+import com.web.service.shopService;
 import com.web.service.userService;
 import com.web.util.Constant;
 
@@ -35,6 +37,9 @@ public class BuyerRegisterServlet extends HttpServlet {
                 request.getRequestDispatcher("shop.jsp").forward(request,response);
             }
             else if(user.getType() == Constant.MessageType.SELLER){
+                SaleShop saleShop = new SaleShop(user.getUserID(),null,null,null);
+                shopService.insertNewSaleShop(saleShop);
+                request.setAttribute("saleID",user.getUserID());
                 request.getRequestDispatcher("saler.jsp").forward(request,response);
             }
         }

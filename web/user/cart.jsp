@@ -27,6 +27,7 @@
 </head>
 <body>
 <%@include file="../common/header.jsp"%>
+<div>NB网购物全网折扣:<%=(double)application.getAttribute(Constant.GLOBAL_DISCOUNT)*10%>折!!!</div>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -45,7 +46,7 @@
                                     <th class="product-name">产品</th>
                                     <th class="product-price">价钱</th>
                                     <th class="product-quantity">数量</th>
-                                    <th class="product-subtotal">总价</th>
+                                    <th class="product-subtotal">NB网折后总价</th>
                                 </tr>
                                 </thead>
                                 <form method="post" action=<%=application.getContextPath()%>/user/Cart id="update-cart" onsubmit="return UpdateCart()">
@@ -92,7 +93,7 @@
                                     </td>
 
                                     <td class="product-thumbnail">
-                                        <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src=<%=application.getContextPath()+p.getMainImgFilePath()%>></a>
+                                        <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src=<%=application.getContextPath()+"/imgs/"+p.getMainImgFilePath()%>></a>
                                     </td>
 
                                     <td class="product-name">
@@ -110,7 +111,7 @@
                                     </td>
 
                                     <td class="product-subtotal">
-                                        <span class="amount">￥<%=shopCart.productTotalPrice(p)%></span>
+                                        <span class="amount">￥<%=shopCart.productTotalPrice(p)*(double)application.getAttribute(Constant.GLOBAL_DISCOUNT)%></span>
                                     </td>
                                 </tr>
                                 <%

@@ -82,7 +82,8 @@ function UpdateCart() {
     return false;
 }
 //更新右上角图标
-function updatecart(data) {
+function updatecart(data)
+{
     let jsonObject= jQuery.parseJSON(data);
     document.getElementById("totalprice").innerText=jsonObject['price'];
     document.getElementById("totalnum").innerText=jsonObject['num'];
@@ -223,7 +224,7 @@ function ProductLoad(data) {
         ProductHtml+="            <div class=\"col-md-3 col-sm-6\">\n" +
             "                <div class=\"single-shop-product\">\n" +
             "                    <div class=\"product-upper\">\n" +
-            "                        <img src="+projectName+(jsonObject[j]['mainImgFilePath'])+" alt="+(jsonObject[j]['name'])+" >\n" +
+            "                        <img src="+projectName+"/imgs/"+(jsonObject[j]['mainImgFilePath'])+" alt="+(jsonObject[j]['name'])+" >\n" +
             "                    </div>\n" +
             "                    <h2><a href="+projectName+"/SingleProduct?saleID="+(jsonObject[j]['saleID'])+"&name="+(jsonObject[j]['name'])+"> "+(jsonObject[j]['name'])+" </a></h2><!--tip单品链接-->\n" +
             "                    <div class=\"product-carousel-price\">\n" +
@@ -231,7 +232,7 @@ function ProductLoad(data) {
             "                    </div>\n" +
             "                    <div class=\"product-option-shop\">\n" +
             "                        <a class=\"add_to_cart_button\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"70\" rel=\"nofollow\"\n" +
-            "                        onclick=\"addcart( " +(jsonObject[j]['saleID'])+","+(jsonObject[j]['name'])+ " ,1)\">加入购物车</a>\n" +
+            "                        onclick=\"addcart( '" +(jsonObject[j]['saleID'])+"',"+(jsonObject[j]['name'])+ " ,1)\">加入购物车</a>\n" +
             "                        <!--tip加入购物车链接-->\n" +
             "                    </div>\n" +
             "                </div>\n" +

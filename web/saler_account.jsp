@@ -22,60 +22,63 @@
     <script src="js/jquery.sticky.js"></script>
     <script src="js/main.js"></script>
     <script>
-        $("#test").click(function(){
-            $("#file").trigger("click");
-        });
-        $("#file").change(function(){
-            var fileimg = $(this)[0].files[0]
-            // var reader = new FileReader();
-            var URL = window.URL || window.webkitURL;
-            // 通过 file 生成目标 url
-            var imgURL = URL.createObjectURL(fileimg);
-            $("#test").attr("src",imgURL);
-        });
-        $("#J_saveProfile").click(function () {
-            $("#test").attr("src","imgs/wait.gif");
-            var formData = new FormData();
-            formData.append("image", document.getElementById("file").files[0]);
-            formData.append("username", document.getElementById("username").value);
-            formData.append("saledescription", document.getElementById("J_realname-mask").value);
-            formData.append("saleaddresss", document.getElementById("saleaddresss").value);
-            $.ajax({
-                url: "ImageUploadServlet",
-                type: "POST",
-                data: formData,
-                /**
-                 *必须false才会自动加上正确的Content-Type
-                 */
-                contentType: false,
-                /**
-                 * 必须false才会避开jQuery对 formdata 的默认处理
-                 * XMLHttpRequest会对 formdata 进行正确的处理
-                 */
-                processData: false,
-                success: function (result) {
-                    var fileimg = $("#file")[0].files[0];
-                    // var reader = new FileReader();
-                    var URL = window.URL || window.webkitURL;
-                    // 通过 file 生成目标 url
-                    var imgURL = URL.createObjectURL(fileimg);
-                    // $(this).removeClass
-                    // $(this).removeClass("onweek");
-                    // $(this).addClass("onweek");
-                    // $(this).css("background-color", "red");
-                    $("#test").attr("src",imgURL);
-                    alert(result);
-                },
-                error: function () {
-                    alert("上传失败！");
+        $(function () {
+            $("#test").click(function(){
+                $("#file").trigger("click");
+            });
+            $("#file").change(function(){
+                var fileimg = $(this)[0].files[0];
+                // var reader = new FileReader();
+                var URL = window.URL || window.webkitURL;
+                // 通过 file 生成目标 url
+                $(this)[0].state ="true";
+                var imgURL = URL.createObjectURL(fileimg);
+                $("#test").attr("src",imgURL);
+            });
+            $("#J_saveProfile").click(function () {
+                $("#test").attr("src","imgs/wait.gif");
+                var formData = new FormData();
+                if (document.getElementById("file").state == "true"){
+                    formData.append("image", document.getElementById("file").files[0]);
                 }
+                formData.append("saledescription", document.getElementById("J_realname-mask").value);
+                formData.append("saleaddresss", document.getElementById("saleaddresss").value);
+                $.ajax({
+                    url: "ImageUploadServlet",
+                    type: "POST",
+                    data: formData,
+                    /**
+                     *必须false才会自动加上正确的Content-Type
+                     */
+                    contentType: false,
+                    /**
+                     * 必须false才会避开jQuery对 formdata 的默认处理
+                     * XMLHttpRequest会对 formdata 进行正确的处理
+                     */
+                    processData: false,
+                    success: function (result) {
+                        var fileimg = $("#file")[0].files[0];
+                        // var reader = new FileReader();
+                        var URL = window.URL || window.webkitURL;
+                        // 通过 file 生成目标 url
+                        var imgURL = URL.createObjectURL(fileimg);
+                        // $(this).removeClass
+                        // $(this).removeClass("onweek");
+                        // $(this).addClass("onweek");
+                        // $(this).css("background-color", "red");
+                        $("#test").attr("src",imgURL);
+                        //alert(result);
+                    },
+                    error: function () {
+                        alert("上传失败！");
+                    }
+                });
             });
         });
     </script>
 </head>
 <body>
 <%@include file="common/header.jsp"%>
-<input type="hidden" id="username" value="<%=user.getName()%>"/>
 <div class="sns-nf">
     <form id="baseInfoForm" name="baseInfoForm" method="post" class="infoForm">
         <input name="_tb_token_" type="hidden" value="3bf0e5e737b13">
@@ -87,10 +90,10 @@
         <div id="main-profile" class="parts">
             <p>
                 <label>当前头像：</label>
-                <span class="pf-avatar-box">
+                <span >
                                 <a class="pf-avatar">
-                                    <input id="file"  type="file" accept="image/*"  class="file" style="display:none"/><br />
-                                     <img id="test" src=<%=application.getContextPath()+user.getImgFilePath()%>>
+                                    <input id="file"  state="false" type="file" accept="image/*"  class="file" style="display:none"/><br />
+                                     <img id="test" style="width:100px;height:100px"src="<%=user.getImgFilePath()==null?"imgs/default_portrait.jpg":new String("imgs/"+user.getImgFilePath()) %>">
                                                                     </a>
                             </span>
             </p>
@@ -103,18 +106,23 @@
             %>
             <p>
                 <label>商家描述：</label>
-                <input name="saledescription" id="J_realname-mask" class="f-txt" type="text" value="<%=saleShop.getDescription()%>" maxlength="6">
+                <input name="saledescription" id="J_realname-mask" class="f-txt" type="text" value="<%=saleShop.getDescription()==null?"":saleShop.getDescription()%>" maxlength="6">
                 <input id="J_realname" name="_fm.b._0.r" type="hidden" value="" maxlength="6">
             </p>
             <p>
                 <label>商家地址：</label>
-                <input  id="saleaddresss" class="f-txt" type="text" value="<%=saleShop.getSaleAddress()%>" maxlength="6">
+                <input  id="saleaddresss" class="f-txt" type="text" value="<%=saleShop.getSaleAddress()==null?"":saleShop.getSaleAddress()%>" maxlength="6">
+                <input  name="_fm.b._0.r" type="hidden" value="" maxlength="6">
+            </p>
+            <p>
+                <label>管理员授予头衔：</label>
+                <input  id="saletitle" class="f-txt" type="text" readonly="readonly" value="<%=saleShop.getTitle()==null?"":saleShop.getTitle()%>" maxlength="6">
                 <input  name="_fm.b._0.r" type="hidden" value="" maxlength="6">
             </p>
         </div>
         <div class="act skin-blue">
              <span class="btn n-btn">
-                 <button type="submit" id="J_saveProfile">保存</button>
+                 <button type="submit" id="J_saveProfile">修改</button>
                  <div style="width:1px; height:1px; overflow:hidden; ">
                      <input type="submit">
                  </div>

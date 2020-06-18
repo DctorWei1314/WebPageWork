@@ -28,7 +28,8 @@ public class BuyerloginServlet extends HttpServlet {
                 resp.sendRedirect("shop.jsp");
             }
             else if(user.getType() == Constant.MessageType.SELLER){
-                resp.sendRedirect("shop.jsp");
+                req.setAttribute("saleID",user.getUserID());
+                req.getRequestDispatcher("saler.jsp").forward(req,resp);
             }
             else if(user.getType() == Constant.MessageType.ADMIN){
                 resp.sendRedirect("admin_center.jsp");

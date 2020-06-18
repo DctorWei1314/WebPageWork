@@ -51,18 +51,19 @@ public class shopService {
      * @return 是否更新成功
      */
     public static Constant.MessageType updateSaleInfo(SaleShop saleShop) {
+        System.out.println(saleShop.getSaleAddress()+ "$$$$$"+saleShop.getDescription());
         Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int result = 0;
         try {
-            String sql = "update saleShop set saleAddress = ?, description = ?, title = ?" +
+            String sql = "update saleShop set saleAddress = ?, description = ?" +
                     " where saleID = ?";
             assert conn != null;
             ps = conn.prepareStatement(sql);
+            System.out.println(saleShop.getSaleAddress()+ "$$$$$"+saleShop.getDescription());
             ps.setString(1, saleShop.getSaleAddress());
             ps.setString(2, saleShop.getDescription());
-            ps.setString(3, saleShop.getTitle());
-            ps.setString(4, saleShop.getSaleID());
+            ps.setString(3, saleShop.getSaleID());
             result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

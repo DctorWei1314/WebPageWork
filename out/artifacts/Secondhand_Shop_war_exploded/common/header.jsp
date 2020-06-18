@@ -9,7 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%!
-    ShopCart shopCart;
+    ShopCart shopCart = null;
 %>
 <%  User user=(User) session.getAttribute(Constant.USER_SESSION);
     if(user!=null&&user.getType()== Constant.MessageType.BUYER){
@@ -34,7 +34,8 @@
                             else if(user.getType()==Constant.MessageType.BUYER)
                                 {
                                 %>
-                            <li><a href=<%=application.getContextPath()%>/user/account.jsp><img id="head" src=<%=application.getContextPath()+user.getImgFilePath()%> ></img> 我的账户</a></li>
+                            </a>
+                            <li><a href=<%=application.getContextPath()%>/user/account.jsp><img id="head" style="width:50px;height:50px" src="<%=user.getImgFilePath()==null?new String(pageContext.getServletContext().getContextPath()+"/imgs/default_portrait.jpg"):new String(pageContext.getServletContext().getContextPath()+"/imgs/"+user.getImgFilePath())%>" ></img> 我的账户</a></li>
                             <li><a href=<%=application.getContextPath()%>/user/order.jsp><i class="fa fa-list-ul"></i> 订单历史</a></li>
                             <li><a href=<%=application.getContextPath()%>/user/cart.jsp><i class="fa fa-shopping-cart"></i> 购物车</a></li>
                             <li><a href=<%=application.getContextPath()%>/user/checkout.jsp><i class="fa fa-credit-card"></i> 结算</a></li>
@@ -43,7 +44,7 @@
                             else if(user.getType()==Constant.MessageType.SELLER)
                                 {
                             %>
-                            <li><a href=<%=application.getContextPath()%>/saler_account.jsp><img id="salerhead" src=<%=application.getContextPath()+user.getImgFilePath()%> ></img> 我的账户</a></li><!--tip登陆后为账户叶面-->
+                            <li><a href=<%=application.getContextPath()%>/saler_account.jsp><img id="salerhead" style="width:50px;height:50px" src="<%=user.getImgFilePath()==null?"imgs/default_portrait.jpg":new String("imgs/"+user.getImgFilePath())%>" ></img> 我的账户</a></li><!--tip登陆后为账户叶面-->
                             <li><a href=<%=application.getContextPath()%>/saler_order.jsp><i class="fa fa-list-ul"></i> 订单管理</a></li><!--tip登陆后为账户叶面-->
                             <li><a href=<%=application.getContextPath()%>/product_upload.jsp><i class="fa fa-credit-card"></i> 商品上架</a></li><!--tip登陆后为账户叶面-->
                             <li><a href=<%=application.getContextPath()%>/saler.jsp><i class="fa fa-user"></i> 个人首页</a></li><!--tip登陆后为账户叶面-->
@@ -86,7 +87,7 @@
                         <%
                             if(shopCart!=null){
                         %>
-                        <a href=<%=application.getContextPath()%>/user/account.jsp>购物车 - <span class="cart-amunt" id="totalprice">￥<%=shopCart.cartTotalPrice()%><!--tip session中的金额--></span> <i
+                        <a href=<%=application.getContextPath()%>/user/cart.jsp>购物车 - <span class="cart-amunt" id="totalprice">￥<%=shopCart.cartTotalPrice()%><!--tip session中的金额--></span> <i
                                 class="fa fa-shopping-cart"></i> <span class="product-count" id="totalnum"><%=shopCart.getProducts().size()%>
                             <!--tip session中的数量--></span></a>
                         <%
@@ -107,10 +108,10 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="javascript:QueryProduct(1,'ALL','ALL')" >商品</a></li><!--tip登陆后为账户叶面-->
                         <%
-                            if(user!=null&&user.getType()!=Constant.MessageType.BUYER){
+                            if(user==null||user.getType()==Constant.MessageType.BUYER){
                         %>
-                        <li><a onclick="location='<%=application.getContextPath()%>/user/account.jsp';return false" href="#" >购物车</a></li><!--tip登陆后为账户叶面-->
-                        <li><a onclick="location='<%=application.getContextPath()%>/user/checkout.jsp>';return false" href="#" >结算</a></li><!--tip登陆后为账户叶面-->
+                        <li><a onclick="location='<%=application.getContextPath()%>/user/cart.jsp';return false" href="#" >购物车</a></li><!--tip登陆后为账户叶面-->
+                        <li><a onclick="location='<%=application.getContextPath()%>/user/checkout.jsp';return false" href="#" >结算</a></li><!--tip登陆后为账户叶面-->
                         <%
                             }
                         %>

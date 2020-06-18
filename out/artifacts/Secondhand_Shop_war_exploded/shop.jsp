@@ -66,7 +66,6 @@ else
                     <%
                         List<String> t_list=(List<String>)application.getAttribute(Constant.T_LIST);
                         if(t_list!=null){
-                            t_list.add("全部商品");
                         for(String tag:t_list){
                     %>
                     <a  href="javascript:QueryProduct(1,'label',<%=tag%>)"  class="list-group-item" ><%=tag%></a>

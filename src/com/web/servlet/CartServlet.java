@@ -3,6 +3,7 @@ package com.web.servlet;
 import com.alibaba.fastjson.JSONObject;
 import com.web.entity.Product;
 import com.web.entity.ShopCart;
+import com.web.entity.User;
 import com.web.service.productService;
 import com.web.util.Constant;
 
@@ -18,12 +19,14 @@ import java.util.List;
 @WebServlet(urlPatterns = "/user/Cart")
 public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String type=request.getParameter("type");
+        String type=(String)request.getParameter("type");
 
         ShopCart shopCart=(ShopCart) request.getSession().getAttribute(Constant.SHOP_CART);
+
         JSONObject jo=new JSONObject();
         PrintWriter out=response.getWriter();
-        if(type.equals("add")){
+        System.out.println(new String("add").equals(type)+"!!!");
+        if(new String("add").equals(type)){
             String saleID=request.getParameter("saleID");
             String name=request.getParameter("name");
             int num=Integer.parseInt(request.getParameter("num"));
@@ -56,10 +59,10 @@ public class CartServlet extends HttpServlet {
         jo.put("num",shopCart.getProducts().size());
         String jtext=jo.toString();
         out.write(jtext);
-        out.close();;
+        out.close();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+        //doPost(request, response);
     }
 }

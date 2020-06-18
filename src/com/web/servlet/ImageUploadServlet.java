@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
 import java.util.UUID;
+import com.web.util.Constant;
+import com.web.entity.User;
 
 import com.web.service.userService;
 @WebServlet("/ImageUploadServlet")
@@ -28,11 +30,13 @@ public class ImageUploadServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
+        User user = (User) request.getSession().getAttribute(Constant.USER_SESSION);
         String image = null;
-        String username = null;
         String saledescription = null;
         String saleaddresss =null;
-        String savePath ="D:NB/";
+        String email = null;
+        String savePath =this.getServletContext().getRealPath("imgs");
+        boolean flag = false;
         File file = new File(savePath);
         if(!file.exists()&&!file.isDirectory()){
             System.out.println("目录或文件不存在！");
@@ -59,16 +63,16 @@ public class ImageUploadServlet extends HttpServlet {
                     //解决普通输入项的数据的中文乱码问题
                     String value = item.getString("UTF-8");
                     System.out.println(name + "  " + value);
-                    if(name == "username"){
-                        username = value;
-                    }
-                    if(name == "saledescription"){
+                    if(name.equals("saledescription")){
                         saledescription = value;
-                    }if(name == "saleaddresss"){
+                    }if(name.equals("saleaddresss")){
                         saleaddresss = value;
+                    }if(name.equals("email")){
+                        email = value;
                     }
 
                 } else {
+                    flag = true;
                     String name = item.getFieldName();
                     System.out.println("file-field" + name);
                     //如果fileitem中封装的是上传文件，得到上传的文件名称，
@@ -86,6 +90,7 @@ public class ImageUploadServlet extends HttpServlet {
                     fileName = realFileName + "." + ext;
                     //创建一个文件输出流
                     FileOutputStream fos = new FileOutputStream(savePath + File.separator + fileName);
+                    System.out.println(savePath + File.separator + fileName);
                     //获取item中的上传文件的输入流
                     InputStream is = item.getInputStream();
                     //创建一个缓冲区
@@ -107,13 +112,23 @@ public class ImageUploadServlet extends HttpServlet {
                     image = fileName;
                 }
             }
-            System.out.println(userService.updateUserImage(username,image));
-            if(Constant.MessageType.SELLER == userService.selectTypeByName(username)){
-                SaleShop saleShop = shopService.selectSaleInfoBySaleID(username);
+            if(flag){
+                System.out.println(userService.updateUserImage(user.getUserID(),image));
+                PrintWriter printWriter = response.getWriter();
+                printWriter.write(image);
+                printWriter.close();
+            }
+
+            if(Constant.MessageType.SELLER == user.getType()){
+                SaleShop saleShop = shopService.selectSaleInfoBySaleID(user.getUserID());
                 saleShop.setDescription(saledescription);
                 saleShop.setSaleAddress(saleaddresss);
                 shopService.updateSaleInfo(saleShop);
+            }else{
+                userService.updateUserEmail(user.getUserID(),email);
             }
+            User newuser = userService.selectBasicInfoByName(user.getUserID());
+            request.getSession().setAttribute(Constant.USER_SESSION,newuser);
         } catch (FileUploadException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -1,6 +1,7 @@
 <%@ page import="com.web.entity.User" %>
 <%@ page import="com.web.util.Constant" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.web.servlet.BuyerloginServlet" %>
 <%--
   Created by IntelliJ IDEA.
   User: administrator-PC
@@ -25,7 +26,7 @@
                         <a href="https://wx.qq.com/" target="_blank"><i class="fa fa-weixin"></i></a>
                         <a href="https://weibo.com/" target="_blank"><i class="fa fa-weibo"></i></a>
                     </div>
-                    <img src="imgs/Qrcode.png" />
+                    <img src="<%=new String(pageContext.getServletContext().getContextPath()+"/imgs/Qrcode.png")%>" />
                 </div>
             </div>
 
@@ -53,7 +54,7 @@
                         <li><a href=<%=application.getContextPath()%>/saler_account.jsp><i class="fa fa-list-ul"></i> 我的账户</a></li><!--tip登陆后为账户叶面-->
                         <li><a href=<%=application.getContextPath()%>/saler_order.jsp><i class="fa fa-list-ul"></i> 订单管理</a></li><!--tip登陆后为账户叶面-->
                         <li><a href=<%=application.getContextPath()%>/product_upload.jsp><i class="fa fa-credit-card"></i> 商品上架</a></li><!--tip登陆后为账户叶面-->
-                        <li><a href=<%=application.getContextPath()%>/saler.jsp><i class="fa fa-user"></i> 个人首页</a></li><!--tip登陆后为账户叶面-->
+                        <li><a href=<%=application.getContextPath()%>/saler.jsp?saleID=<%=user.getUserID()%> ><i class="fa fa-user"></i>个人首页</a></li><!--tip登陆后为账户叶面-->
                         <%
                             }
                             else{
@@ -69,7 +70,6 @@
                     <%
                         List<String> b_list = (List<String>) application.getAttribute(Constant.T_LIST);
                         if (b_list != null) {
-                            b_list.add("全部商品");
                             int t = 0;
                             for (String tag : b_list) {
                                 if (t % 6 == 0) {

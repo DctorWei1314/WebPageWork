@@ -69,7 +69,7 @@ CREATE TABLE `product_tag` (
 
 CREATE TABLE `saleShop` (
   `saleID` varchar(20) NOT NULL,
-  `saleAddress` varchar(255) NOT NULL,
+  `saleAddress` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`saleID`)

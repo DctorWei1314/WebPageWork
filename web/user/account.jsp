@@ -28,24 +28,32 @@
         $(document).ready(function () {
             QueryAdress();
         });
-        $("#test").click(function(){
-            $("#file").trigger("click");
-        });
-        $("#file").change(function(){
-            var fileimg = $(this)[0].files[0]
-            // var reader = new FileReader();
-            var URL = window.URL || window.webkitURL;
-            // 通过 file 生成目标 url
-            var imgURL = URL.createObjectURL(fileimg);
-            $("#test").attr("src",imgURL);
-        });
+        $(function () {
+            $("#test").click(function(){
+                $("#file").trigger("click");
+            });
+            $("#file").change(function(){
+                var fileimg = $(this)[0].files[0];
+                // var reader = new FileReader();
+                var URL = window.URL || window.webkitURL;
+                // 通过 file 生成目标 url
+                $(this)[0].state ="true";
+                var imgURL = URL.createObjectURL(fileimg);
+                $("#test").attr("src",imgURL);
+            });
             $("#J_saveProfile").click(function () {
                 $("#test").attr("src","imgs/wait.gif");
                 var formData = new FormData();
-                formData.append("image", document.getElementById("file").files[0]);
-                formData.append("username", document.getElementById("username").value);
+                if (document.getElementById("file").state == "true")
+                    formData.append("image", document.getElementById("file").files[0]);
+                alert(document.getElementById("file").state);
+                    formData.append("email", document.getElementById("Email").value);
+                alert(document.getElementById("Email").value);
+                let pathName = window.document.location.pathname;
+                let projectName = pathName
+                    .substring(0, pathName.substr(1).indexOf('/') + 1);
                 $.ajax({
-                    url: "ImageUploadServlet",
+                    url: projectName+"/ImageUploadServlet",
                     type: "POST",
                     data: formData,
                     /**
@@ -58,6 +66,7 @@
                      */
                     processData: false,
                     success: function (result) {
+                        alert("sssss")
                         var fileimg = $("#file")[0].files[0];
                         // var reader = new FileReader();
                         var URL = window.URL || window.webkitURL;
@@ -75,6 +84,7 @@
                     }
                 });
             });
+        });
     </script>
 </head>
 <body>
@@ -91,10 +101,10 @@
         <div id="main-profile" class="parts">
             <p>
                 <label>当前头像：</label>
-                <span class="pf-avatar-box">
+                <span >
                                 <a class="pf-avatar">
-                                    <input id="file"  type="file" accept="image/*"  class="file" style="display:none"/><br />
-                                    <img id="test" src=<%=application.getContextPath()+user.getImgFilePath()%>>
+                                    <input id="file" state="false" type="file" accept="image/*"  class="file" style="display:none"/><br />
+                                    <img id="test" style="width:100px;height:100px" src="<%=pageContext.getServletContext().getContextPath()+(user.getImgFilePath()==null?"/imgs/default_portrait.jpg":new String("/imgs/"+user.getImgFilePath()))%>">
                                                                     </a>
                             </span>
             </p>

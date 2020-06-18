@@ -43,8 +43,6 @@ public class GetConnListener implements ServletContextListener, HttpSessionListe
     // -------------------------------------------------------
     public void sessionCreated(HttpSessionEvent se) {
         /* Session is created. */
-        ShopCart shopCart=new ShopCart();
-        se.getSession().setAttribute(Constant.SHOP_CART, shopCart);
     }
 
     public void sessionDestroyed(HttpSessionEvent se) {

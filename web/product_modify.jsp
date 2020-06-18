@@ -161,17 +161,17 @@
     <div>
         <strong>主图片：</strong>
         <input class="upload" type="file" id="mainImgFilePath"  state="false" style="display:none" name="mainImgFilePath0" accept="image/*"/><br/>
-        <img id="mainImgFilePath0" src="D:NB/+<%=product.getMainImgFilePath()%>" />
+        <img id="mainImgFilePath0" src="<%="imgs/"+product.getMainImgFilePath()%>" />
         <br/>
         <strong>副图片：</strong>
         <input class="upload" type="file" id="image1" state="false" style="display:none" name="image10" accept="image/*"/>
-        <img id="image10" src="<%=product.getImage1().isEmpty()?"imgs/upload.png":new String("D:NB/"+product.getImage1())%>"/>
+        <img id="image10" src="<%=product.getImage1()==null?"imgs/upload.png":new String("imgs/"+product.getImage1())%>"/>
         <input class="upload" type="file" id="image2" state="false" style="display:none" name="image20" accept="image/*"/>
-        <img id="image20" src="<%=product.getImage2().isEmpty()?"imgs/upload.png":new String("D:NB/"+product.getImage2())%>"/>
+        <img id="image20" src="<%=product.getImage2()==null?"imgs/upload.png":new String("imgs/"+product.getImage2())%>"/>
         <input class="upload" type="file" id="image3" state="false" style="display:none" name="image30" accept="image/*"/>
-        <img id="image30" src="<%=product.getImage3().isEmpty()?"imgs/upload.png":new String("D:NB/"+product.getImage3())%>"/>
+        <img id="image30" src="<%=product.getImage3()==null?"imgs/upload.png":new String("imgs/"+product.getImage3())%>"/>
         <input class="upload" type="file" id="image4" state="false" style="display:none" name="image40" accept="image/*"/>
-        <img id="image40" src="<%=product.getImage4().isEmpty()?"imgs/upload.png":new String("D:NB/"+product.getImage4())%>"/>
+        <img id="image40" src="<%=product.getImage4()==null?"imgs/upload.png":new String("imgs/"+product.getImage4())%>"/>
     </div>
     <br/>
     <div class="div">

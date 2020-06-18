@@ -5,8 +5,6 @@ import com.web.entity.Comment;
 import com.web.entity.User;
 import com.web.util.C3P0Demo;
 import com.web.util.Constant;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,40 +49,36 @@ public class userService {
             return Constant.MessageType.USER_NAME_NOT_EXIST;
         }
     }
-
-    /**
-     * 根据用户名和密码判断是否登陆成功
-     * @param name 用户姓名
-     * @param pwd 用户密码
-     * @return 是否登陆成功
-     */
     public static Constant.MessageType judgeLoginSuccessByNamePwd(String name, String pwd) {
         ResultSet rs = null;//声明结果集
         Connection conn = C3P0Demo.getconn();//获取连接对象\
-        int count = 0;
+        String count = null;
         PreparedStatement ps = null;
         try {
-            String sql = "select count(*) " +
+            String sql = "select password " +
                     "from user " +
-                    "where name = ? and password = ?";
+                    "where name = ?";
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, name);
-            ps.setString(2, pwd);
+            //ps.setString(2, pwd);
             rs = ps.executeQuery();
             if (rs.next()) {
-                count = rs.getInt(1);
+                count = rs.getString(1);
             }
+            System.out.println(name+"33333"+pwd+"444"+count);
+            System.out.println(count.equals(pwd));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             C3P0Demo.closeall(rs, ps, conn);
         }
-        if (count > 0) {
-            return Constant.MessageType.LOGIN_SUCCESS;
-        } else {
-            return Constant.MessageType.LOGIN_FAIL;
-        }
+            if (count.equals(pwd)) {
+                System.out.println("succsse!!");
+                return Constant.MessageType.LOGIN_SUCCESS;
+            } else {
+                return Constant.MessageType.LOGIN_FAIL;
+            }
     }
 
     /**
@@ -219,6 +213,35 @@ public class userService {
     }
 
     /**
+     *  更新用户头像
+     * @param name 用户名
+     * @param email 更新头像
+     * @return 是否更新成功
+     */
+    public static Constant.MessageType updateUserEmail(String name, String email) {
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            String sql = "update user set email = ?" +
+                    "where name = ?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setString(2, name);
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
+        }
+        if (result > 0) {
+            return Constant.MessageType.UPDATE_USER_IMAGE_SUCCESS;
+        } else {
+            return Constant.MessageType.UPDATE_USER_IMAGE_FAIL;
+        }
+    }
+    /**
      * 根据用户名返回用户身份类型
      * @param name 用户名
      * @return 用户类型
@@ -236,8 +259,10 @@ public class userService {
             ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             rs = ps.executeQuery();
+            System.out.println(sql+rs.next());
             if (rs.next()) {
                 result = rs.getString("type");
+                System.out.println("XXXXXX"+result);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -324,9 +349,9 @@ public class userService {
 
 
     public static void main(String[] args) {
-        if (updateUserImage("1", "1") == Constant.MessageType.UPDATE_USER_IMAGE_SUCCESS) {
-            System.out.println("yes");
-        }
+//        if (updateUserImage("1", "1") == Constant.MessageType.UPDATE_USER_IMAGE_SUCCESS) {
+//            System.out.println("yes");
+//        }
 //        if (judgeExistByName("1") == Constant.MessageType.USER_NAME_EXIST) {
 //            System.out.println(Constant.MessageType.USER_NAME_EXIST);
 //        }
