@@ -30,6 +30,8 @@ public class Constant {
         UPDATE_USER_INFO_FAIL,                  //更新用户信息失败
         UPDATE_PRODUCT_STATE_SUCCESS,           //更新商品状态成功
         UPDATE_PRODUCT_STATE_FAIL,              //更新商品状态失败
+        UPDATE_PRODUCT_BUY_NUMBER_SUCCESS,      //更新商品购买数量成功
+        UPDATE_PRODUCT_BUY_NUMBER_FAIL,         //更新商品购买数量失败
         UPDATE_SALE_INFO_SUCCESS,               //更新店铺信息成功
         UPDATE_SALE_INFO_FAIL,                  //更新店铺信息失败
         LOGIN_SUCCESS,                          //登录成功
@@ -50,6 +52,8 @@ public class Constant {
         INSERT_PRODUCT_FAIL,                    //添加新产品失败
         INSERT_SALE_SHOP_SUCCESS,               //添加店铺成功
         INSERT_SALE_SHOP_FAIL,                  //添加店铺失败
+        DROP_ORDER_SUCCESS,                     //添加店铺成功
+        DROP_ORDER_FAIL,                        //添加店铺失败
         UPDATE_PRODUCT_INFO_SUCCESS,            //更新商品信息成功
         UPDATE_PRODUCT_INFO_FAIL,               //更新商品信息失败
         UPDATE_USER_IMAGE_SUCCESS,              //更新用户头像成功

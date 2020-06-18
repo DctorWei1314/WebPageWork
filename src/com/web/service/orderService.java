@@ -40,6 +40,37 @@ public class orderService {
     }
 
     /**
+     * 更新商品购买数量
+     * @param orderID 订单ID
+     * @param buyNumber 购买数量
+     * @return 是否修改成功
+     */
+    public static Constant.MessageType updateProductBuyNumber(int orderID, int buyNumber) {
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            String sql = "update ordersheet " +
+                    "SET buyNumber = ? " +
+                    "WHERE order_id=?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, buyNumber);
+            ps.setInt(2, orderID);
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
+        }
+        if (result > 0) {
+            return Constant.MessageType.UPDATE_PRODUCT_BUY_NUMBER_SUCCESS;
+        } else {
+            return Constant.MessageType.UPDATE_PRODUCT_BUY_NUMBER_FAIL;
+        }
+    }
+
+    /**
      * 添加订单
      * @param order 订单
      * @return 是否添加订单成功
@@ -268,40 +299,38 @@ public class orderService {
         return orderSheets;
     }
 
-//    public static Constant.MessageType deleteProductByProductNameSaleID(String productName, String saleID){
-//        Connection conn = C3P0Demo.getconn();
-//        PreparedStatement ps = null;
-//        int result = 0;
-//        try {
-//            String sql = "delete from ordersheet"
-//                    + " where prod";
-//            assert conn != null;
-//            ps = conn.prepareStatement(sql);
-//            ps.setInt(1, order.getOrderID());
-//            ps.setString(2, order.getSaleID());
-//            ps.setString(3, order.getProductName());
-//            ps.setInt(4, order.getBuyNumber());
-//            ps.setString(5, order.getBuyerID());
-//            ps.setDouble(6, order.getPrice());
-//            ps.setTimestamp(7, order.getDateTime());
-//            ps.setDouble(8, order.getStatus());
-//            result = ps.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            C3P0Demo.closeall(null, ps, conn);
-//        }
-//        if (result > 0) {
-//            return Constant.MessageType.INSERT_ORDER_SUCCESS;
-//        } else {
-//            return Constant.MessageType.INSERT_ORDER_FAIL;
-//        }
-//    }
+    /**
+     * 删除订单中的某个商品
+     * @param orderID 订单ID
+     * @return 是否删除成功
+     */
+    public static Constant.MessageType deleteProductByOrderID(int orderID){
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            String sql = "delete from ordersheet"
+                    + " where order_ID = ?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, orderID);
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
+        }
+        if (result > 0) {
+            return Constant.MessageType.DROP_ORDER_SUCCESS;
+        } else {
+            return Constant.MessageType.DROP_ORDER_FAIL;
+        }
+    }
 
     public static void main(String[] args) {
-        for (OrderSheet orderSheet : selectOrderListBySaleIDState("1", 2)) {
-            System.out.println(orderSheet.getDateTime());
-        }
+//        for (OrderSheet orderSheet : selectOrderListBySaleIDState("1", 2)) {
+//            System.out.println(orderSheet.getDateTime());
+//        }
 //        System.out.println(selectOrderPageByBuyerID("1", 1, 10).size());
 //        String date = "2019-07-16 19:20:00";
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -322,8 +351,8 @@ public class orderService {
 //                timestamp,
 //                1
 //        );
-//        if (insertOrder(orderSheet) == Constant.MessageType.INSERT_ORDER_SUCCESS) {
-//            System.out.println(Constant.MessageType.INSERT_ORDER_SUCCESS);
-//        }
+        if (updateProductBuyNumber(2, 20) == Constant.MessageType.UPDATE_PRODUCT_BUY_NUMBER_SUCCESS) {
+            System.out.println(Constant.MessageType.DROP_ORDER_SUCCESS);
+        }
     }
 }

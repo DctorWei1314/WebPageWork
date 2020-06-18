@@ -1,11 +1,14 @@
 package com.web.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import com.web.service.globalDiscountService;
 import com.web.service.orderService;
 import com.web.service.productService;
-
+import com.web.util.Constant;
 
 
 /**
@@ -16,7 +19,9 @@ public class ShopCart {
     private int size;//单页尺寸
     private String buyer;//购买者
     private List<Product> products = new ArrayList<>();//购物车中商品列表
-    private List<OrderSheet> orderSheets;//订单列表
+    private Map<String, Integer> orderIDlist;
+    //private List<OrderSheet> orderSheets;//订单列表
+
     private int pageCount;//总共的页数量
 
     /**
@@ -25,16 +30,40 @@ public class ShopCart {
      * @return 购买数量
      */
     public int buyNumber(Product product) {
-        for (OrderSheet orderSheet :orderSheets) {
-            if (orderSheet.getProductName().equals(product.getName()) &&
-            orderSheet.getSaleID().equals(product.getSaleID())) {
+        if (orderIDlist.containsKey(product.getSaleID()+product.getName())){
+            int orderID=orderIDlist.get(product.getSaleID()+product.getName());
+            OrderSheet orderSheet=orderService.selectOrderByOrderID(orderID);
+            if(orderSheet!=null){
                 return orderSheet.getBuyNumber();
             }
         }
+//        for (OrderSheet orderSheet :orderSheets) {
+//            if (orderSheet.getProductName().equals(product.getName()) &&
+//            orderSheet.getSaleID().equals(product.getSaleID())) {
+//                return orderSheet.getBuyNumber();
+//            }
+//        }
         return 0;
     }
 
-    
+    /**
+     * 删除某个订单所对应的商品
+     * @param orderID ID
+     * @return 是否删除成功
+     */
+    public Constant.MessageType deleteProduct(int orderID) {
+        return orderService.deleteProductByOrderID(orderID);
+    }
+
+    /**
+     * 根据订单ID 和 更改后的购买数量 返回是否更新购买数量成功
+     * @param orderID 订单ID
+     * @param buyNumber 更改后的购买数量
+     * @return 是否更新购买数量成功
+     */
+    public Constant.MessageType updateBuyNumber(int orderID, int buyNumber) {
+        return orderService.updateProductBuyNumber(orderID, buyNumber);
+    }
 
     public static void main(String[] args){
         ShopCart shopCart = new ShopCart("1", 10);
@@ -90,6 +119,37 @@ public class ShopCart {
         double discount = globalDiscountService.selectGlobalDiscount();
         return product.getDiscount() * product.getPrice() * discount;
     }
+    /**
+     * 清空购物车
+     */
+    public void clearCart(){
+        products.clear();
+        orderIDlist.clear();
+    }
+    /**
+     * 享购物车增加商品
+     */
+    public void addProduct(String saleID,String productName,int num) {
+        if(orderIDlist.containsKey(saleID+productName)){
+            int orderID=orderIDlist.get(saleID+productName);
+            int snum=orderService.selectOrderByOrderID(orderID).getBuyNumber();
+            orderService.updateProductBuyNumber(orderID, snum+num);
+        }
+        else {
+            Product p=productService.selectProductByProductNameSaleID(productName,saleID);
+            int orderID=genegrate();
+            OrderSheet orderSheet=new OrderSheet(orderID,saleID,productName,num,buyer,num*price(p),null,0);
+            orderService.insertOrder(orderSheet);
+            orderIDlist.put(saleID+productName,orderID);
+            products.add(p);
+        }
+    }
+    /**
+     * 生成不重复订单码，希望能重写
+     */
+    public int genegrate(){
+        return (int)new Date().getTime();
+    }
 
     public ShopCart() {
     }
@@ -97,10 +157,11 @@ public class ShopCart {
     public ShopCart(String buyer, int size) {
         this.size = size;
         this.buyer = buyer;
-        orderSheets = orderService.selectAllOrdeByBuyerID(buyer);
+        List<OrderSheet> orderSheets = orderService.selectAllOrdeByBuyerID(buyer);
         for (OrderSheet orderSheet : orderSheets) {
             Product product = productService.selectProductByProductNameSaleID(orderSheet.getProductName(),orderSheet.getSaleID());
             products.add(product);
+            orderIDlist.put(orderSheet.getSaleID()+orderSheet.getProductName(),orderSheet.getOrderID());
         }
         if (products.size() % size == 0) {
             pageCount = products.size() / size;
@@ -121,6 +182,10 @@ public class ShopCart {
         return buyer;
     }
 
+    public Map<String, Integer> getOrderIDlist() {
+        return orderIDlist;
+    }
+
     public void setBuyer(String buyer) {
         this.buyer = buyer;
     }
@@ -133,12 +198,12 @@ public class ShopCart {
         this.products = products;
     }
 
-    public List<OrderSheet> getOrderSheets() {
-        return orderSheets;
-    }
-
-    public void setOrderSheets(List<OrderSheet> orderSheets) {
-        this.orderSheets = orderSheets;
-    }
+//    public List<OrderSheet> getOrderSheets() {
+//        return orderSheets;
+//    }
+//
+//    public void setOrderSheets(List<OrderSheet> orderSheets) {
+//        this.orderSheets = orderSheets;
+//    }
     //增加商品，设置商品数量，删除商品
 }

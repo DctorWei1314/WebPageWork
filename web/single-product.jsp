@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title><!--tip动态商品名称-->    <!-- Bootstrap -->
+    <title>商品</title><!--tip动态商品名称-->    <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Font Awesome -->
@@ -74,8 +74,8 @@ p.setSaleID("华为");
             <div class="col-md-12">
                 <div class="product-content-right">
                     <div class="product-breadcroumb">
-                        <a href=<%=application.getContextPath()%>/shop.jsp>首页</a>
-                        <a href=<%=application.getContextPath()%>/BuyerQuery?type=sellerid&condition=<%=p.getSaleID()%>><%=p.getSaleID()%></a>
+                        <a href="javascript:QueryProduct(1,'ALL','ALL')">首页</a>
+                        <a href="javascript:QueryProduct(1,'label',<%=p.getSaleID()%>)"><%=p.getSaleID()%></a>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
@@ -150,7 +150,7 @@ p.setSaleID("华为");
                                                name="quantity" min="1" max=<%=p.getLeftNumber()%> step="1"><!--tipmax为数量-->
                                     </div>
                                     <label>(库存<%=p.getLeftNumber()%>件)</label><!--tipmax为数量-->
-                                    <button class="add_to_cart_button" type="submit" onclick="addcart(<%=p%>,document.getElementById(num).value)">加入购物车</button>
+                                    <button class="add_to_cart_button" type="submit" onclick="addcart(<%=p.getSaleID()%>,<%=p.getName()%>)">加入购物车</button>
                                 </form>
                                 <%
                                     double a=p.getScore();//输入正浮点数a
