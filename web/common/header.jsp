@@ -17,8 +17,8 @@
                     <div class="user-menu">
                         <ul>
                             <%
-                                //User user=(User) session.getAttribute(Constant.USER_SESSION);
-                                User user=new User();
+                                User user=(User) session.getAttribute(Constant.USER_SESSION);
+                                //User user=new User();
                                 if(user==null){
                             %>
                             <li><a href=<%=application.getContextPath()%>/login.jsp><i class="fa fa-user"></i> 登录</a></li>
