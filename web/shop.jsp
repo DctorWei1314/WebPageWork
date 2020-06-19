@@ -4,6 +4,8 @@
 <%@ page import="com.web.service.productService" %>
 <%@ page import="com.web.entity.Product" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.web.service.userService" %>
+<%@ page import="com.web.util.Constant" %>
 <%--
   Created by IntelliJ IDEA.
   User: administrator-PC
@@ -35,7 +37,7 @@
         $(document).ready(function () {
             QueryProduct(1);
         });
-    </script>>
+    </script>
 </head>
 <body>
 <!--通用头部-->
@@ -56,6 +58,7 @@ else
 <%
 }
 %>
+<input type="hidden" id="role"  value=<%="eeeee"%>>
 <input type="hidden" id="pageLabel">
 <div class="product-big-title-area">
     <div class="container">

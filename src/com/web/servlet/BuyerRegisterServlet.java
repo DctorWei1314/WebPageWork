@@ -39,8 +39,7 @@ public class BuyerRegisterServlet extends HttpServlet {
             else if(user.getType() == Constant.MessageType.SELLER){
                 SaleShop saleShop = new SaleShop(user.getUserID(),null,null,null);
                 shopService.insertNewSaleShop(saleShop);
-                request.setAttribute("saleID",user.getUserID());
-                request.getRequestDispatcher("saler.jsp").forward(request,response);
+                request.getRequestDispatcher("shop.jsp").forward(request,response);
             }
         }
         else {

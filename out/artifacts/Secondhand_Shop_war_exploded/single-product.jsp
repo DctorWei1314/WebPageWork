@@ -67,6 +67,7 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
 %>
 <input type="hidden" id="saleID" value="<%=p.getSaleID()%>">
 <input type="hidden" id="productname" value="<%=p.getName()%>">
+<input type="hidden" id="role" value=<%=Constant.MessageType.insertUserType(user.getType())%>>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -150,7 +151,11 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                                                name="quantity" min="1" max=<%=p.getLeftNumber()%> step="1"><!--tipmax为数量-->
                                     </div>
                                     <label>(库存<%=p.getLeftNumber()%>件)</label><!--tipmax为数量-->
+                                    <%if(user.getType()== Constant.MessageType.BUYER){
+                                    %>
                                     <button class="add_to_cart_button" type="submit" onclick="addcart(<%=p.getSaleID()%>,<%=p.getName()%>)">加入购物车</button>
+                                    <%
+                                    }%>
                                 </form>
                                 <%
                                     double a=p.getScore();//输入正浮点数a
@@ -205,7 +210,11 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                                                           cols="30"
                                                           rows="10"></textarea>
                                                 <input type="hidden" name="saleID" value=<%=p.getSaleID()%>
-                                                <p><input type="submit" value="提交"></p>
+                                                    <%if(user.getType()== Constant.MessageType.BUYER){
+                                                    %>
+                                                        <p><input type="submit" value="提交"></p>
+                                                    <%}
+                                                    %>
                                             </div>
                                             </form>
                                         </div>
@@ -268,7 +277,12 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                 </div>
                 <div class="comment-send">
 
-                    <form id="commentForm" method="post" action=<%=application.getContextPath()%>/user/Comment onsubmit="return score_1()">
+                    <form id="commentForm"      <%if(user.getType()== Constant.MessageType.BUYER){
+                                                %>
+                          method="post" action="<%=application.getContextPath()%>/user/Comment" onsubmit="return score_1()"
+                                                <%
+                                                }%>
+                          >
                         <div class="row">
                             <div class="col-sm-2">
                             <span class="comment-avatar">

@@ -171,6 +171,9 @@ function Querycomment(pageID) {
     })
 }
 function QueryProduct(pageID) {
+    let role = $("#role").value;
+    alert(role);
+    alert(arguments.length);
     let type;
     let condition;
     let pathName = window.document.location.pathname;
@@ -197,7 +200,12 @@ function QueryProduct(pageID) {
             "pageID": pageID,
         },
         success(data) {
-            ProductLoad(data);//调用
+            if (role=="buyer")
+                ProductLoad(data);//调用
+            else if (role == "saler" && type == "sellerid")
+                ManagerProductLoad(data);
+            else if (role == "saler")
+                SalerProductLoad(data);
         }
     })
 }
@@ -233,6 +241,84 @@ function ProductLoad(data) {
             "                    <div class=\"product-option-shop\">\n" +
             "                        <a class=\"add_to_cart_button\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"70\" rel=\"nofollow\"\n" +
             "                        onclick=\"addcart( '" +(jsonObject[j]['saleID'])+"',"+(jsonObject[j]['name'])+ " ,1)\">加入购物车</a>\n" +
+            "                        <!--tip加入购物车链接-->\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>"
+    }
+    document.getElementById("product-list").innerHTML=ProductHtml;
+}
+function SalerProductLoad(data) {
+    console.log(data);
+    let pathName = window.document.location.pathname;
+    let projectName = pathName
+        .substring(0, pathName.substr(1).indexOf('/') + 1);
+    let jsonObject= jQuery.parseJSON(data);
+    let ProductPageHtml="";
+    let type=jsonObject[0]['type']
+    let condition=jsonObject[0]['condition']
+    document.getElementById("type").value=type;
+    document.getElementById("condition").value=condition;
+    let allpages=jsonObject[0]['allpages'];
+    let pageID=jsonObject[0]['pageID'];
+    for (let i=1;i<=allpages;i++){
+        ProductPageHtml+="<li"+  (i==pageID?' '+'class="active"':'')  +"><a href=\"javascript:QueryProduct("+i+")\">"+i+"</a></li>"
+    }
+    document.getElementById("product-page").innerHTML=ProductPageHtml;
+
+    let ProductHtml="";
+    for (let j=1;j<jsonObject.length;j++){
+        ProductHtml+="            <div class=\"col-md-3 col-sm-6\">\n" +
+            "                <div class=\"single-shop-product\">\n" +
+            "                    <div class=\"product-upper\">\n" +
+            "                        <img src="+projectName+"/imgs/"+(jsonObject[j]['mainImgFilePath'])+" alt="+(jsonObject[j]['name'])+" >\n" +
+            "                    </div>\n" +
+            "                    <h2><a href="+projectName+"/SingleProduct?saleID="+(jsonObject[j]['saleID'])+"&name="+(jsonObject[j]['name'])+"> "+(jsonObject[j]['name'])+" </a></h2><!--tip单品链接-->\n" +
+            "                    <div class=\"product-carousel-price\">\n" +
+            "                        <ins>￥"+(jsonObject[j]['price'])+"</ins> <del>￥"+(jsonObject[j]['salePrice'])+"</del>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"product-option-shop\">\n" +
+            "                        <a class=\"add_to_cart_button\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"70\" rel=\"nofollow\"\n" +
+            "                       herf=\"/SingleProduct?saleID=" +(jsonObject[j]['saleID'])+"&name="+(jsonObject[j]['name'])+"\">探勘商品</a>\n" +
+            "                        <!--tip加入购物车链接-->\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>"
+    }
+    document.getElementById("product-list").innerHTML=ProductHtml;
+}
+function ManagerProductLoad(data) {
+    console.log(data);
+    let pathName = window.document.location.pathname;
+    let projectName = pathName
+        .substring(0, pathName.substr(1).indexOf('/') + 1);
+    let jsonObject= jQuery.parseJSON(data);
+    let ProductPageHtml="";
+    let type=jsonObject[0]['type']
+    let condition=jsonObject[0]['condition']
+    document.getElementById("type").value=type;
+    document.getElementById("condition").value=condition;
+    let allpages=jsonObject[0]['allpages'];
+    let pageID=jsonObject[0]['pageID'];
+    for (let i=1;i<=allpages;i++){
+        ProductPageHtml+="<li"+  (i==pageID?' '+'class="active"':'')  +"><a href=\"javascript:QueryProduct("+i+")\">"+i+"</a></li>"
+    }
+    document.getElementById("product-page").innerHTML=ProductPageHtml;
+
+    let ProductHtml="";
+    for (let j=1;j<jsonObject.length;j++){
+        ProductHtml+="            <div class=\"col-md-3 col-sm-6\">\n" +
+            "                <div class=\"single-shop-product\">\n" +
+            "                    <div class=\"product-upper\">\n" +
+            "                        <img src="+projectName+"/imgs/"+(jsonObject[j]['mainImgFilePath'])+" alt="+(jsonObject[j]['name'])+" >\n" +
+            "                    </div>\n" +
+            "                    <h2><a href="+projectName+"/SingleProduct?saleID="+(jsonObject[j]['saleID'])+"&name="+(jsonObject[j]['name'])+"> "+(jsonObject[j]['name'])+" </a></h2><!--tip单品链接-->\n" +
+            "                    <div class=\"product-carousel-price\">\n" +
+            "                        <ins>￥"+(jsonObject[j]['price'])+"</ins> <del>￥"+(jsonObject[j]['salePrice'])+"</del>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"product-option-shop\">\n" +
+            "                        <a class=\"add_to_cart_button\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"70\" rel=\"nofollow\"\n" +
+            "                        herf=\"product_modify.jsp?product_name="+(jsonObject[j]['name'])+"\">加入购物车</a>\n" +
             "                        <!--tip加入购物车链接-->\n" +
             "                    </div>\n" +
             "                </div>\n" +
