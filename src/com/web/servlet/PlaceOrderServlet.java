@@ -29,7 +29,7 @@ public class PlaceOrderServlet extends HttpServlet {
             int orderID=shopCart.getOrderIDlist().get(p.getSaleID()+p.getName());
             orderService.updateProductStatus(orderID,2);
             //等待更新时间
-            orderService.updateProductTime(orderID, (Timestamp) new Date());
+            orderService.updateProductTime(orderID, new Timestamp(new Date().getTime()));
             shopCart.clearCart();
         }
         out.write("交易成功，即将跳转订单界面");

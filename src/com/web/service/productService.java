@@ -307,6 +307,7 @@ public class productService {
      * @return 分页商品列表
      */
     public static List<Product> selectAllProduct(int number, int size){
+        System.out.println("铲鲟三");
         List<Product> products = new ArrayList<>();
         ResultSet rs = null;
         Connection conn = C3P0Demo.getconn();

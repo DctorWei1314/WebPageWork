@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/BuyerQuery")
-public class BuyerQuerySerlvet extends HttpServlet {
+public class BuyerQueryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        System.out.println("查询而");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("utf-8");
         String type=request.getParameter("type");
@@ -50,7 +50,7 @@ public class BuyerQuerySerlvet extends HttpServlet {
             page_num= productService.selectProductCountBySaleID(condition);
         }
         //按标签查询
-        else if(type.equals("label")&&condition!="全部商品"){
+        else if(type.equals("label")&&!condition.equals("全部商品")){
             System.out.println(type+condition);
             p_list=productService.selectProductPageByTag(condition,1,12);
             page_num=productService.selectProductCountByTag(condition);
@@ -59,7 +59,7 @@ public class BuyerQuerySerlvet extends HttpServlet {
         else {
             System.out.println(type+condition);
             p_list=productService.selectAllProduct(1,12);
-            page_num=productService.selectAllProductCount();
+                        page_num=productService.selectAllProductCount();
         }
 
 //        p_list=new ArrayList<Product>();
@@ -87,6 +87,7 @@ public class BuyerQuerySerlvet extends HttpServlet {
             json.add(jo);
         }
         String jtext=json.toString();
+        System.out.println(jtext);
         out.write(jtext);
         out.close();
     }

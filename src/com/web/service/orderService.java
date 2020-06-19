@@ -49,7 +49,7 @@ public class orderService {
         PreparedStatement ps = null;
         int result = 0;
         try {
-            String sql = "update ordersheet SET time=? WHERE order_id=?";
+            String sql = "update ordersheet SET `time`=? WHERE order_id=?";
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setTimestamp(1, time);
@@ -326,6 +326,47 @@ public class orderService {
         }
         return orderSheets;
     }
+    /**
+     * 选出购买者所有没付款的订单
+     * @param buyID 购买者用户
+     * @return 订单列表
+     */
+    public static List<OrderSheet> selectNoPayOrderByBuyerID(String buyID){
+        List<OrderSheet> orderSheets = new ArrayList<>();
+        ResultSet rs = null;
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        try{
+            int productCount = selectOrderCountByBuyerID(buyID);
+            if(productCount > 0){
+                String sql = "select * from ordersheet " +
+                        " where buyer = ? and state=1"+
+                        " order by time";
+                assert conn != null;
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, buyID);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    OrderSheet orderSheet = new OrderSheet(
+                            rs.getInt("order_id"),
+                            rs.getString("saleID"),
+                            rs.getString("product_name"),
+                            rs.getInt("buyNumber"),
+                            rs.getString("buyer"),
+                            rs.getDouble("price"),
+                            rs.getTimestamp("time"),
+                            rs.getInt("state")
+                    );
+                    orderSheets.add(orderSheet);
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            C3P0Demo.closeall(rs, ps, conn);
+        }
+        return orderSheets;
+    }
 
     /**
      * 删除订单中的某个商品
@@ -333,6 +374,7 @@ public class orderService {
      * @return 是否删除成功
      */
     public static Constant.MessageType deleteProductByOrderID(int orderID){
+        System.out.println("shitb");
         Connection conn = C3P0Demo.getconn();
         PreparedStatement ps = null;
         int result = 0;

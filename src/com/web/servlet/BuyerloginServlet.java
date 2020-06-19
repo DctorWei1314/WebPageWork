@@ -29,7 +29,7 @@ public class BuyerloginServlet extends HttpServlet {
             }
             else if(user.getType() == Constant.MessageType.SELLER){
                 req.setAttribute("saleID",user.getUserID());
-                req.getRequestDispatcher("saler.jsp").forward(req,resp);
+                req.getRequestDispatcher("shop.jsp").forward(req,resp);
             }
             else if(user.getType() == Constant.MessageType.ADMIN){
                 resp.sendRedirect("admin_center.jsp");

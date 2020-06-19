@@ -33,6 +33,7 @@
 <body>
 <%@include file="../common/header.jsp" %>
 <input type="hidden" id="username-order" value=<%=user.getName()%>>
+<input type="hidden" id="username" value="<%=user.getName()%>"/>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -61,7 +62,7 @@
                                                     style="vertical-align: inherit;">*</font></font></abbr>
                                             </label>
                                             <select value="" id="billing_address_1"
-                                                    name="billing_address_1" class="input-text " id="select-address">
+                                                    name="billing_address_1" class="input-text " >
                                                 <!--tip获取地址-->
                                             </select>
                                         </p>
@@ -96,16 +97,6 @@
                                     </thead>
                                     <tbody>
                                     <!--tip动态添加-->
-                                    <tr class="cart_item">
-                                        <td class="product-name"><font style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;">
-                                            传达您的想法</font></font><strong class="product-quantity"><font
-                                                style="vertical-align: inherit;"><font style="vertical-align: inherit;">×1</font></font></strong>
-                                        </td>
-                                        <td class="product-total">
-                                            <span class="amount"><font style="vertical-align: inherit;"><font
-                                                    style="vertical-align: inherit;">£15.00</font></font></span></td>
-                                    </tr>
                                     <%
                                         for (Product p : shopCart.getProducts()) {
                                     %>

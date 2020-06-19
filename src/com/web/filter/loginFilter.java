@@ -16,11 +16,13 @@ public class loginFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+
         HttpServletRequest requst=(HttpServletRequest) req;
         HttpServletResponse response=(HttpServletResponse) resp;
         User user=(User) requst.getSession().getAttribute(Constant.USER_SESSION
         );
         if(user==null||user.getType()!=Constant.MessageType.BUYER){
+            System.out.println("你好，我是拦截器");
             response.sendRedirect(requst.getContextPath()+"/login.jsp");
         }
         chain.doFilter(req, resp);

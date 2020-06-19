@@ -797,6 +797,7 @@ input[type="submit"], button[type=submit] {
     border: medium none;
     color: #fff;
     padding: 11px 20px;
+    margin: 0px 20px;
     text-transform: uppercase;
 }
 
@@ -922,7 +923,6 @@ span.s1 {
 
 p#s2 {
     word-wrap: break-word;
-    white-space: pre-wrap;
     min-height: 220px;
     max-height: 220px;
     overflow-y: auto;
@@ -1828,4 +1828,15 @@ img#head{
     height: 20px;
     width: 20px;
     border-radius: 20px;
+}
+div.register-but{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+span#discount{
+    margin: 24px;
+    font-weight: 900;
+    font-size: 16px;
+    display: table;
 }
