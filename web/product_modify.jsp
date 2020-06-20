@@ -10,18 +10,24 @@
 <%@ page import="com.web.entity.Tag" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.web.service.productService" %>
+<script src="js/buyer.js"></script>
 <html>
 <head>
     <title>修改商品信息</title>
     <script src="js/jquery.min.js">
         // 要用jquery用src="js/jquery.min.js"
     </script>
+    <script src="js/buyer.js">
+        // 要用jquery用src="js/jquery.min.js"
+    </script>
     <script>
         $(function () {
-            $("#submit").click(function () {
+            $("#modify").click(function () {
+                alert("rrr");
                 var formData = new FormData();
                 var files = document.getElementsByClassName("upload");
                 formData.append("modify","true");
+                formData.append("name",document.getElementById("name").value);
                 for(var i=0;i<files.length;i++){
                     if (files[i].state == "true"){
                         $("#"+files[i].name).attr("src","imgs/wait.gif");
@@ -31,13 +37,15 @@
                 var info = document.getElementsByClassName("info");
                 for(var i=0;i<info.length;i++){
                     if (info[i].state == "true"){
+                        alert(info[i].id);
                         formData.append(info[i].id, info[i].value);
                     }
                 }
-                var tag = document.getElementsByClassName("mytag");
+                var tag = document.getElementsByClassName("owntag");
                 for(var i=0;i<tag.length;i++){
-                    if (tag[i].state == "true"){
-                        formData.append(tag[i].class,tag[i].innerHTML)
+                    alert("state"+tag[i].getAttribute("state"));
+                    if (tag[i].getAttribute("state") == "true"){
+                        formData.append("tag",tag[i].innerHTML)
                     }
                 }
                 $.ajax({
@@ -65,7 +73,7 @@
                             }
                         }
                         if (result!=null){
-                            alert(resul);
+                            alert(result);
                         }
                     },
                     error: function () {
@@ -183,7 +191,7 @@
         <input class="info" type="number" typ id="discount" state="false" onchange="this.state='true'" value="<%=product.getDiscount()*10%>"/><br/>
     </div>
     <div class="div">
-        <strong>剩余数量：</strong>
+        <strong style="color:red ">剩余数量：</strong>
         <input class="info" type="text" id="number" readonly="readonly" value="<%=product.getLeftNumber()%>" /><br/>
     </div>
     <div class="div">
@@ -195,12 +203,12 @@
         <input class="info" type="text" id="description" state="false" value="<%=product.getDescription()%>" onchange="this.state='true'"/><br/>
     </div>
     <div class="div">
-        <strong>商品名：</strong>
-        <input type="text" readonly="readonly" id="name" readonly="readonly"/><br/>
+        <strong style="color:red ">商品名：</strong>
+        <input type="text" readonly="readonly" id="name" readonly="readonly" value="<%=product.getName()%>"/><br/>
     </div>
     <%
         List<String> allTag = (List<String>) application.getAttribute(Constant.T_LIST);
-        List<String> ownTag = (List<String>)productService.selectTagByProduct(user.getUserID(),product_name);
+        List<String> ownTag = productService.selectTagByProduct(product_name,user.getUserID());
     %>
     <div>
         <strong>商品标签：</strong>
@@ -209,7 +217,7 @@
                 if(ownTag.size() > 0) {
                     for(String tag : ownTag) {
             %>
-            <li class="ownTag" status="false"><%=tag%></li>
+            <li class="owntag" state="false"><%=tag%></li>
             <%
                     }
                 }
@@ -220,8 +228,8 @@
         <strong>标签库：</strong>
         <ul id="allTag" >
             <%
-                if(ownTag.size() > 0) {
-                    for(String tag : ownTag) {
+                if(allTag.size() > 0) {
+                    for(String tag : allTag) {
                         if(!ownTag.contains(tag)){
             %>
             <li class="allTag"><%=tag%></li>
@@ -232,7 +240,7 @@
             %>
         </ul>
     </div>
-    <input type="button" id="sumbit" value="提交" name="<%=product_name%>">
+    <input type="button" id="modify" value="提交" name="<%=product_name%>">
 </div>
 <%@include file="common/footer.jsp" %>
 </body>

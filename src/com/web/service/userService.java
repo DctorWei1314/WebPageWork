@@ -66,14 +66,12 @@ public class userService {
             if (rs.next()) {
                 count = rs.getString(1);
             }
-            System.out.println(name+"33333"+pwd+"444"+count);
-            System.out.println(count.equals(pwd));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             C3P0Demo.closeall(rs, ps, conn);
         }
-            if (count.equals(pwd)) {
+            if (pwd.equals(count)) {
                 System.out.println("succsse!!");
                 return Constant.MessageType.LOGIN_SUCCESS;
             } else {
@@ -326,13 +324,14 @@ public class userService {
         PreparedStatement ps = null;
         int result = 0;
         try {
-            String sql = "insert into comment values(?, ?, ?, ?)";
+            String sql = "insert into comment values(?, ?, ?, ?,?)";
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, comment.getProductName());
-            ps.setString(2, comment.getUserID());
-            ps.setString(3, comment.getCommentContent());
-            ps.setTimestamp(4, comment.getTime());
+            ps.setString(2, comment.getSaleID());
+            ps.setString(3, comment.getUserID());
+            ps.setString(4, comment.getCommentContent());
+            ps.setTimestamp(5, comment.getTime());
             result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

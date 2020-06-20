@@ -58,7 +58,6 @@ else
 <%
 }
 %>
-<input type="hidden" id="role"  value=<%="eeeee"%>>
 <input type="hidden" id="pageLabel">
 <div class="product-big-title-area">
     <div class="container">
@@ -71,7 +70,7 @@ else
                         if(t_list!=null){
                         for(String tag:t_list){
                     %>
-                    <a  href="javascript:QueryProduct(1,'label',<%=tag%>)"  class="list-group-item" ><%=tag%></a>
+                    <a  href="#" onclick=javascript:QueryProduct(1,'label','<%=tag%>')  class="list-group-item" ><%=tag%></a>
                     <%
                         }}
                     %>

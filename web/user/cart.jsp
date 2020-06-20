@@ -27,7 +27,6 @@
 </head>
 <body>
 <%@include file="../common/header.jsp"%>
-<div>NB网购物全网折扣:<%=(double)application.getAttribute(Constant.GLOBAL_DISCOUNT)*10%>折!!!</div>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -49,39 +48,9 @@
                                     <th class="product-subtotal">NB网折后总价</th>
                                 </tr>
                                 </thead>
-                                <form method="post" action=<%=application.getContextPath()%>/user/Cart id="update-cart" onsubmit="return UpdateCart()">
+                                <form method="post" action=<%=application.getContextPath()%>/user/Cart id="update-cart">
                                     <input type="hidden" name="type" value="update">
                                 <tbody id="cart-list">
-                                <!--自动添加购物车-->
-                                <!--<tr class="cart_item">
-                                    <td class="product-remove">
-                                        <a title="删除该项目" class="remove" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></a>
-                                    </td>
-
-                                    <td class="product-thumbnail">
-                                        <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="../imgs/product-2.jpg"></a>
-                                    </td>
-
-                                    <td class="product-name">
-                                        <a href="single-product.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">传达您的想法</font></font></a>
-                                    </td>
-
-                                    <td class="product-price">
-                                        <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">£15.00</font></font></span>
-                                    </td>
-
-                                    <td class="product-quantity">
-                                        <div class="quantity buttons_added">
-                                            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="button" class="minus" value="--"></font></font>
-                                            <input type="number" size="4" class="input-text qty text" title="数量" value="1" min="0" step="1">
-                                            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="button" class="plus" value="+"></font></font>
-                                        </div>
-                                    </td>
-
-                                    <td class="product-subtotal">
-                                        <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">£15.00</font></font></span>
-                                    </td>
-                                </tr>-->
                                 <%
                                     List<Product> p_list=shopCart.getProducts();
                                     for (Product p:p_list)
@@ -125,6 +94,7 @@
                                     </td>
                                 </tr>
                                 </tbody>
+                                    <input type="hidden" name="type" value="update">
                                 </form>
                             </table>
                         </div>

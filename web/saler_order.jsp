@@ -26,6 +26,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/buyer.js"></script>
     <script>
         $(function () {
                 $(".agree").click(
@@ -112,7 +113,7 @@ if(status == null || status == "1")
                                     list = orderService.selectOrderListBySaleIDState(user.getUserID(),2);
                                 }
                                 else{
-                                    list.addAll(orderService.selectOrderListBySaleIDState(user.getUserID(),3));
+                                    list = orderService.selectOrderListBySaleIDState(user.getUserID(),3);
                                     list.addAll(orderService.selectOrderListBySaleIDState(user.getUserID(),4));
                                 }
                                 for(OrderSheet order:list){

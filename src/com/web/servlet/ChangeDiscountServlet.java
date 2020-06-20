@@ -26,7 +26,8 @@ public class ChangeDiscountServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         double discount = Double.parseDouble(request.getParameter("discount"));
-        getServletContext().setAttribute(GLOBAL_DISCOUNT, discount);
+        System.out.println(discount+"$$$$$$");
+        getServletContext().setAttribute(GLOBAL_DISCOUNT, discount*0.1);
         Constant.MessageType result = globalDiscountService.updateGlobalDiscount(discount);
         if(result == Constant.MessageType.UPDATE_GLOBAL_DISCOUNT_SUCCESS) {
             PrintWriter out = response.getWriter();

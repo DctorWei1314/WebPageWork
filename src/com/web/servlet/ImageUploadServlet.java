@@ -29,6 +29,7 @@ public class ImageUploadServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("12432423");
         response.setCharacterEncoding("UTF-8");
         User user = (User) request.getSession().getAttribute(Constant.USER_SESSION);
         String image = null;
@@ -55,7 +56,7 @@ public class ImageUploadServlet extends HttpServlet {
                 return;
             }
             //使用ServletFileUpload解析器解析上传数据，解析结果返回的是一个List<FileItem>集合，每一个FileItem对应一个Form表单的输入项
-            List<FileItem> list = fileUpload.parseRequest(request);
+                List<FileItem> list = fileUpload.parseRequest(request);
             for (FileItem item : list) {
                 //如果fileitem中封装的是普通输入项的数据
                 if (item.isFormField()) {

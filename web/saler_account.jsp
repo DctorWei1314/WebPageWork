@@ -21,6 +21,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/buyer.js"></script>
     <script>
         $(function () {
             $("#test").click(function(){

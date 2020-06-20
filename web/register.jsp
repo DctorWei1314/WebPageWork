@@ -29,15 +29,12 @@
 <body>
 <%@include file="common/header.jsp"%>
 <div class="register">
-    <form id="form"  class="register-table" action="BuyerRegister" method="post" onsubmit="return encryption()">
-        <div class="info">${Registererror}</div>
+    <form id="register-form"  class="register-table" action="BuyerRegister" method="post" >
         <div class="  register-top-grid">
             <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">个人信息</font></font></h3>
             <div class="mation">
                 <span>电子邮件地址</span>
-                <input type="text" name="email" required onkeyup="value=this.value.replace(
-                    /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/,''
-                )">
+                <input type="text" name="email" required pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$">
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -45,19 +42,21 @@
             <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">登录信息</font></font></h3>
             <div class="mation">
                 <span>密码</span>
-                <input type="password" name="password"  id="p1" required>
+                <input type="password"  id="p1" required>
                 <span>确认密码</span>
                 <span class="info" style="display: none">两次输入的密码不一致</span>
                 <input type="password" id="p2" required>
                 <input type="hidden" name="password" id="realp">
             </div>
-            <select name="select" form="form">
-                <option value="buyer">买家</option>
-                <option value="saler">卖家</option>
-            </select>
             <div class="register-but">
-                <input type="submit" value="注册">
-                <div class="clearfix"> </div>
+                <input type="submit" value="注册买家" onclick="settype('buyer')">
+                <input type="submit" value="注册卖家" onclick="settype('saler')">
+                <input type="hidden"  id="selectedtype" name="select" value="">
+                <script>
+                    function settype(type) {
+                        document.getElementById("selectedtype").value=type;
+                    }
+                </script>
             </div>
         </div>
     </form>

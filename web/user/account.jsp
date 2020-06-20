@@ -53,7 +53,7 @@
                 let projectName = pathName
                     .substring(0, pathName.substr(1).indexOf('/') + 1);
                 $.ajax({
-                    url: projectName+"/ImageUploadServlet",
+                    url: "ImageUploadServlet",
                     type: "POST",
                     data: formData,
                     /**
@@ -66,7 +66,6 @@
                      */
                     processData: false,
                     success: function (result) {
-                        alert("sssss")
                         var fileimg = $("#file")[0].files[0];
                         // var reader = new FileReader();
                         var URL = window.URL || window.webkitURL;
@@ -104,7 +103,7 @@
                 <span >
                                 <a class="pf-avatar">
                                     <input id="file" state="false" type="file" accept="image/*"  class="file" style="display:none"/><br />
-                                    <img id="test" style="width:100px;height:100px" src="<%=pageContext.getServletContext().getContextPath()+(user.getImgFilePath()==null?"/imgs/default_portrait.jpg":new String("/imgs/"+user.getImgFilePath()))%>">
+                                    <img id="test" style="width:100px;height:100px" src="<%=application.getContextPath()%>/imgs/<%=user.getImgFilePath()%>">
                                                                     </a>
                             </span>
             </p>
@@ -202,27 +201,27 @@
                         </thead>
                         <tbody class="next-table-body" id="address-list"><!--tip动态增加-->
 
-                        <tr class="next-table-row " role="row">
-                            <td data-next-table-col="0" data-next-table-row="0" class="next-table-cell first"
-                                role="gridcell">
-                                <div class="next-table-cell-wrapper" data-next-table-row="0">蔡珍珠</div>
-                            </td>
-                            <td data-next-table-col="2" data-next-table-row="0" class="next-table-cell" role="gridcell">
-                                <div class="next-table-cell-wrapper" data-next-table-row="0">三里街中辉凯旋城1栋2单元</div>
-                            </td>
-                            <td data-next-table-col="4" data-next-table-row="0" class="next-table-cell" role="gridcell">
-                                <div class="next-table-cell-wrapper" data-next-table-row="0">
-                                    <span>13870260868<br></span></div>
-                            </td>
-                            <td data-next-table-col="5" data-next-table-row="0" class="next-table-cell" role="gridcell">
-                                <div class="next-table-cell-wrapper" data-next-table-row="0">
-                                    <div class="tAction"><a class="t-change"
-                                                            href="https://member1.taobao.com/member/fresh/deliver_address.htm?addrId=11934869224"
-                                                            target="_self">修改</a><span class="t-line">|</span><span
-                                            class="t-delete">删除</span></div>
-                                </div>
-                            </td>
-                        </tr>
+<%--                        <tr class="next-table-row " role="row">--%>
+<%--                            <td data-next-table-col="0" data-next-table-row="0" class="next-table-cell first"--%>
+<%--                                role="gridcell">--%>
+<%--                                <div class="next-table-cell-wrapper" data-next-table-row="0">蔡珍珠</div>--%>
+<%--                            </td>--%>
+<%--                            <td data-next-table-col="2" data-next-table-row="0" class="next-table-cell" role="gridcell">--%>
+<%--                                <div class="next-table-cell-wrapper" data-next-table-row="0">三里街中辉凯旋城1栋2单元</div>--%>
+<%--                            </td>--%>
+<%--                            <td data-next-table-col="4" data-next-table-row="0" class="next-table-cell" role="gridcell">--%>
+<%--                                <div class="next-table-cell-wrapper" data-next-table-row="0">--%>
+<%--                                    <span>13870260868<br></span></div>--%>
+<%--                            </td>--%>
+<%--                            <td data-next-table-col="5" data-next-table-row="0" class="next-table-cell" role="gridcell">--%>
+<%--                                <div class="next-table-cell-wrapper" data-next-table-row="0">--%>
+<%--                                    <div class="tAction"><a class="t-change"--%>
+<%--                                                            href="https://member1.taobao.com/member/fresh/deliver_address.htm?addrId=11934869224"--%>
+<%--                                                            target="_self">修改</a><span class="t-line">|</span><span--%>
+<%--                                            class="t-delete">删除</span></div>--%>
+<%--                                </div>--%>
+<%--                            </td>--%>
+<%--                        </tr>--%>
 
 
                         </tbody>

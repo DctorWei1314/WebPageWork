@@ -166,6 +166,7 @@ public class ShopCart {
         List<OrderSheet> orderSheets = orderService.selectAllOrdeByBuyerID(buyer);
         for (OrderSheet orderSheet : orderSheets) {
             Product product = productService.selectProductByProductNameSaleID(orderSheet.getProductName(),orderSheet.getSaleID());
+            products.add(product);
             orderIDlist.put(orderSheet.getSaleID()+orderSheet.getProductName(),orderSheet.getOrderID());
         }
         if (products.size() % size == 0) {

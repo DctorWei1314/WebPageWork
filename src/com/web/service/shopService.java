@@ -78,6 +78,35 @@ public class shopService {
     }
 
     /**
+     * 更新店铺信息
+     * @param title 店铺实体类
+     * @return 是否更新成功
+     */
+    public static Constant.MessageType addTitle(String title,String saleID) {
+        Connection conn = C3P0Demo.getconn();
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            String sql = "update saleShop set title = ?" +
+                    " where saleID = ?";
+            assert conn != null;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, title);
+            ps.setString(2, saleID);
+            result = ps.executeUpdate();
+            System.out.println("result"+result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            C3P0Demo.closeall(null, ps, conn);
+        }
+        if (result > 0) {
+            return Constant.MessageType.UPDATE_SALE_INFO_SUCCESS;
+        } else {
+            return Constant.MessageType.UPDATE_SALE_INFO_FAIL;
+        }
+    }
+    /**
      * 添加新店铺
      * @param saleShop 店铺实体类
      * @return 是否添加成功

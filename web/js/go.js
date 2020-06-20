@@ -23,7 +23,8 @@ function addTag(obj) {
 }
 function addTitle(obj) {
     var tag = document.getElementById("title").value;
+    alert(tag);
         var href = obj.getAttribute("href");
-        var hrefNew = href + tag;
+        var hrefNew = href +tag;
         obj.setAttribute("href", hrefNew);
 }

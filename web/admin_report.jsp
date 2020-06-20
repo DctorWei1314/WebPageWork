@@ -106,7 +106,7 @@
             %>
             <tr>
                 <td><%=report.getReportUserID()%></td>
-                <td ><a onclick="location='admin_title?salerID=<%=report.getReportedShopID()%>';return false" href="#" >
+                <td ><a onclick="location='admin_title.jsp?salerID=<%=report.getReportedShopID()%>';return false" href="#" >
                     <%=report.getReportedShopID()%>
                 </a></td>
                 <td><%=report.getDescription()%></td>

@@ -54,7 +54,7 @@
     <br/>
     <div id="current">
         <p><b>店铺：</b></p><br/>
-        <div style="height: 320px; overflow-x: hidden; overflow-y: auto; border: 0.5px dashed rgba(156,156,156,1.00); padding-top: 5px;">
+        <div  style="height: 320px; overflow-x: hidden; overflow-y: auto; border: 0.5px dashed rgba(156,156,156,1.00); padding-top: 5px;">
         <%=request.getParameter("salerID")%>
         </div>
     </div>
@@ -62,7 +62,7 @@
         <p>赋予头衔</p><br/>
         <input id="title" type="text" style="height: 40px; width: 310px; font-size: x-large;"><br/>
         <div class="btn">
-            <a href="AddTitleServlet?title=" class="da-link" style="text-decoration: none;" onclick="addTitle(this)">确认</a>
+            <a href="AddTitleServlet?salerID=<%=request.getParameter("salerID")%>&title=" class="da-link" style="text-decoration: none;" onclick="addTitle(this)">确认</a>
         </div>
     </div>
 </div>

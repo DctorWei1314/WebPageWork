@@ -46,7 +46,7 @@ public class globalDiscountService {
             String sql0 = "select * from global_discount";
             String sql=null;
             Statement temp = conn.createStatement();
-            if(temp.executeQuery(sql).next()){
+            if(temp.executeQuery(sql0).next()){
                 sql = "update global_discount set discount = ?";
             }else{
                 sql = "insert into global_discount values(?)";

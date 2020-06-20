@@ -20,7 +20,6 @@ import java.util.List;
 public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type=(String)request.getParameter("type");
-
         ShopCart shopCart=(ShopCart) request.getSession().getAttribute(Constant.SHOP_CART);
 
         JSONObject jo=new JSONObject();
@@ -38,7 +37,13 @@ public class CartServlet extends HttpServlet {
             String name=request.getParameter("name");
             int orderID=shopCart.getOrderIDlist().get(saleID+name);
             Product p= productService.selectProductByProductNameSaleID(name,saleID);
-            shopCart.getProducts().remove(p);
+            List<Product>p_list=shopCart.getProducts();
+            for (Product tp:p_list){
+                if(p.getName().equals(tp.getName())&&p.getSaleID().equals(tp.getSaleID())){
+                    p_list.remove(tp);
+                    break;
+                }
+            }
             shopCart.getOrderIDlist().remove(saleID+name);
             shopCart.deleteProduct(orderID);
             System.out.println("delete"+saleID+name);//测试
@@ -58,6 +63,7 @@ public class CartServlet extends HttpServlet {
         jo.put("price",shopCart.cartTotalPrice());
         jo.put("num",shopCart.getProducts().size());
         String jtext=jo.toString();
+        System.out.println(jtext);
         out.write(jtext);
         out.close();
     }

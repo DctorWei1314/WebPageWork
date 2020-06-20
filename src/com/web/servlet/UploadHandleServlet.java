@@ -59,45 +59,47 @@ public class UploadHandleServlet extends HttpServlet {
             List<FileItem> list = fileUpload.parseRequest(request);
             for (FileItem item : list) {
                 //如果fileitem中封装的是普通输入项的数据
-               if(item.isFormField()){
-               String name = item.getFieldName();
-               //解决普通输入项的数据的中文乱码问题
-               String value = item.getString("UTF-8");
-               System.out.println(name+"  "+value);
-               if(name.equals("modify")  && value == "true"){
-                   System.out.println("wwww");
-                   modify = true;
-               }
-               if(name.equals("name")){
-                   if(modify == true) {
-                       product = productService.selectProductByProductNameSaleID(value,user.getUserID());
-                   }
-                   else {
-                       System.out.println("wwww");
-                       Product temp = productService.selectProductByProductNameSaleID(value,user.getUserID());
-                       if(temp != null){
-                           throw new RuntimeException();
-                       }
-                       System.out.println("wwww");
-                       product = new Product();
-                       product.setName(value);
-                       product.setSaleID(user.getUserID());
-                   }
-               }
-               if(name.equals("description"))
-                   product.setDescription(value);
-               if(name.equals("discount"))
-                   product.setDiscount(Double.parseDouble(value)/10);
-               if(name.equals("price"))
-                   product.setPrice(Double.parseDouble(value));
-               if(name.equals("number"))
-                   product.setLeftNumber(Integer.parseInt(value));
-               if(name.equals("add"))
-                   product.setLeftNumber(product.getLeftNumber()+Integer.parseInt(value));
-               if(name.equals("mytag")){
-                   tagList.add(value);
-               }
-               }else{
+                if(item.isFormField()){
+                    String name = item.getFieldName();
+                    //解决普通输入项的数据的中文乱码问题
+                    String value = item.getString("UTF-8");
+                    System.out.println(name+"  "+value);
+                    if(name.equals("modify")  && value.equals("true") ){
+                        System.out.println("wwww");
+                        modify = true;
+                    }
+                    if(name.equals("name")){
+                        if(modify == true) {
+                            product = productService.selectProductByProductNameSaleID(value,user.getUserID());
+                            System.out.println("wwww（（（（（（");
+                        }
+                        else {
+                            System.out.println("wwww）））））");
+                            Product temp = productService.selectProductByProductNameSaleID(value,user.getUserID());
+                            if(temp != null){
+                                throw new RuntimeException();
+                            }
+                            System.out.println("wwww");
+                            product = new Product();
+                            product.setName(value);
+                            product.setSaleID(user.getUserID());
+                        }
+                    }
+                    if(name.equals("description"))
+                        product.setDescription(value);
+                    if(name.equals("discount"))
+                        product.setDiscount(Double.parseDouble(value)/10);
+                    if(name.equals("price"))
+                        product.setPrice(Double.parseDouble(value));
+                    if(name.equals("number"))
+                        product.setLeftNumber(Integer.parseInt(value));
+                    if(name.equals("add"))
+                        product.setLeftNumber(product.getLeftNumber()+Integer.parseInt(value));
+                    if(name.equals("tag")){
+                        System.out.println("tag"+value);
+                        tagList.add(value);
+                    }
+                }else{
                     String name = item.getFieldName();
                     System.out.println("file-field"+name);
                     //如果fileitem中封装的是上传文件，得到上传的文件名称，

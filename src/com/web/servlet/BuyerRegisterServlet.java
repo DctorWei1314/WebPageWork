@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 @WebServlet(urlPatterns = "/BuyerRegister")
@@ -29,23 +30,25 @@ public class BuyerRegisterServlet extends HttpServlet {
         user.setEmail(email);
         user.setType(Constant.MessageType.getUserType(select));
         user.setUserPassword(password);
+        user.setImgFilePath("default_portrait.jpg");
+        PrintWriter out=response.getWriter();
         if (userService.insertNewUser(user)==Constant.MessageType.REGISTER_SUCCESS){
             request.getSession().setAttribute(Constant.USER_SESSION,user);
             if(user.getType() == Constant.MessageType.BUYER){
                 ShopCart shopCart=new ShopCart(user.getUserID(),10);
                 request.getSession().setAttribute(Constant.SHOP_CART,shopCart);
-                request.getRequestDispatcher("shop.jsp").forward(request,response);
+                out.write(user.getUserID());
             }
             else if(user.getType() == Constant.MessageType.SELLER){
                 SaleShop saleShop = new SaleShop(user.getUserID(),null,null,null);
                 shopService.insertNewSaleShop(saleShop);
-                request.getRequestDispatcher("shop.jsp").forward(request,response);
+                out.write(user.getUserID());
             }
         }
         else {
-            request.setAttribute("Registererror","注册失败");
-            request.getRequestDispatcher("register.jsp").forward(request,response);
+            out.write("fail");
         }
+        out.close();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

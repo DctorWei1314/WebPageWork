@@ -30,7 +30,7 @@ public class getCommentServlet extends HttpServlet {
         String productname=request.getParameter("productname");
         int pageID=Integer.parseInt(request.getParameter("pageID"));
         System.out.println(saleID+productname+pageID);
-        List<Comment>c_list =productService.selectCommentPageByProduct(productname,saleID,20,1);
+        List<Comment>c_list =productService.selectCommentPageByProduct(productname,saleID,pageID,20);
 //        List<Comment>c_list=new ArrayList<Comment>();
 //        Comment comment=new Comment("横行","霸道","65122","网上评论", new Timestamp(System.currentTimeMillis()));
 //        c_list.add(comment);

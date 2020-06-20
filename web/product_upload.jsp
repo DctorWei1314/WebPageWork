@@ -15,12 +15,16 @@
     <script src="js/jquery.min.js">
         // 要用jquery用src="js/jquery.min.js"
     </script>
+    <script src="js/buyer.js"></script>
     <script>
         $(function () {
-            $("#submit").click(function () {
+            $("#upload0").click(function () {
+                alert("tttt");
                 var formData = new FormData();
                 var files = document.getElementsByClassName("upload");
                 formData.append("modify","false");
+                var name = document.getElementById("name").value;
+                formData.append("name",name);
                 var info = document.getElementsByClassName("info");
                 for(var i=0;i<info.length;i++){
                     if (info[i].value == null){
@@ -37,7 +41,7 @@
                 }
                 var tag = document.getElementsByClassName("mytag");
                 for(var i=0;i<tag.length;i++){
-                    formData.append(tag[i].class,tag[i].innerHTML)
+                    formData.append("tag",tag[i].innerHTML)
                 }
                 $.ajax({
                     url: "UploadHandleServlet",
@@ -64,7 +68,7 @@
                             }
                         }
                         if (result!=null){
-                            alert(resul);
+                            alert(result);
                         }
                     },
                     error: function () {
@@ -211,7 +215,7 @@
             %>
         </ol>
     </div>
-    <input type="button" id="sumbit" value="提交" >
+    <input type="button" id="upload0" value="提交" >
 </div>
 <%@include file="common/footer.jsp" %>
 </body>

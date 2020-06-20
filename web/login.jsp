@@ -39,9 +39,10 @@
             </div>
             <div>
                 <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">密码</font></font><label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">*</font></font></label></span>
-                <input type="password" id="password"  required name="password">
+                <input type="password" id="password"  required >
+                <input type="hidden" name="password" id="realpassword">
             </div>
-            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="登录"></font></font>
+            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="登录" onclick="MD5()"></font></font>
             <div class="info">${error}</div>
         </form>
     </div>

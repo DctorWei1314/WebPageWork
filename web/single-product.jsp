@@ -54,20 +54,17 @@
 <%@include file="common/header.jsp" %>
 <%
 Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
-//Product p=new Product();
-//p.setSalePrice(100);
-//p.setPrice(200);
-//p.setName("华为P20");
-//p.setMainImgFilePath("/images/arrow.png");p.setDescription("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//p.setLeftNumber(100);
-//p.setSaleNumber(222);
-//p.setScore(3.75);
-//p.setScoreNumber(100);
-//p.setSaleID("华为");
+System.out.println("状态"+p);
 %>
-<input type="hidden" id="saleID" value="<%=p.getSaleID()%>">
-<input type="hidden" id="productname" value="<%=p.getName()%>">
+<input type="hidden" id="saleID" value=<%=p.getSaleID()%>>
+<input type="hidden" id="productname" value=<%=p.getName()%>>
+<%if(pageContext.getAttribute(Constant.USER_SESSION)!=null)
+    {
+%>
 <input type="hidden" id="role" value=<%=Constant.MessageType.insertUserType(user.getType())%>>
+<%
+    }
+%>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -76,7 +73,7 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                 <div class="product-content-right">
                     <div class="product-breadcroumb">
                         <a href="javascript:QueryProduct(1,'ALL','ALL')">首页</a>
-                        <a href="javascript:QueryProduct(1,'sellerid',<%=p.getSaleID()%>)"><%=p.getSaleID()%></a>
+                        <a href="javascript:QueryProduct(1,'sellerid','<%=p.getSaleID()%>')"><%=p.getSaleID()%></a>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
@@ -145,18 +142,19 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                                     <del>￥<%=p.getPrice()%></del><!--tip折扣价格-->
                                 </div>
 
-                                <form action="" class="cart">
+                                <div  class="cart">
                                     <div class="quantity">
                                         <input id="num" type="number" size="4" class="input-text qty text" title="数量" value="1"
                                                name="quantity" min="1" max=<%=p.getLeftNumber()%> step="1"><!--tipmax为数量-->
                                     </div>
                                     <label>(库存<%=p.getLeftNumber()%>件)</label><!--tipmax为数量-->
-                                    <%if(user.getType()== Constant.MessageType.BUYER){
-                                    %>
-                                    <button class="add_to_cart_button" type="submit" onclick="addcart(<%=p.getSaleID()%>,<%=p.getName()%>)">加入购物车</button>
+                                    <%if(user.getType()==Constant.MessageType.BUYER){
+                                        %>
+                                    <button class="add_to_cart_button" onclick="addcart('<%=p.getSaleID()%>','<%=p.getName()%>')">加入购物车</button>
                                     <%
                                     }%>
-                                </form>
+
+                                </div>
                                 <%
                                     double a=p.getScore();//输入正浮点数a
                                     int b=(int)a;//将a取整赋给b，强制转型正整数只能向下取整
@@ -168,7 +166,7 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                                     else
                                         a=b+1;
                                 %>
-                                <span class=allstar<%=c*10%> id="rate"><!--tip动态改变类型--></span>
+                                <span class=allstar<%=(int)a*10%> id="rate"><!--tip动态改变类型--></span>
                                 <span class="s1"><%=p.getSaleNumber()%>人评价</span>
                                 <span class="s1"><%=p.getSaleNumber()%>&nbsp交易成功</span><!--tip获取交易数量-->
                                 <div class="product-inner-category">
@@ -181,7 +179,7 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
 //                                        t_list.add("手机");
                                         for (String tag:t_list){
                                     %>
-                                    <a href=<%=application.getContextPath()%>/BuyerQuery?type=label&condition=<%=tag%>><%=tag%></a>,
+                                    <a  href="#" onclick=javascript:QueryProduct(1,'label','<%=tag%>')  class="list-group-item" ><%=tag%></a>,
                                     <%
                                         }
                                     %>
@@ -204,17 +202,15 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                                         </div>
                                         <div role="tabpanel" class="tab-pane fade" id="profile">
                                             <h2>投诉信息</h2>
-                                            <form id="complaint" action=<%=application.getContextPath()%>user/Complaint method="post" onsubmit="return complaint()"><!--important投诉-->
+                                            <form id="complaint" action=<%=application.getContextPath()%>/user/Complaint method="post" onsubmit="return complaint()"><!--important投诉-->
                                             <div class="submit-review">
                                                 <textarea name="description" id="Comtext"
                                                           cols="30"
                                                           rows="10"></textarea>
                                                 <input type="hidden" name="saleID" value=<%=p.getSaleID()%>
-                                                    <%if(user.getType()== Constant.MessageType.BUYER){
-                                                    %>
+
                                                         <p><input type="submit" value="提交"></p>
-                                                    <%}
-                                                    %>
+
                                             </div>
                                             </form>
                                         </div>
@@ -233,9 +229,9 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
 //                                        List<Product> p_list=new ArrayList<Product>();
                                         for(Product rp:p_list){
                                     %>
-                                    <li><img src=<%=application.getContextPath()+rp.getMainImgFilePath()%>/>
-                                        <div class="grid-flex"><a href=<%=application.getContextPath()%>/SingleProduct?saleID=<%=p.getSaleID()%>&name=<%=p.getName()%> ><%=p.getName()%></a>
-                                            <p><%=p.getSalePrice()%></p></div>
+                                    <li> <li><img src=<%=application.getContextPath()%>/imgs/<%=rp.getMainImgFilePath()%>>
+                                        <div class="grid-flex"><a href=<%=application.getContextPath()%>/SingleProduct?saleID=<%=rp.getSaleID()%>&name=<%=rp.getName()%> ><%=rp.getName()%></a>
+                                            <p><%=rp.getSalePrice()%></p></div>
                                     </li>
                                     <%
                                         }
@@ -277,16 +273,11 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                 </div>
                 <div class="comment-send">
 
-                    <form id="commentForm"      <%if(user.getType()== Constant.MessageType.BUYER){
-                                                %>
-                          method="post" action="<%=application.getContextPath()%>/user/Comment" onsubmit="return score_1()"
-                                                <%
-                                                }%>
-                          >
+                    <form id="commentForm" method="post" action="<%=application.getContextPath()%>/user/Comment" onsubmit="return score_1()">
                         <div class="row">
                             <div class="col-sm-2">
                             <span class="comment-avatar">
-                                <img src="imgs/product-2.jpg" alt="avatar">
+                                <img src=<%=application.getContextPath()%>/imgs/default_portrait.jpg alt="avatar">
                             </span>
                             </div>
                             <div class="col-sm-6">
@@ -295,11 +286,11 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                             </div>
                             <div class="col-sm-2">
                                 <span id="stars" data-default-index="0" >
-                                <img src="imgs/stard.png" id="star1" width="16" height="16">
-                                <img src="imgs/stard.png" id="star2" width="16" height="16">
-                                <img src="imgs/stard.png" id="star3" width="16" height="16">
-                                <img src="imgs/stard.png" id="star4" width="16" height="16">
-                                <img src="imgs/stard.png" id="star5" width="16" height="16">
+                                <img src=<%=application.getContextPath()%>/imgs/stard.png id="star1" width="16" height="16">
+                                <img src=<%=application.getContextPath()%>/imgs/stard.png id="star2" width="16" height="16">
+                                <img src=<%=application.getContextPath()%>/imgs/stard.png id="star3" width="16" height="16">
+                                <img src=<%=application.getContextPath()%>/imgs/stard.png id="star4" width="16" height="16">
+                                <img src=<%=application.getContextPath()%>/imgs/stard.png id="star5" width="16" height="16">
                                 </span>
                                 <input type="hidden" id="commentscore" name="score">
                                 <input type="hidden" name="productname" value=<%=p.getName()%>>
@@ -313,48 +304,12 @@ Product p=(Product) request.getAttribute(Constant.SINGLE_PRODUCT);
                 </div>
                 <div class="comment-list" id="commentList">
 
-                    <div class="comment row">
-                        <span class="comment-avatar col-sm-2">
-                            <img src="imgs/product-2.jpg" alt="avatar">
-                        </span>
-                        <div class="comment-content col-sm10">
-                            <p class="comment-content-name">EdmundDZhang</p>
-                            <p class="comment-content-article">惊了</p>
-                            <p class="comment-content-footer">
-                                <span class="comment-content-footer-id">#2</span>
-                                <span class="comment-content-footer-device">来自安卓客户端</span>
-                                <span class="comment-content-footer-timestamp">2018-01-20 14:05</span>
-                            </p>
-                        </div>
-                        <div class="cls"></div>
-                    </div>
-
-                    <div class="comment comment-bottom row">
-                        <span class="comment-avatar col-sm-2">
-                            <img src="imgs/product-2.jpg" alt="avatar">
-                        </span>
-                        <div class="comment-content col-sm-10">
-                            <p class="comment-content-name">bilibili英雄联盟赛事</p>
-                            <p class="comment-content-article">Hello World!</p>
-                            <p class="comment-content-footer">
-                                <span class="comment-content-footer-id">#1</span>
-                                <span class="comment-content-footer-device">来自安卓客户端</span>
-                                <span class="comment-content-footer-timestamp">2018-01-20 13:10</span>
-                            </p>
-                        </div>
-                        <div class="cls"></div>
-                    </div>
-
                 </div>
                 <div class="product-pagination text-center">
                     <nav>
                         <ul class="pagination" id="page">
                             <!--tip根据商品数量来计算-->
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
+
                         </ul>
                     </nav>
                 </div>

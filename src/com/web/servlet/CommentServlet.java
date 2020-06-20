@@ -26,16 +26,14 @@ public class CommentServlet extends HttpServlet {
         String productname=request.getParameter("productname");
         String saleID=request.getParameter("saleID");
         User user=(User)(request.getSession().getAttribute(Constant.USER_SESSION));
-        String userid;
-        if (user!=null)
-            userid=user.getUserID();
-        else userid="未知";
-        Timestamp time= new Timestamp(System.currentTimeMillis());
-        Comment comment1=new Comment(productname,saleID,userid,comment,time);
-        //添加评论
-
-        if(userService.insertComment(comment1)==Constant.MessageType.INSERT_COMMENT_SUCCESS){
-            out.write("success");
+        String userid = null;
+        if (user!=null){
+            userid = user.getUserID();
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Comment comment1=new Comment(productname,saleID,userid,comment,timestamp);
+            if(userService.insertComment(comment1) == Constant.MessageType.INSERT_COMMENT_SUCCESS){
+                out.write("success");
+            }
         }
         else {
             out.write("fail");

@@ -797,6 +797,7 @@ input[type="submit"], button[type=submit] {
     border: medium none;
     color: #fff;
     padding: 11px 20px;
+    margin: 0px 20px;
     text-transform: uppercase;
 }
 
@@ -922,7 +923,6 @@ span.s1 {
 
 p#s2 {
     word-wrap: break-word;
-    white-space: pre-wrap;
     min-height: 220px;
     max-height: 220px;
     overflow-y: auto;
@@ -1498,7 +1498,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button {
     text-align: center;
 }
 
-.allstar50, .allstar45, .allstar40, .allstar35, .allstar30, .allstar25, .allstar20, .allstar15, .allstar10, .allstar05, .allstar00, .rating1-t, .rating15-t, .rating2-t, .rating25-t, .rating3-t, .rating35-t, .rating4-t, .rating45-t, .rating5-t, .rating-t, .starb ~ .stars5, .starb ~ .stars4, .starb ~ .stars3, .starb ~ .stars2, .starb ~ .stars1, .collectors .stars5, .collectors .stars4, .collectors .stars3, .collectors .stars2, .collectors .stars1 {
+.allstar0,.allstar50, .allstar45, .allstar40, .allstar35, .allstar30, .allstar25, .allstar20, .allstar15, .allstar10, .allstar05, .allstar00, .rating1-t, .rating15-t, .rating2-t, .rating25-t, .rating3-t, .rating35-t, .rating4-t, .rating45-t, .rating5-t, .rating-t, .starb ~ .stars5, .starb ~ .stars4, .starb ~ .stars3, .starb ~ .stars2, .starb ~ .stars1, .collectors .stars5, .collectors .stars4, .collectors .stars3, .collectors .stars2, .collectors .stars1 {
     display: inline-block;
     *display: inline;
     zoom: 1;
@@ -1540,6 +1540,9 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button {
     background-position: 0 -99px;
 }
 .allstar00{
+    background-position: 0 -110px;
+}
+.allstar0{
     background-position: 0 -110px;
 }
 #stars{
@@ -1828,4 +1831,15 @@ img#head{
     height: 20px;
     width: 20px;
     border-radius: 20px;
+}
+div.register-but{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+span#discount{
+    margin: 24px;
+    font-weight: 900;
+    font-size: 16px;
+    display: table;
 }
