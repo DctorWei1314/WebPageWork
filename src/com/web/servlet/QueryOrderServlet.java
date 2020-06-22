@@ -32,7 +32,7 @@ public class QueryOrderServlet extends HttpServlet {
         String username=request.getParameter("username");
         int pageID=Integer.parseInt(request.getParameter("pageID"));
         System.out.println(username+pageID+"订单");
-        List<OrderSheet> o_list=orderService.selectOrderPageByBuyerID(username,1,10);
+        List<OrderSheet> o_list=orderService.selectOrderPageByBuyerID(username,pageID,10);
 
         PrintWriter out=response.getWriter();
 

@@ -40,25 +40,25 @@ public class BuyerQueryServlet extends HttpServlet {
 //        按名称查询
         if(type.equals("product")){
             System.out.println(type+condition);
-            p_list= productService.selectProductByLikeName(condition,1,12);
+            p_list= productService.selectProductByLikeName(condition,pageID,12);
             page_num= productService.selectSimilarNameProductCount(condition);
         }
         //按卖家查询
         else if(type.equals("sellerid")){
             System.out.println(type+condition);
-            p_list= productService.selectProductPageBySaleID(condition,1,12);
+            p_list= productService.selectProductPageBySaleID(condition,pageID,12);
             page_num= productService.selectProductCountBySaleID(condition);
         }
         //按标签查询
         else if(type.equals("label")&&!condition.equals("全部商品")){
             System.out.println(type+condition);
-            p_list=productService.selectProductPageByTag(condition,1,12);
+            p_list=productService.selectProductPageByTag(condition,pageID,12);
             page_num=productService.selectProductCountByTag(condition);
         }
         //全部商品
         else {
             System.out.println(type+condition);
-            p_list=productService.selectAllProduct(1,12);
+            p_list=productService.selectAllProduct(pageID,12);
                         page_num=productService.selectAllProductCount();
         }
 

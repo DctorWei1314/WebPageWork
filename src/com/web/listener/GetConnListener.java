@@ -1,9 +1,12 @@
 package com.web.listener;
 
+import com.sun.glass.ui.Application;
 import com.web.entity.Product;
 import com.web.entity.ShopCart;
+import com.web.service.tagService;
 import com.web.util.Constant;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -27,6 +30,8 @@ public class GetConnListener implements ServletContextListener, HttpSessionListe
          You can initialize servlet context related data here.
       */
         System.out.println("应用初始化");
+        List<String> t_list= tagService.selectAllTag();
+        sce.getServletContext().setAttribute(Constant.T_LIST,t_list);
         //ServletContext application = sce.getServletContext();
         //application.setAttribute(Constant.T_LIST, tagService.selectAllTag());
     }

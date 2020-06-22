@@ -21,35 +21,34 @@ public class CommentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out=response.getWriter();
-        String comment=request.getParameter("comment");
-        String productname=request.getParameter("productname");
-        String saleID=request.getParameter("saleID");
-        User user=(User)(request.getSession().getAttribute(Constant.USER_SESSION));
+        PrintWriter out = response.getWriter();
+        String comment = request.getParameter("comment");
+        String productname = request.getParameter("productname");
+        String saleID = request.getParameter("saleID");
+        User user = (User) (request.getSession().getAttribute(Constant.USER_SESSION));
         String userid;
-        if (user!=null)
-            userid=user.getUserID();
-        else userid="未知";
-        Timestamp time= new Timestamp(System.currentTimeMillis());
-        Comment comment1=new Comment(productname,saleID,userid,comment,time);
-        //添加评论
+        if (user != null) {
+            userid = user.getUserID();
+            Timestamp time = new Timestamp(System.currentTimeMillis());
+            Comment comment1 = new Comment(productname, saleID, userid, comment, time);
+            //添加评论
 
-        if(userService.insertComment(comment1)==Constant.MessageType.INSERT_COMMENT_SUCCESS){
-            out.write("success");
-        }
-        else {
+            if (userService.insertComment(comment1) == Constant.MessageType.INSERT_COMMENT_SUCCESS) {
+                out.write("success");
+            }
+        } else {
             out.write("fail");
         }
         out.close();
-        System.out.println(comment+productname+saleID+userid+"评论");//测试
-        int score=Integer.parseInt(request.getParameter("score"));
+        System.out.println(comment + productname + saleID + "评论");//测试
+        int score = Integer.parseInt(request.getParameter("score"));
         //添加评分
-        productService.updateProductScore(productname,saleID,score);
-        System.out.println("评分"+score);//测试
+        productService.updateProductScore(productname, saleID, score);
+        System.out.println("评分" + score);//测试
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request,response);
+        doPost(request, response);
     }
 }
