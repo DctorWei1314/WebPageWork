@@ -53,7 +53,7 @@
                 let projectName = pathName
                     .substring(0, pathName.substr(1).indexOf('/') + 1);
                 $.ajax({
-                    url: "ImageUploadServlet",
+                    url: projectName+"/ImageUploadServlet",
                     type: "POST",
                     data: formData,
                     /**
@@ -103,7 +103,7 @@
                 <span >
                                 <a class="pf-avatar">
                                     <input id="file" state="false" type="file" accept="image/*"  class="file" style="display:none"/><br />
-                                    <img id="test" style="width:100px;height:100px" src="<%=application.getContextPath()%>/imgs/<%=user.getImgFilePath()%>">
+                                    <img id="test" style="width:100px;height:100px" src=<%=application.getContextPath()%>/<%=user.getImgFilePath()%>>
                                                                     </a>
                             </span>
             </p>

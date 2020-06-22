@@ -49,7 +49,7 @@ public class orderService {
         PreparedStatement ps = null;
         int result = 0;
         try {
-            String sql = "update ordersheet SET time=? WHERE order_id=?";
+            String sql = "update ordersheet SET `time`=? WHERE order_id=?";
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setTimestamp(1, time);

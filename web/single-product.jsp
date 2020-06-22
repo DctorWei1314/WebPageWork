@@ -148,11 +148,8 @@ System.out.println("状态"+p);
                                                name="quantity" min="1" max=<%=p.getLeftNumber()%> step="1"><!--tipmax为数量-->
                                     </div>
                                     <label>(库存<%=p.getLeftNumber()%>件)</label><!--tipmax为数量-->
-                                    <%if(user.getType()==Constant.MessageType.BUYER){
-                                        %>
+
                                     <button class="add_to_cart_button" onclick="addcart('<%=p.getSaleID()%>','<%=p.getName()%>')">加入购物车</button>
-                                    <%
-                                    }%>
 
                                 </div>
                                 <%
@@ -179,7 +176,7 @@ System.out.println("状态"+p);
 //                                        t_list.add("手机");
                                         for (String tag:t_list){
                                     %>
-                                    <a  href="#" onclick=javascript:QueryProduct(1,'label','<%=tag%>')  class="list-group-item" ><%=tag%></a>,
+                                <a href="javascript:QueryProduct(1,'label','<%=tag%>')"><%=tag%></a>,
                                     <%
                                         }
                                     %>
@@ -229,9 +226,9 @@ System.out.println("状态"+p);
 //                                        List<Product> p_list=new ArrayList<Product>();
                                         for(Product rp:p_list){
                                     %>
-                                    <li> <li><img src=<%=application.getContextPath()%>/imgs/<%=rp.getMainImgFilePath()%>>
-                                        <div class="grid-flex"><a href=<%=application.getContextPath()%>/SingleProduct?saleID=<%=rp.getSaleID()%>&name=<%=rp.getName()%> ><%=rp.getName()%></a>
-                                            <p><%=rp.getSalePrice()%></p></div>
+                                    <li><img src=<%=application.getContextPath()%>/imgs/<%=rp.getMainImgFilePath()%>>
+                                        <div class="grid-flex"><a href=<%=application.getContextPath()%>/SingleProduct?saleID=<%=p.getSaleID()%>&name=<%=p.getName()%> ><%=p.getName()%></a>
+                                            <p><%=p.getSalePrice()%></p></div>
                                     </li>
                                     <%
                                         }

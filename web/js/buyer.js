@@ -70,11 +70,6 @@ function queryl(obj) {
     let condition = document.getElementById("searchCondition").value;
     QueryProduct(1, t, condition);
 }
-function querySaler(id) {
-    alert(id+"&&&&&&&&&");
-    let  type="sellerid";
-    QueryProduct(1,type, id);
-}
 
 //增加购物车中得值
 function addcart() {
@@ -116,7 +111,6 @@ function deletecart() {
             updatecart(data)
             $("tbody#cart-list>tr").each(function () {
                 if ($(this).attr("itemid") == f1+f2) {
-                    alert(8888);
                     $(this).remove();
                     return false;
                 }
@@ -205,7 +199,7 @@ function commentLoad(data) {
     for (let j = 1; j < jsonObject.length; j++) {
         commentHtml += "<div class=\"comment " + (j == jsonObject.length - 1 ? ' ' + 'comment-bottom' + ' ' : '') + "row\">\n" +
             "                        <span class=\"comment-avatar col-sm-2\">\n" +
-            "                            <img src=\" " + projectName +"/imgs/" + jsonObject[j]['filePath'] + " \" alt=\"head portrait\">\n" +
+            "                            <img src=\" " + projectName +"/" + jsonObject[j]['filePath'] + " \" alt=\"head portrait\">\n" +
             "                        </span>\n" +
             "                        <div class=\"comment-content col-sm10\">\n" +
             "                            <p class=\"comment-content-name\">" + jsonObject[j]['userId'] + "</p>\n" +
@@ -235,7 +229,7 @@ function Querycomment(pageID) {
 }
 
 function QueryProduct(pageID) {
-    let role = document.getElementById("role").value;
+    let role = $("#role").value;
     let type;
     let condition;
     if (arguments.length > 1) {
@@ -259,7 +253,6 @@ function QueryProduct(pageID) {
         },
         success(data) {
             console.log(data)
-            alert(role+type);
             if (role == "saler" && type == "sellerid")
                 ManagerProductLoad(data);
             else if (role == "saler")
@@ -334,7 +327,7 @@ function SalerProductLoad(data) {
             "                    </div>\n" +
             "                    <div class=\"product-option-shop\">\n" +
             "                        <a class=\"add_to_cart_button\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"70\" rel=\"nofollow\"\n" +
-            "                       href=\"/SingleProduct?saleID=" + (jsonObject[j]['saleID']) + "&name=" + (jsonObject[j]['name']) + "\">探勘商品</a>\n" +
+            "                       herf=\"/SingleProduct?saleID=" + (jsonObject[j]['saleID']) + "&name=" + (jsonObject[j]['name']) + "\">探勘商品</a>\n" +
             "                        <!--tip加入购物车链接-->\n" +
             "                    </div>\n" +
             "                </div>\n" +
@@ -371,7 +364,7 @@ function ManagerProductLoad(data) {
             "                    </div>\n" +
             "                    <div class=\"product-option-shop\">\n" +
             "                        <a class=\"add_to_cart_button\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"70\" rel=\"nofollow\"\n" +
-            "                        href=\"product_modify.jsp?product_name=" + (jsonObject[j]['name']) + "\">商品管理</a>\n" +
+            "                        herf=\"product_modify.jsp?product_name=" + (jsonObject[j]['name']) + "\">加入购物车</a>\n" +
             "                        <!--tip加入购物车链接-->\n" +
             "                    </div>\n" +
             "                </div>\n" +
@@ -458,7 +451,6 @@ function deleteAddress(obj) {
 
 function QueryOrder(pageID) {
     let username = document.getElementById("username").value;
-    alert(111);
     $.ajax({
         type: "get", // 以get方式发起请求
         url: projectName + "/user/QueryOrder?username=" + username + "&pageID=" + pageID,
@@ -485,7 +477,7 @@ function OrderLoad(data) {
             "                                        <span class=\"amount\"><font style=\"vertical-align: inherit;\"><font style=\"vertical-align: inherit;\">" + (jsonObject[j]['orderID']) + "</font></font></span>\n" +
             "                                    </td>\n" +
             "                                    <td class=\"product-thumbnail\">\n" +
-            "                                        <a href=\"single-product.html\"><img width=\"145\" height=\"145\" alt=\"商品图片\" class=\"shop_picture\" src=" + projectName + (jsonObject[j]['mainImgFilePath']) + "></a>\n" +
+            "                                        <a href=\"single-product.html\"><img width=\"145\" height=\"145\" alt=\"商品图片\" class=\"shop_picture\" src="+projectName+("/imgs/")+(jsonObject[j]['mainImgFilePath'])+"></a>\n" +
             "                                    </td>\n" +
             "\n" +
             "                                    <td class=\"product-name\">\n" +

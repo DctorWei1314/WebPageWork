@@ -58,6 +58,7 @@ else
 <%
 }
 %>
+<input type="hidden" id="role"  value=<%="eeeee"%>>
 <input type="hidden" id="pageLabel">
 <div class="product-big-title-area">
     <div class="container">

@@ -57,38 +57,38 @@
                                 </thead>
                                 <tbody id="order-list">
                                 <!--tip自动添加订单-->
-                                <tr class="cart_item">
-                                    <td class="product-ID">
-                                        <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JD-101</font></font></span>
-                                    </td>
-                                    <td class="product-thumbnail">
-                                        <a href="single-product.html"><img width="145" height="145" alt="商品图片" class="shop_picture" src="../imgs/product-2.jpg"></a>
-                                    </td>
+<%--                                <tr class="cart_item">--%>
+<%--                                    <td class="product-ID">--%>
+<%--                                        <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JD-101</font></font></span>--%>
+<%--                                    </td>--%>
+<%--                                    <td class="product-thumbnail">--%>
+<%--                                        <a href="single-product.html"><img width="145" height="145" alt="商品图片" class="shop_picture" src="../imgs/product-2.jpg"></a>--%>
+<%--                                    </td>--%>
 
-                                    <td class="product-name">
-                                        <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">商品名称</font></font></span>
-                                    </td>
+<%--                                    <td class="product-name">--%>
+<%--                                        <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">商品名称</font></font></span>--%>
+<%--                                    </td>--%>
 
-                                    <td class="product-price">
-                                        <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">￥700.00</font></font></span>
-                                    </td>
+<%--                                    <td class="product-price">--%>
+<%--                                        <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">￥700.00</font></font></span>--%>
+<%--                                    </td>--%>
 
-                                    <td class="product-quantity">
-                                        <span class="quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font></span>
-                                    </td>
+<%--                                    <td class="product-quantity">--%>
+<%--                                        <span class="quantity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font></span>--%>
+<%--                                    </td>--%>
 
-                                    <td class="seller-ID">
-                                        <span class="S-ID"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">11111</font></font></span>
-                                    </td>
+<%--                                    <td class="seller-ID">--%>
+<%--                                        <span class="S-ID"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">11111</font></font></span>--%>
+<%--                                    </td>--%>
 
-                                    <td class="product-time">
-                                        <span class="time"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2020-6-15</font></font></span>
-                                    </td>
+<%--                                    <td class="product-time">--%>
+<%--                                        <span class="time"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2020-6-15</font></font></span>--%>
+<%--                                    </td>--%>
 
-                                    <td class="product-status">
-                                        <span class="status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">待发货</font></font></span>
-                                    </td>
-                                </tr>
+<%--                                    <td class="product-status">--%>
+<%--                                        <span class="status"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">待发货</font></font></span>--%>
+<%--                                    </td>--%>
+<%--                                </tr>--%>
 
                                 </tbody>
                             </table>

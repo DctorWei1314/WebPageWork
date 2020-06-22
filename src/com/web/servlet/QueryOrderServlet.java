@@ -32,7 +32,7 @@ public class QueryOrderServlet extends HttpServlet {
         String username=request.getParameter("username");
         int pageID=Integer.parseInt(request.getParameter("pageID"));
         System.out.println(username+pageID+"订单");
-        List<OrderSheet> o_list=orderService.selectOrderPageByBuyerID(username,1,10);
+        List<OrderSheet> o_list=orderService.selectOrderPageByBuyerID(username,pageID,10);
 
         PrintWriter out=response.getWriter();
 
@@ -53,7 +53,7 @@ public class QueryOrderServlet extends HttpServlet {
 
         for(OrderSheet o :o_list ){
             JSONObject jo = new JSONObject();
-            Product p=productService.selectProductByProductNameSaleID(o.getSaleID(),o.getProductName());
+            Product p=productService.selectProductByProductNameSaleID(o.getProductName(),o.getSaleID());
             jo.put("orderID",o.getOrderID());
             jo.put("mainImgFilePath",p.getMainImgFilePath());
             //jo.put("mainImgFilePath","");
