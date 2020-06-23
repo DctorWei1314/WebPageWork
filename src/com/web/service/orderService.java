@@ -184,14 +184,15 @@ public class orderService {
         PreparedStatement ps = null;
         try {
             String sql = "select * " +
-                    "from orderSheet " +
+                    "from ordersheet " +
                     "where saleID = ? and state = ?";
             assert conn != null;
             ps = conn.prepareStatement(sql);
             ps.setString(1, saleID);
             ps.setInt(2, state);
+            System.out.println( saleID+state);
             rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 orderSheet = new OrderSheet(
                         rs.getInt("order_id"),
                         saleID,
@@ -204,6 +205,8 @@ public class orderService {
                 );
                 orderSheets.add(orderSheet);
             }
+            System.out.println("rrr");
+            //System.out.println( orderSheets.get(0).getProductName());
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

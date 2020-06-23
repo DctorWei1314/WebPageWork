@@ -12,13 +12,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>购物车</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link id="stylesheet" rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="../css/font-awesome.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link id="stylesheet0" rel="stylesheet" href="../css/style.css">
     <script src="../js/jquery-1.8.3.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.sticky.js"></script>
@@ -27,6 +27,7 @@
 </head>
 <body>
 <%@include file="../common/header.jsp"%>
+<input type="hidden" id="userexit" value="userexit"/>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">

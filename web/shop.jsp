@@ -21,13 +21,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>最NB商城</title>
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link id="stylesheet"  rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link id="stylesheet0" rel="stylesheet" href="css/style.css">
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>

@@ -10,13 +10,13 @@
 <html>
 <head>
     <title>商家账户信息</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link id="stylesheet"  rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link id="stylesheet0" rel="stylesheet" href="css/style.css">
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>

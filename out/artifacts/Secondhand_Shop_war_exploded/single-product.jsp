@@ -14,13 +14,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>商品</title><!--tip动态商品名称-->    <!-- Bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link id="stylesheet"  rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link id="stylesheet0" rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/etalage.css">
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery.min.js"></script>
@@ -73,6 +73,7 @@ System.out.println("状态"+p);
                 <div class="product-content-right">
                     <div class="product-breadcroumb">
                         <a href="javascript:QueryProduct(1,'ALL','ALL')">首页</a>
+                        进店看看：
                         <a href="javascript:QueryProduct(1,'sellerid','<%=p.getSaleID()%>')"><%=p.getSaleID()%></a>
                     </div>
                     <div class="row">
@@ -148,8 +149,11 @@ System.out.println("状态"+p);
                                                name="quantity" min="1" max=<%=p.getLeftNumber()%> step="1"><!--tipmax为数量-->
                                     </div>
                                     <label>(库存<%=p.getLeftNumber()%>件)</label><!--tipmax为数量-->
-
-                                    <button class="add_to_cart_button" onclick="addcart('<%=p.getSaleID()%>','<%=p.getName()%>')">加入购物车</button>
+                                    <%if(user.getType()== Constant.MessageType.BUYER){
+                                    %>
+                                    <button class="add_to_cart_button" type="cart" onclick="addcart('<%=p.getSaleID()%>','<%=p.getName()%>')">加入购物车</button>
+                                    <%
+                                        }%>
 
                                 </div>
                                 <%
@@ -227,8 +231,8 @@ System.out.println("状态"+p);
                                         for(Product rp:p_list){
                                     %>
                                     <li><img src=<%=application.getContextPath()%>/imgs/<%=rp.getMainImgFilePath()%>>
-                                        <div class="grid-flex"><a href=<%=application.getContextPath()%>/SingleProduct?saleID=<%=p.getSaleID()%>&name=<%=p.getName()%> ><%=p.getName()%></a>
-                                            <p><%=p.getSalePrice()%></p></div>
+                                        <div class="grid-flex"><a href=<%=application.getContextPath()%>/SingleProduct?saleID=<%=rp.getSaleID()%>&name=<%=rp.getName()%> ><%=rp.getName()%></a>
+                                            <p><%=rp.getSalePrice()%></p></div>
                                     </li>
                                     <%
                                         }
@@ -294,7 +298,11 @@ System.out.println("状态"+p);
                                 <input type="hidden" name="saleID" value=<%=p.getSaleID()%>>
                             </div>
                             <div class="col-sm-2">
+                                <%if(user.getType()== Constant.MessageType.BUYER){
+                                %>
                                 <input class="comment-send-button" type="submit" value="发表评论" >
+                                <%
+                                    }%>
                             </div>
                         </div>
                     </form>

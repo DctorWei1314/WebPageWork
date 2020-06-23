@@ -12,82 +12,79 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>个人账户</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link id="stylesheet" rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="../css/font-awesome.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link id="stylesheet0" rel="stylesheet" href="../css/style.css">
     <script src="../js/jquery-1.8.3.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.sticky.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/buyer.js"></script>
     <script>
-        $(document).ready(function () {
-            QueryAdress();
-        });
-        $(function () {
-            $("#test").click(function(){
-                $("#file").trigger("click");
-            });
-            $("#file").change(function(){
-                var fileimg = $(this)[0].files[0];
-                // var reader = new FileReader();
-                var URL = window.URL || window.webkitURL;
-                // 通过 file 生成目标 url
-                $(this)[0].state ="true";
-                var imgURL = URL.createObjectURL(fileimg);
-                $("#test").attr("src",imgURL);
-            });
-            $("#J_saveProfile").click(function () {
-                $("#test").attr("src","imgs/wait.gif");
-                var formData = new FormData();
-                if (document.getElementById("file").state == "true")
-                    formData.append("image", document.getElementById("file").files[0]);
-                alert(document.getElementById("file").state);
-                    formData.append("email", document.getElementById("Email").value);
-                alert(document.getElementById("Email").value);
-                let pathName = window.document.location.pathname;
-                let projectName = pathName
-                    .substring(0, pathName.substr(1).indexOf('/') + 1);
-                $.ajax({
-                    url: projectName+"/ImageUploadServlet",
-                    type: "POST",
-                    data: formData,
-                    /**
-                     *必须false才会自动加上正确的Content-Type
-                     */
-                    contentType: false,
-                    /**
-                     * 必须false才会避开jQuery对 formdata 的默认处理
-                     * XMLHttpRequest会对 formdata 进行正确的处理
-                     */
-                    processData: false,
-                    success: function (result) {
-                        var fileimg = $("#file")[0].files[0];
-                        // var reader = new FileReader();
-                        var URL = window.URL || window.webkitURL;
-                        // 通过 file 生成目标 url
-                        var imgURL = URL.createObjectURL(fileimg);
-                        // $(this).removeClass
-                        // $(this).removeClass("onweek");
-                        // $(this).addClass("onweek");
-                        // $(this).css("background-color", "red");
-                        $("#test").attr("src",imgURL);
-                        alert(result);
-                    },
-                    error: function () {
-                        alert("上传失败！");
-                    }
+        // $(document).ready(function () {
+        //     QueryAdress();
+        // });
+            $(function () {
+                $("#test").click(function(){
+                    $("#file").trigger("click");
                 });
-            });
+                $("#file").change(function(){
+                    var fileimg = $(this)[0].files[0];
+                    // var reader = new FileReader();
+                    var URL = window.URL || window.webkitURL;
+                    // 通过 file 生成目标 url
+                    $(this)[0].state ="true";
+                    var imgURL = URL.createObjectURL(fileimg);
+                    $("#test").attr("src",imgURL);
+                });
+                $("#save").click(function () {
+                    $("#test").attr("src","imgs/wait.gif");
+                    var formData = new FormData();
+                    if (document.getElementById("file").state == "true")
+                        formData.append("image", document.getElementById("file").files[0]);
+                    formData.append("email", document.getElementById("Email").value);
+                    $.ajax({
+                        url: "/ImageUploadServlet",
+                        type: "POST",
+                        data: formData,
+                        /**
+                         *必须false才会自动加上正确的Content-Type
+                         */
+                        contentType: false,
+                        /**
+                         * 必须false才会避开jQuery对 formdata 的默认处理
+                         * XMLHttpRequest会对 formdata 进行正确的处理
+                         */
+                        processData: false,
+                        success: function (result) {
+                            var fileimg = $("#file")[0].files[0];
+                            // var reader = new FileReader();
+                            var URL = window.URL || window.webkitURL;
+                            // 通过 file 生成目标 url
+                            var imgURL = URL.createObjectURL(fileimg);
+                            // $(this).removeClass
+                            // $(this).removeClass("onweek");
+                            // $(this).addClass("onweek");
+                            // $(this).css("background-color", "red");
+                            $("#test").attr("src",imgURL);
+                            alert(result);
+                        },
+                        error: function () {
+                            alert("44444");
+                            alert("上传失败！");
+                        }
+                    });
+                });
         });
     </script>
 </head>
 <body>
 <%@include file="../common/header.jsp" %>
+<input type="hidden" id="userexit" value="userexit"/>
 <input type="hidden" id="username" value="<%=user.getName()%>"/>
 <div class="sns-nf">
     <form id="baseInfoForm" name="baseInfoForm" method="post" class="infoForm">
@@ -103,7 +100,7 @@
                 <span >
                                 <a class="pf-avatar">
                                     <input id="file" state="false" type="file" accept="image/*"  class="file" style="display:none"/><br />
-                                    <img id="test" style="width:100px;height:100px" src=<%=application.getContextPath()%>/<%=user.getImgFilePath()%>>
+                                    <img id="test" style="width:100px;height:100px" src=<%=application.getContextPath()%>/imgs/<%=user.getImgFilePath()%>>
                                                                     </a>
                             </span>
             </p>
@@ -119,7 +116,7 @@
 
         <div class="act skin-blue">
              <span class="btn n-btn">
-                 <button type="submit" id="J_saveProfile">保存</button>
+                 <button type="submit" id="save">保存</button>
              </span>
             <span class="btn n-btn">
                 <a onclick="location='<%=application.getContextPath()%>/user/Buyerlogout';return false" href="#" >

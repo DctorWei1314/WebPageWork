@@ -53,6 +53,7 @@
                         %>
                         <li><a href=<%=application.getContextPath()%>/saler_account.jsp><i class="fa fa-list-ul"></i> 我的账户</a></li><!--tip登陆后为账户叶面-->
                         <li><a href=<%=application.getContextPath()%>/saler_order.jsp?status=1><i class="fa fa-list-ul"></i> 订单管理</a></li><!--tip登陆后为账户叶面-->
+                        <li><a href=<%=application.getContextPath()%>/saler_order.jsp?status=2><i class="fa fa-list-ul"></i> 历史订单</a></li>
                         <li><a href=<%=application.getContextPath()%>/product_upload.jsp><i class="fa fa-credit-card"></i> 商品上架</a></li><!--tip登陆后为账户叶面-->
                         <li><a onclick="querySaler('<%=user.getUserID()%>')" ><i class="fa fa-user"></i>店铺管理</a></li>
                         <%

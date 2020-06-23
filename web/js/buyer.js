@@ -70,7 +70,10 @@ function queryl(obj) {
     let condition = document.getElementById("searchCondition").value;
     QueryProduct(1, t, condition);
 }
-
+function querySaler(id) {
+    let  condition="sellerid";
+    QueryProduct(1,condition,id);
+}
 //增加购物车中得值
 function addcart() {
     alert("本商品已加入购物车")
@@ -199,7 +202,7 @@ function commentLoad(data) {
     for (let j = 1; j < jsonObject.length; j++) {
         commentHtml += "<div class=\"comment " + (j == jsonObject.length - 1 ? ' ' + 'comment-bottom' + ' ' : '') + "row\">\n" +
             "                        <span class=\"comment-avatar col-sm-2\">\n" +
-            "                            <img src=\" " + projectName +"/" + jsonObject[j]['filePath'] + " \" alt=\"head portrait\">\n" +
+            "                            <img src=\" " + projectName +"/imgs/" + jsonObject[j]['filePath'] + " \" alt=\"head portrait\">\n" +
             "                        </span>\n" +
             "                        <div class=\"comment-content col-sm10\">\n" +
             "                            <p class=\"comment-content-name\">" + jsonObject[j]['userId'] + "</p>\n" +
@@ -229,7 +232,8 @@ function Querycomment(pageID) {
 }
 
 function QueryProduct(pageID) {
-    let role = $("#role").value;
+    let role = document.getElementById("role").value;
+    alert(role);
     let type;
     let condition;
     if (arguments.length > 1) {
@@ -259,10 +263,66 @@ function QueryProduct(pageID) {
                 SalerProductLoad(data);
             else
                 ProductLoad(data);//调用
+            if (type == "sellerid"){
+                salerQuery(condition);
+            }
+            else{
+                document.getElementById("saler").innerHTML = "";
+            }
         }
     })
 }
 
+function changeS() {
+    alert("$$$");
+    style = document.getElementById('style').value;
+    var stylesheet = document.getElementById("stylesheet");
+    var styleqq = document.getElementById("stylesheet0");
+    var userexit = document.getElementById("userexit");
+    if (style == 0){
+        if(userexit != null){
+            stylesheet.href = "../css/bootstrap.min.css"
+            styleqq.href = "../css/style.css"
+        }else{
+            stylesheet.href = "css/bootstrap.min.css"
+            styleqq.href = "css/style.css"
+        }
+        document.getElementById("style").value = 1;
+    }else {
+        stylesheet.href = "css/bootstrap.min0.css"
+        styleqq.href = "css/style0.css"
+        if(userexit != null){
+            stylesheet.href = "../css/bootstrap.min.css"
+            styleqq.href = "../css/style.css"
+        }
+        else{
+            stylesheet.href = "css/bootstrap.min0.css"
+            styleqq.href = "css/style0.css"
+            alert( "css/bootstrap0.min.css");
+        }
+        document.getElementById("style").value = 0;
+    }
+}
+function salerQuery(condition) {
+    $.ajax({
+        type: "post", // 以get方式发起请求
+        url: projectName + "/SalerQuery",
+        data: {
+            "condition": condition,
+        },
+        success(data) {
+            let html = "";
+            let jsonObject = jQuery.parseJSON(data);
+            html +="   <ul>\n" +
+                "                                    <li><strong>店家头衔:"+jsonObject["title"]+"</strong></li>\n" +
+                "                                    <li><strong>店家地址:"+jsonObject["adrress"]+"</strong></li>\n" +
+                "                                    <li><strong>店家描述:"+jsonObject["description"]+"</strong></li>\n" +
+                "                                    <li><strong>店家头像:<img style=\"width:50px;height:50px\" src=/imgs/"+jsonObject["image"]+" ></img></strong></li>\n" +
+                "                                </ul>";
+            document.getElementById("saler").innerHTML = html;
+        }
+    })
+}
 function ProductLoad(data) {
     console.log(data);
     let jsonObject = jQuery.parseJSON(data);
@@ -364,7 +424,7 @@ function ManagerProductLoad(data) {
             "                    </div>\n" +
             "                    <div class=\"product-option-shop\">\n" +
             "                        <a class=\"add_to_cart_button\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"70\" rel=\"nofollow\"\n" +
-            "                        herf=\"product_modify.jsp?product_name=" + (jsonObject[j]['name']) + "\">加入购物车</a>\n" +
+            "                        href=\"product_modify.jsp?product_name=" + (jsonObject[j]['name']) + "\">物品管理</a>\n" +
             "                        <!--tip加入购物车链接-->\n" +
             "                    </div>\n" +
             "                </div>\n" +
@@ -374,12 +434,14 @@ function ManagerProductLoad(data) {
 }
 
 function QueryAdress() {
+    alert("adress");
     let num=arguments.length;
     let username = document.getElementById("username").value;
     $.ajax({
         type: "get", // 以get方式发起请求
         url: projectName + "/user/QueryAddress?username=" + username,
         success(data) {
+            alert("adress");
             if (num == 0) {
                 AddressLoad(data);//个人调用
             } else {

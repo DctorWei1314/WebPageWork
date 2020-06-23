@@ -12,10 +12,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>订单历史</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link id="stylesheet" rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link id="stylesheet0" rel="stylesheet" href="../css/font-awesome.min.css">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/style.css">
@@ -32,6 +32,7 @@
 </head>
 <body>
 <%@include file="../common/header.jsp"%>
+<input type="hidden" id="userexit" value="userexit"/>
 <input type="hidden" id="username" value=<%=user.getName()%>>"
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>

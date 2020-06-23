@@ -46,7 +46,8 @@
                                 {
                             %>
                             <li><a href=<%=application.getContextPath()%>/saler_account.jsp><img id="salerhead" style="width:50px;height:50px" src=<%=application.getContextPath()%>/imgs/<%=user.getImgFilePath()%> ></img> 我的账户</a></li><!--tip登陆后为账户叶面-->
-                            <li><a href=<%=application.getContextPath()%>/saler_order.jsp><i class="fa fa-list-ul"></i> 订单管理</a></li><!--tip登陆后为账户叶面-->
+                            <li><a href=<%=application.getContextPath()%>/saler_order.jsp?status=1><i class="fa fa-list-ul"></i> 订单管理</a></li><!--tip登陆后为账户叶面-->
+                            <li><a href=<%=application.getContextPath()%>/saler_order.jsp?status=2><i class="fa fa-list-ul"></i> 历史订单</a></li>
                             <li><a href=<%=application.getContextPath()%>/product_upload.jsp><i class="fa fa-credit-card"></i> 商品上架</a></li><!--tip登陆后为账户叶面-->
                             <li><a onclick="querySaler('<%=user.getUserID()%>')" ><i class="fa fa-user"></i>店铺管理</a></li>
                             <%
@@ -56,6 +57,10 @@
                                 }
                             %>
                             <li><a href="#"><i class="fa fa-user"></i> 卖家中心</a></li><!--tip等待填充-->
+                            <li onclick="changeS()"><button href="#" ><i class="fa fa-user"></i> 换肤</button></li><!--tip等待填充-->
+                            <input type="hidden" id="style" value=1>
+                            <div class="col-md-4" id="saler" style="position: relative;left: 450px">
+                            </div>
                         </ul>
                     </div>
                 </div>

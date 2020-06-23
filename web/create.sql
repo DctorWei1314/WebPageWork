@@ -1,6 +1,6 @@
 CREATE TABLE `user` (
   `name` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(50) NOT NULL,
   `imgFilePath` varchar(255) DEFAULT 'img/default.jpg',
   `email` varchar(30),
   `defaultAddress` varchar(200),

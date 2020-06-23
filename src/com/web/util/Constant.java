@@ -76,7 +76,7 @@ public class Constant {
         public static String insertUserType(MessageType messageType) {
             switch (messageType) {
                 case BUYER:
-                    System.out.println("eee");
+                    System.out.println("eeeRRRR");
                     return "buyer";
                 case SELLER:
                     System.out.println("ttt");

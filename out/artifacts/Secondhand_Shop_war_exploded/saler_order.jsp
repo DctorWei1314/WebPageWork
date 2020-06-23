@@ -15,13 +15,13 @@
 <html>
 <head>
     <title>订单管理</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link id="stylesheet" rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link id="stylesheet0" rel="stylesheet" href="css/style.css">
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
@@ -31,9 +31,10 @@
         $(function () {
                 $(".agree").click(
                     function () {
+                        alert("rrr"+$(this)[0].parentNode.parentNode.id);
                         $("#"+$(this)[0].parentNode.parentNode.id).remove();
                         $.ajax({
-                            url:"SalerOrderServlet",
+                            url:"/SalerOrderServlet",
                             type:"POST",
                             data:"orderID=" +$(this)[0].parentNode.parentNode.id+"&status=3",
                             success: function (result) {
@@ -73,7 +74,8 @@
 <%@include file="common/header.jsp"%>
 <%! boolean flag = false;%>
 <% String status = request.getParameter("status");
-if(status == null || status == "1")
+    flag = false;
+if(status == null || status.equals("1"))
     flag = true;
 %>
 <div class="single-product-area">
@@ -109,8 +111,9 @@ if(status == null || status == "1")
                             <!--tip自动添加订单-->
                             <%
                                 List<OrderSheet> list = null;
-                                if(flag == true){
+                                if(flag){
                                     list = orderService.selectOrderListBySaleIDState(user.getUserID(),2);
+                                    System.out.println("size:"+list.size());
                                 }
                                 else{
                                     list = orderService.selectOrderListBySaleIDState(user.getUserID(),3);
@@ -119,12 +122,12 @@ if(status == null || status == "1")
                                 for(OrderSheet order:list){
                                     String icon = productService.selectProductByProductNameSaleID(order.getProductName(),order.getSaleID()).getMainImgFilePath();
                                     %>
-                            <tr class="cart_item">
+                            <tr id="<%=order.getOrderID()%>"  class="cart_item">
                                 <td class="product-ID">
-                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JD-101</font></font></span>
+                                    <span class="amount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%=order.getProductName()%></font></font></span>
                                 </td>
                                 <td class="product-thumbnail">
-                                    <a href="single-product.html"><img width="145" height="145" alt="商品图片" class="shop_picture" src="<%="D:/NB/"+icon%>"></a>
+                                    <a href="single-product.html"><img width="145" height="145" alt="商品图片" class="shop_picture" src="<%="/imgs/"+icon%>"></a>
                                 </td>
 
                                 <td class="product-name">
@@ -167,28 +170,6 @@ if(status == null || status == "1")
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="product-pagination text-center">
-                    <nav>
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">«</span>
-                                </a>
-                            </li>
-                            <!--tip根据商品数量来计算-->
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">»</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
